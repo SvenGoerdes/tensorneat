@@ -24,6 +24,8 @@ class Pipeline(StatefulBaseClass):
         show_problem_details: bool = False,
         using_multidevice: bool = False,
         eval_batch_size: int = None,
+        mlflow_tracking: bool = False,
+        mlflow_run_name: str = None,
     ):
         assert problem.jitable, "Currently, problem must be jitable"
 
@@ -33,6 +35,8 @@ class Pipeline(StatefulBaseClass):
         self.fitness_target = fitness_target
         self.generation_limit = generation_limit
         self.pop_size = self.algorithm.pop_size
+        self.mlflow_tracking = mlflow_tracking
+        self.mlflow_run_name = mlflow_run_name
 
         self.eval_batch_size = eval_batch_size
         if eval_batch_size is not None:
@@ -85,6 +89,20 @@ class Pipeline(StatefulBaseClass):
             # create log file
             with open(os.path.join(self.save_dir, "log.txt"), "w") as f:
                 f.write("Generation,Max,Min,Mean,Std,Cost Time\n")
+
+        if self.mlflow_tracking:
+            import mlflow
+            mlflow.start_run(run_name=self.mlflow_run_name)
+            mlflow.log_params({
+                "seed": self.seed,
+                "pop_size": self.pop_size,
+                "generation_limit": self.generation_limit,
+                "fitness_target": self.fitness_target,
+                "algorithm": self.algorithm.__class__.__name__,
+                "problem": self.problem.__class__.__name__,
+                "num_inputs": self.algorithm.num_inputs,
+                "num_outputs": self.algorithm.num_outputs,
+            })
 
         print("initializing finished")
         return state
@@ -209,6 +227,11 @@ class Pipeline(StatefulBaseClass):
                     fitness=self.best_fitness,
                 )
 
+        if self.mlflow_tracking:
+            import mlflow
+            mlflow.log_metric("best_fitness", float(self.best_fitness))
+            mlflow.end_run()
+
         return state, self.best_genome
 
     def analysis(self, state, pop, fitnesses):
@@ -256,6 +279,13 @@ class Pipeline(StatefulBaseClass):
             f"Generation: {generation}, Cost time: {cost_time * 1000:.2f}ms\n",
             f"\tfitness: valid cnt: {len(valid_fitnesses)}, max: {max_f:.4f}, min: {min_f:.4f}, mean: {mean_f:.4f}, std: {std_f:.4f}\n",
         )
+
+        if self.mlflow_tracking:
+            import mlflow
+            metrics = {"fitness/valid_count": len(valid_fitnesses), "cost_time_ms": cost_time * 1000}
+            if len(valid_fitnesses) > 0:
+                metrics.update({"fitness/max": float(max_f), "fitness/min": float(min_f), "fitness/mean": float(mean_f), "fitness/std": float(std_f)})
+            mlflow.log_metrics(metrics, step=generation)
 
         self.algorithm.show_details(state, fitnesses)
 
