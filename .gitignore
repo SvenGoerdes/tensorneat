@@ -115,6 +115,7 @@ cython_debug/
 *.log
 *.pot
 *.mo
+*.mp4
 
 tutorials/.ipynb_checkpoints/*
 docs/_build/*
