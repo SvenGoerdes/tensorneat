@@ -31,7 +31,7 @@ if __name__ == "__main__":
             max_step=1000,
         ),
         seed=42,
-        generation_limit=100,
+        generation_limit=200,
         fitness_target=5000,
     )
 
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     # save best genome
     best_nodes, best_conns = jax.device_get(best)
     np.savez(
-        "best_genome_hopper.npz",
+        "best_genome_hopperv2.npz",
         nodes=best_nodes,
         conns=best_conns,
         fitness=pipeline.best_fitness,
