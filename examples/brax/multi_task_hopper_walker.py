@@ -1,3 +1,6 @@
+import numpy as np
+import jax
+
 from tensorneat.pipeline import Pipeline
 from tensorneat.algorithm.neat import NEAT
 from tensorneat.genome import DefaultGenome, BiasNode
