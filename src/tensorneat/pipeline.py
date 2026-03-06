@@ -287,6 +287,14 @@ class Pipeline(StatefulBaseClass):
                 metrics.update({"fitness/max": float(max_f), "fitness/min": float(min_f), "fitness/mean": float(mean_f), "fitness/std": float(std_f)})
             mlflow.log_metrics(metrics, step=generation)
 
+            if hasattr(self.problem, 'per_task_evaluate'):
+                best_nodes, best_conns = pop[0][max_idx], pop[1][max_idx]
+                best_transformed = self.algorithm.transform(state, (best_nodes, best_conns))
+                task_metrics = self.problem.per_task_evaluate(
+                    state, state.randkey, self.algorithm.forward, best_transformed
+                )
+                mlflow.log_metrics(task_metrics, step=generation)
+
         self.algorithm.show_details(state, fitnesses)
 
         if self.show_problem_details:

@@ -92,6 +92,16 @@ class MultiTaskBraxEnv(BaseProblem):
 
         return adapted
 
+    def per_task_evaluate(self, state, randkey, act_func, params):
+        """Return per-task fitnesses as {task_env_name: fitness}."""
+        result = {}
+        for i, task in enumerate(self.tasks):
+            key = jax.random.fold_in(randkey, i)
+            adapted = self._make_adapted_act_func(act_func, task.obs_size, task.act_size)
+            fitness = task.env.evaluate(state, key, adapted, params)
+            result[f"fitness/{task.env.env_name}"] = float(fitness)
+        return result
+
     def show(self, state, randkey, act_func, params, task_index=0, *args, **kwargs):
         """Visualize the network's behavior on a specific task."""
         task = self.tasks[task_index]
