@@ -52,6 +52,7 @@ class Pipeline(StatefulBaseClass):
 
         self.best_genome = None
         self.best_fitness = float("-inf")
+        self.stagnation_counter = 0
         self.generation_timestamp = None
         self.is_save = is_save
 
@@ -258,6 +259,9 @@ class Pipeline(StatefulBaseClass):
         if fitnesses[max_idx] > self.best_fitness:
             self.best_fitness = fitnesses[max_idx]
             self.best_genome = pop[0][max_idx], pop[1][max_idx]
+            self.stagnation_counter = 0
+        else:
+            self.stagnation_counter += 1
 
         if self.is_save:
             # save best
@@ -285,10 +289,26 @@ class Pipeline(StatefulBaseClass):
             metrics = {"fitness/valid_count": len(valid_fitnesses), "cost_time_ms": cost_time * 1000}
             if len(valid_fitnesses) > 0:
                 metrics.update({"fitness/max": float(max_f), "fitness/min": float(min_f), "fitness/mean": float(mean_f), "fitness/std": float(std_f)})
+
+            # NEAT-specific metrics
+            best_nodes, best_conns = pop[0][max_idx], pop[1][max_idx]
+            member_count = jax.device_get(state.species.member_count)
+            n_species = int(np.sum(np.array(member_count) > 0))
+            pop_conns_np = jax.device_get(pop[1])
+            metrics.update({
+                "neat/n_species": n_species,
+                "neat/best_genome_n_nodes": int((~np.isnan(jax.device_get(best_nodes)[:, 0])).sum()),
+                "neat/best_genome_n_conns": int((~np.isnan(jax.device_get(best_conns)[:, 0])).sum()),
+                "neat/avg_genome_n_conns": float(np.mean((~np.isnan(pop_conns_np[:, :, 0])).sum(axis=1))),
+            })
+
+            # Stagnation
+            metrics["stability/stagnation_counter"] = self.stagnation_counter
+
             mlflow.log_metrics(metrics, step=generation)
 
+            # Per-task fitness (best genome only, if multi-task)
             if hasattr(self.problem, 'per_task_evaluate'):
-                best_nodes, best_conns = pop[0][max_idx], pop[1][max_idx]
                 best_transformed = self.algorithm.transform(state, (best_nodes, best_conns))
                 task_metrics = self.problem.per_task_evaluate(
                     state, state.randkey, self.algorithm.forward, best_transformed
