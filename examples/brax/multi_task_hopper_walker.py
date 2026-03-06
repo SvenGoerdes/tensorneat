@@ -1,3 +1,4 @@
+
 from tensorneat.pipeline import Pipeline
 from tensorneat.algorithm.neat import NEAT
 from tensorneat.genome import DefaultGenome, BiasNode
@@ -21,7 +22,7 @@ if __name__ == "__main__":
 
     pipeline = Pipeline(
         algorithm=NEAT(
-            pop_size=10000,
+            pop_size=10,
             species_size=20,
             survival_threshold=0.1,
             compatibility_threshold=1.0,
@@ -42,8 +43,10 @@ if __name__ == "__main__":
             tasks=[hopper, walker],
         ),
         seed=42,
-        generation_limit=100,
+        generation_limit=10,
         fitness_target=10000,
+        mlflow_tracking=True,
+        per_task_tracking=True,
     )
 
     state = pipeline.setup()
