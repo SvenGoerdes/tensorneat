@@ -25,7 +25,7 @@ if __name__ == "__main__":
     pipeline = Pipeline(
         algorithm=NEAT(
             pop_size=10000,
-            species_size=30,
+            species_size=20,
             survival_threshold=0.1,
             compatibility_threshold=1.0,
             genome=DefaultGenome(
