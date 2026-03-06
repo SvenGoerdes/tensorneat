@@ -26,6 +26,7 @@ class Pipeline(StatefulBaseClass):
         eval_batch_size: int = None,
         mlflow_tracking: bool = False,
         mlflow_run_name: str = None,
+        per_task_tracking: bool = True,
     ):
         assert problem.jitable, "Currently, problem must be jitable"
 
@@ -37,6 +38,7 @@ class Pipeline(StatefulBaseClass):
         self.pop_size = self.algorithm.pop_size
         self.mlflow_tracking = mlflow_tracking
         self.mlflow_run_name = mlflow_run_name
+        self.per_task_tracking = per_task_tracking
 
         self.eval_batch_size = eval_batch_size
         if eval_batch_size is not None:
@@ -308,7 +310,7 @@ class Pipeline(StatefulBaseClass):
             mlflow.log_metrics(metrics, step=generation)
 
             # Per-task fitness (best genome only, if multi-task)
-            if hasattr(self.problem, 'per_task_evaluate'):
+            if self.per_task_tracking and hasattr(self.problem, 'per_task_evaluate'):
                 best_transformed = self.algorithm.transform(state, (best_nodes, best_conns))
                 task_metrics = self.problem.per_task_evaluate(
                     state, state.randkey, self.algorithm.forward, best_transformed
