@@ -34,6 +34,7 @@ class NEAT(BaseAlgorithm):
 
         self.genome = genome
         self.pop_size = pop_size
+        self.num_new_conn_markers = getattr(genome.mutation, 'num_new_conn_markers', 3)
         self.species_controller = SpeciesController(
             pop_size,
             species_size,
@@ -126,14 +127,15 @@ class NEAT(BaseAlgorithm):
                 all_conns_markers, where=~jnp.isnan(all_conns_markers), initial=0
             )
             next_conn_markers = max_conn_markers + 1
+            n = self.num_new_conn_markers
             new_conn_markers = (
-                jnp.arange(self.pop_size * 3).reshape(self.pop_size, 3)
+                jnp.arange(self.pop_size * n).reshape(self.pop_size, n)
                 + next_conn_markers
             )
         else:
             # no need to generate new conn historical markers
             # use 0
-            new_conn_markers = jnp.full((self.pop_size, 3), 0)
+            new_conn_markers = jnp.full((self.pop_size, self.num_new_conn_markers), 0)
 
         # prepare random keys
         k1, k2, randkey = jax.random.split(state.randkey, 3)

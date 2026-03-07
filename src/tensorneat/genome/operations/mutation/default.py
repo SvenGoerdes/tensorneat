@@ -31,15 +31,17 @@ class DefaultMutation(BaseMutation):
         self.node_add = node_add
         self.node_delete = node_delete
 
+    @property
+    def num_new_conn_markers(self):
+        return 3
+
     def __call__(
         self, state, genome, randkey, nodes, conns, new_node_key, new_conn_key
     ):
         assert (
             new_node_key.shape == ()
         )  # scalar, as there is max one new node in each mutation
-        assert new_conn_key.shape == (
-            3,
-        )  # there are max 3 new connections (mutate add node + mutate add conn)
+        assert len(new_conn_key.shape) == 1 and new_conn_key.shape[0] >= 3
 
         k1, k2 = jax.random.split(randkey)
 
@@ -49,6 +51,10 @@ class DefaultMutation(BaseMutation):
         nodes, conns = self.mutate_values(state, genome, k2, nodes, conns)
 
         return nodes, conns
+
+    def _new_node_attrs(self, state, genome, randkey):
+        """Return attrs for a newly created node. Override to customize."""
+        return genome.node_gene.new_identity_attrs(state)
 
     def mutate_structure(
         self, state, genome, randkey, nodes, conns, new_node_key, new_conn_key
@@ -60,6 +66,7 @@ class DefaultMutation(BaseMutation):
 
             remain_node_space = jnp.isnan(nodes_[:, 0]).sum()
             remain_conn_space = jnp.isnan(conns_[:, 0]).sum()
+            key_, key_node_attrs = jax.random.split(key_)
             i_key, o_key, idx = self.choose_connection_key(
                 key_, conns_
             )  # choose a connection
@@ -69,9 +76,9 @@ class DefaultMutation(BaseMutation):
                 original_attrs = extract_gene_attrs(genome.conn_gene, conns_[idx])
                 new_conns = delete_conn_by_pos(conns_, idx)
 
-                # add a new node with identity attrs
+                # add a new node
                 new_nodes = add_node(
-                    nodes_, jnp.array([new_node_key]), genome.node_gene.new_identity_attrs(state)
+                    nodes_, jnp.array([new_node_key]), self._new_node_attrs(state, genome, key_node_attrs)
                 )
 
                 # whether to use historical marker in connection
