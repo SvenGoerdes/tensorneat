@@ -12,11 +12,11 @@ from tensorneat.problem.rl import BraxEnv
 from tensorneat.common import ACT, AGG
 
 SEED = 42
-POP_SIZE = 1000
+POP_SIZE = 10000
 GENERATION_LIMIT = 200
 FITNESS_TARGET = 5000
-MAX_CONNS = 100
-EXPERIMENT_NAME = "NEAT_vs_HA-NEAT_Hopper"
+MAX_CONNS = 400
+EXPERIMENT_NAME = "NEAT_vs_HA-NEAT_Hopperv2"
 
 
 def make_neat_pipeline():
@@ -24,7 +24,7 @@ def make_neat_pipeline():
     return Pipeline(
         algorithm=NEAT(
             pop_size=POP_SIZE,
-            species_size=20,
+            species_size=40,
             survival_threshold=0.1,
             compatibility_threshold=1.0,
             genome=DefaultGenome(
@@ -52,7 +52,7 @@ def make_ha_neat_pipeline():
     return Pipeline(
         algorithm=NEAT(
             pop_size=POP_SIZE,
-            species_size=20,
+            species_size=40,
             survival_threshold=0.1,
             compatibility_threshold=1.0,
             genome=DefaultGenome(
