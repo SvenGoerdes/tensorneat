@@ -43,7 +43,7 @@ def make_neat_pipeline():
         generation_limit=GENERATION_LIMIT,
         fitness_target=FITNESS_TARGET,
         mlflow_tracking=True,
-        mlflow_run_name="NEAT",
+        mlflow_run_name="NEAT-Comparison-Run",
     )
 
 
@@ -78,7 +78,7 @@ def make_ha_neat_pipeline():
         generation_limit=GENERATION_LIMIT,
         fitness_target=FITNESS_TARGET,
         mlflow_tracking=True,
-        mlflow_run_name="HA-NEAT",
+        mlflow_run_name="HA-NEAT-Comparison-Run",
     )
 
 
