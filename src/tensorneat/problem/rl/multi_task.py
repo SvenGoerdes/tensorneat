@@ -9,6 +9,16 @@ from .rl_jit import RLEnv
 from tensorneat.common import State, StatefulBaseClass
 
 
+BRAX_REFERENCE_REWARDS = {
+    "hopper": 3000.0,
+    "walker2d": 5000.0,
+    "ant": 6000.0,
+    "halfcheetah": 8000.0,
+    "humanoid": 6000.0,
+    "reacher": 5.0,
+}
+
+
 @dataclass
 class TaskSpec:
     """Configuration for one sub-task in a multi-task setup."""
@@ -17,6 +27,7 @@ class TaskSpec:
     obs_size: int
     act_size: int
     weight: float = 1.0
+    max_reward: float = 1.0
 
 
 class FitnessAggregator(StatefulBaseClass):
@@ -31,6 +42,22 @@ class WeightedSum(FitnessAggregator):
 
     def aggregate(self, fitnesses, weights):
         return jnp.dot(fitnesses, weights)
+
+
+class NormalizedWeightedSum(FitnessAggregator):
+    """Normalize per-task fitness by max_reward before weighting.
+
+    Each task's fitness is divided by its max_reward so tasks with
+    different reward scales contribute equally to the aggregate.
+    """
+
+    def __init__(self, max_rewards: jnp.ndarray):
+        assert jnp.all(jnp.array(max_rewards) > 0), "max_rewards must be positive"
+        self.max_rewards = max_rewards
+
+    def aggregate(self, fitnesses, weights):
+        normalized = fitnesses / self.max_rewards
+        return jnp.dot(normalized, weights)
 
 
 class MultiTaskBraxEnv(BaseProblem):
