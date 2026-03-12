@@ -29,6 +29,7 @@ classifiers = [
 dependencies = [
     "brax >= 0.10.3",
     "jax >= 0.4.28",
+    "brax==0.14.1",
     "gymnax >= 0.0.8",
     "jaxopt >= 0.8.3",
     "optax >= 0.2.2",
