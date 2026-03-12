@@ -111,6 +111,12 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# Markdown files
+answers.md
+methodology_and_experiments.md 
+questiosnt_meth.md
+
+
 # Other
 *.log
 *.pot
@@ -125,3 +131,5 @@ src/evox/*
 .ai/
 experiment/
 pyproject.toml
+
+

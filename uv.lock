@@ -2292,6 +2292,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "brax", specifier = "==0.14.1" },
     { name = "brax", specifier = ">=0.10.3" },
     { name = "flax", specifier = ">=0.8.4" },
     { name = "gymnax", specifier = ">=0.0.8" },
