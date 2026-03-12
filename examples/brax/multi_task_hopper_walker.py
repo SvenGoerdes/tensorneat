@@ -5,7 +5,7 @@ from tensorneat.pipeline import Pipeline
 from tensorneat.algorithm.neat import NEAT
 from tensorneat.genome import DefaultGenome, BiasNode
 
-from tensorneat.problem.rl import BraxEnv, MultiTaskBraxEnv, TaskSpec
+from tensorneat.problem.rl import BraxEnv, MultiTaskBraxEnv, TaskSpec, BRAX_REFERENCE_REWARDS
 from tensorneat.common import ACT, AGG
 
 if __name__ == "__main__":
@@ -14,12 +14,14 @@ if __name__ == "__main__":
         obs_size=11,
         act_size=3,
         weight=1.0,
+        max_reward=BRAX_REFERENCE_REWARDS["hopper"],
     )
     walker = TaskSpec(
         env=BraxEnv(env_name="walker2d", max_step=1000),
         obs_size=17,
         act_size=6,
         weight=1.0,
+        max_reward=BRAX_REFERENCE_REWARDS["walker2d"],
     )
 
     pipeline = Pipeline(
