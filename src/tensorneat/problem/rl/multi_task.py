@@ -78,10 +78,17 @@ class MultiTaskBraxEnv(BaseProblem):
         super().__init__()
         assert len(tasks) >= 2, "Need at least 2 tasks for multi-task"
         self.tasks = tasks
-        self.aggregator = aggregator or WeightedSum()
         self._max_obs = max(t.obs_size for t in tasks)
         self._max_act = max(t.act_size for t in tasks)
         self._weights = jnp.array([t.weight for t in tasks])
+
+        if aggregator is not None:
+            self.aggregator = aggregator
+        elif any(t.max_reward != 1.0 for t in tasks):
+            max_rewards = jnp.array([t.max_reward for t in tasks])
+            self.aggregator = NormalizedWeightedSum(max_rewards=max_rewards)
+        else:
+            self.aggregator = WeightedSum()
 
     @property
     def input_shape(self):
@@ -120,13 +127,15 @@ class MultiTaskBraxEnv(BaseProblem):
         return adapted
 
     def per_task_evaluate(self, state, randkey, act_func, params):
-        """Return per-task fitnesses as {task_env_name: fitness}."""
+        """Return per-task fitnesses: both raw and normalized (raw / max_reward)."""
         result = {}
         for i, task in enumerate(self.tasks):
             key = jax.random.fold_in(randkey, i)
             adapted = self._make_adapted_act_func(act_func, task.obs_size, task.act_size)
             fitness = task.env.evaluate(state, key, adapted, params)
-            result[f"fitness/{task.env.env_name}"] = float(fitness)
+            raw = float(fitness)
+            result[f"fitness/{task.env.env_name}"] = raw
+            result[f"fitness_normalized/{task.env.env_name}"] = raw / task.max_reward
         return result
 
     def show(self, state, randkey, act_func, params, task_index=0, *args, **kwargs):
