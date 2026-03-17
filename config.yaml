@@ -1,0 +1,28 @@
+experiment_name: "multi_task_neat_vs_haneat"
+
+tasks:
+  - env_name: hopper
+    max_step: 1000
+    obs_size: 11
+    act_size: 3
+    weight: 1.0
+  - env_name: walker2d
+    max_step: 1000
+    obs_size: 17
+    act_size: 6
+    weight: 1.0
+
+algorithm_type: [neat, ha_neat]
+pop_size: [512, 1024]
+species_size: 20
+survival_threshold: 0.1
+compatibility_threshold: 1.0
+max_nodes: 50
+max_conns: 200
+activation_mutate_rate: 0.1
+activation_options: [tanh, sigmoid, relu, sin, identity]
+generation_limit: [100, 200]
+fitness_target: 10000
+seed: [42, 123]
+mlflow_tracking: true
+per_task_tracking: true
