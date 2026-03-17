@@ -90,16 +90,28 @@ genome = DefaultGenome(
 
 **I/O handling:** Network sized to largest task (max obs/act dimensions). Smaller tasks get zero-padded observations and sliced actions.
 
+**Fitness aggregation** is handled by a `FitnessAggregator`. The aggregator is auto-selected at construction:
+- If any `TaskSpec.max_reward != 1.0` → uses `NormalizedWeightedSum` (divides each task's fitness by its `max_reward` before weighting, so tasks with different reward scales contribute equally)
+- Otherwise → uses plain `WeightedSum`
+- Pass an explicit `aggregator=` to override
+
+**`BRAX_REFERENCE_REWARDS`** provides canonical max rewards for known environments: `hopper=3000`, `walker2d=5000`, `ant=6000`, `halfcheetah=8000`, `humanoid=6000`, `reacher=5`. `build_tasks()` in `main.py` looks these up automatically via `TaskSpec(max_reward=BRAX_REFERENCE_REWARDS.get(env_name))`.
+
+**Per-task tracking** (`per_task_evaluate`) logs two metrics per task per generation:
+- `fitness/<env_name>` — raw episode return
+- `fitness_normalized/<env_name>` — raw / max_reward (0–1 scale)
+
 **Usage:**
 ```python
-from tensorneat.problem.rl import MultiTaskBraxEnv, TaskSpec
+from tensorneat.problem.rl import MultiTaskBraxEnv, TaskSpec, BRAX_REFERENCE_REWARDS
 
-hopper = TaskSpec(env=BraxEnv("hopper", max_step=1000), obs_size=11, act_size=3, weight=1.0)
-walker = TaskSpec(env=BraxEnv("walker2d", max_step=1000), obs_size=17, act_size=6, weight=1.0)
+hopper = TaskSpec(env=BraxEnv("hopper", max_step=1000), obs_size=11, act_size=3,
+                  weight=1.0, max_reward=BRAX_REFERENCE_REWARDS["hopper"])
+walker = TaskSpec(env=BraxEnv("walker2d", max_step=1000), obs_size=17, act_size=6,
+                  weight=1.0, max_reward=BRAX_REFERENCE_REWARDS["walker2d"])
 problem = MultiTaskBraxEnv(tasks=[hopper, walker])
+# → auto-selects NormalizedWeightedSum
 ```
-
-Fitness = weighted sum of per-task fitnesses (configurable via `FitnessAggregator`).
 
 ## Experiment Runner (`main.py`)
 
