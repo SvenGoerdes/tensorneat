@@ -12,7 +12,10 @@ Compare standard NEAT against HA-NEAT on multi-task Brax environments (Hopper + 
 # Install (editable mode)
 uv pip install -e .
 
-# Run multi-task comparison
+# Run experiment grid (primary entrypoint)
+uv run python main.py --config config.yaml
+
+# Run multi-task comparison (legacy example)
 uv run python examples/brax/multi_task_hopper_walker.py
 
 # Run HA-NEAT XOR example
@@ -98,6 +101,29 @@ problem = MultiTaskBraxEnv(tasks=[hopper, walker])
 
 Fitness = weighted sum of per-task fitnesses (configurable via `FitnessAggregator`).
 
+## Experiment Runner (`main.py`)
+
+`main.py` is the primary entrypoint for running experiment grids. It reads a YAML config, builds a parameter grid via Cartesian product of list-valued keys, and runs each combination sequentially.
+
+**Config file (`config.yaml`):** Any key with a list value (except `STRUCTURAL_KEYS`) becomes a sweep dimension. Structural keys (`tasks`, `activation_options`, `experiment_name`, `mlflow_tracking`, `per_task_tracking`) are never swept.
+
+```yaml
+algorithm_type: [neat, ha_neat]   # sweep: 2 values
+pop_size: [512, 1024]             # sweep: 2 values
+seed: [42, 123]                   # sweep: 2 values
+generation_limit: [100, 200]      # sweep: 2 values
+# → 2×2×2×2 = 16 total runs
+```
+
+**Key functions:**
+- `load_config(path)` — loads YAML
+- `build_grid(config)` — Cartesian product of sweep dims → list of flat run configs
+- `build_tasks(task_configs)` — constructs `TaskSpec` list with `BRAX_REFERENCE_REWARDS` lookup
+- `build_pipeline(run_config)` — builds `Pipeline` with `NEAT` genome (`neat` or `ha_neat` branch)
+- `run_single(run_config, results_dir)` — runs one pipeline, saves best genome as `.npz` to `results/<experiment_name>/`
+
+**Results:** Saved to `results/<experiment_name>/<run_name>.npz` containing `nodes`, `conns`, `fitness`.
+
 ## Experimental Setup
 
 **Comparison conditions:**
@@ -148,6 +174,9 @@ Structural fields and NaN padding automatically zeroed in gradients.
 ## Key Directories
 
 ```
+main.py                # Primary entrypoint: config-driven experiment grid runner
+config.yaml            # Experiment config (sweep over algorithm_type, pop_size, seed, etc.)
+results/               # Output directory: best genomes saved as .npz per run
 src/tensorneat/        # Library source
   pipeline.py          # Main orchestrator (+ MLflow tracking)
   algorithm/           # NEAT, HyperNEAT
