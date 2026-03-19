@@ -204,6 +204,7 @@ def main():
         print(f"\n--- Run {i+1}/{len(grid)} ---")
         print(f"  algorithm_type={run_config['algorithm_type']}, "
               f"pop_size={run_config['pop_size']}, "
+              f"aggregation_mode={run_config['aggregation_mode']}, "
               f"generation_limit={run_config['generation_limit']}, "
               f"seed={run_config['seed']}")
         run_single(run_config, results_dir)
