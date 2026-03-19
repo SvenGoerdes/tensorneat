@@ -13,6 +13,7 @@ tasks:
     weight: 1.0
 
 algorithm_type: [neat, ha_neat]
+aggregation_mode: normalized_sum  # options: normalized_sum, normalized_min, normalized_product
 pop_size: [512, 1024]
 species_size: 20
 survival_threshold: 0.1

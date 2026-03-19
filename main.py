@@ -122,7 +122,10 @@ def build_pipeline(run_config: dict) -> Pipeline:
 
     return Pipeline(
         algorithm=algorithm,
-        problem=MultiTaskBraxEnv(tasks=tasks),
+        problem=MultiTaskBraxEnv(
+            tasks=tasks,
+            aggregation_mode=run_config.get("aggregation_mode", "normalized_sum"),
+        ),
         seed=run_config["seed"],
         generation_limit=run_config["generation_limit"],
         fitness_target=run_config["fitness_target"],
@@ -131,6 +134,7 @@ def build_pipeline(run_config: dict) -> Pipeline:
         mlflow_experiment_name=run_config.get("experiment_name"),
         mlflow_extra_params={
             "algorithm_type": algorithm_type,
+            "aggregation_mode": run_config.get("aggregation_mode", "normalized_sum"),
             "species_size": run_config["species_size"],
             "survival_threshold": run_config["survival_threshold"],
             "compatibility_threshold": run_config["compatibility_threshold"],
