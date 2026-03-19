@@ -27,6 +27,7 @@ class Pipeline(StatefulBaseClass):
         mlflow_tracking: bool = False,
         mlflow_run_name: str = None,
         mlflow_experiment_name: str = None,
+        mlflow_extra_params: dict = None,
         per_task_tracking: bool = True,
     ):
         assert problem.jitable, "Currently, problem must be jitable"
@@ -40,6 +41,7 @@ class Pipeline(StatefulBaseClass):
         self.mlflow_tracking = mlflow_tracking
         self.mlflow_run_name = mlflow_run_name
         self.mlflow_experiment_name = mlflow_experiment_name
+        self.mlflow_extra_params = mlflow_extra_params or {}
         self.per_task_tracking = per_task_tracking
 
         self.eval_batch_size = eval_batch_size
@@ -100,7 +102,7 @@ class Pipeline(StatefulBaseClass):
             if self.mlflow_experiment_name:
                 mlflow.set_experiment(self.mlflow_experiment_name)
             mlflow.start_run(run_name=self.mlflow_run_name)
-            mlflow.log_params({
+            params = {
                 "seed": self.seed,
                 "pop_size": self.pop_size,
                 "generation_limit": self.generation_limit,
@@ -109,7 +111,9 @@ class Pipeline(StatefulBaseClass):
                 "problem": self.problem.__class__.__name__,
                 "num_inputs": self.algorithm.num_inputs,
                 "num_outputs": self.algorithm.num_outputs,
-            })
+            }
+            params.update(self.mlflow_extra_params)
+            mlflow.log_params(params)
 
         print("initializing finished")
         return state
