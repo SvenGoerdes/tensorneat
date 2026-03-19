@@ -13,7 +13,7 @@ tasks:
     weight: 1.0
 
 algorithm_type: [neat, ha_neat]
-aggregation_mode: normalized_sum  # options: normalized_sum, normalized_min, normalized_product
+aggregation_mode: [normalized_product, normalized_min, normalized_sum]  # options: normalized_sum, normalized_min, normalized_product
 pop_size: [512, 1024]
 species_size: 20
 survival_threshold: 0.1
@@ -24,6 +24,6 @@ activation_mutate_rate: 0.1
 activation_options: [tanh, sigmoid, relu, sin, identity]
 generation_limit: [100, 200]
 fitness_target: 10000
-seed: [42, 123]
+seed:  123
 mlflow_tracking: true
 per_task_tracking: true
