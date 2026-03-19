@@ -106,8 +106,9 @@ def build_pipeline(run_config: dict) -> Pipeline:
     else:
         raise ValueError(f"Unknown algorithm_type: {algorithm_type}")
 
+    agg_mode = run_config.get("aggregation_mode", "normalized_sum")
     run_name = (
-        f"{algorithm_type}_pop{run_config['pop_size']}"
+        f"{algorithm_type}_{agg_mode}_pop{run_config['pop_size']}"
         f"_gen{run_config['generation_limit']}"
         f"_seed{run_config['seed']}"
     )
