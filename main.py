@@ -129,6 +129,17 @@ def build_pipeline(run_config: dict) -> Pipeline:
         mlflow_tracking=run_config.get("mlflow_tracking", False),
         mlflow_run_name=run_name,
         mlflow_experiment_name=run_config.get("experiment_name"),
+        mlflow_extra_params={
+            "algorithm_type": algorithm_type,
+            "species_size": run_config["species_size"],
+            "survival_threshold": run_config["survival_threshold"],
+            "compatibility_threshold": run_config["compatibility_threshold"],
+            "max_nodes": run_config["max_nodes"],
+            "max_conns": run_config["max_conns"],
+            **({"activation_mutate_rate": run_config["activation_mutate_rate"],
+                "activation_options": ",".join(run_config["activation_options"])}
+               if algorithm_type == "ha_neat" else {}),
+        },
         per_task_tracking=run_config.get("per_task_tracking", True),
     )
 
