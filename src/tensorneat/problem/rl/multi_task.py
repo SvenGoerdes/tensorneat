@@ -60,6 +60,38 @@ class NormalizedWeightedSum(FitnessAggregator):
         return jnp.dot(normalized, weights)
 
 
+class NormalizedMin(FitnessAggregator):
+    """Minimum of normalized per-task fitnesses.
+
+    Forces evolution to improve the worst-performing task.
+    Prevents task dominance by a single easy task.
+    """
+
+    def __init__(self, max_rewards: jnp.ndarray):
+        assert jnp.all(jnp.array(max_rewards) > 0), "max_rewards must be positive"
+        self.max_rewards = max_rewards
+
+    def aggregate(self, fitnesses, weights):
+        normalized = fitnesses / self.max_rewards
+        return jnp.min(normalized)
+
+
+class NormalizedProduct(FitnessAggregator):
+    """Product of normalized per-task fitnesses.
+
+    Rewards balanced performance across all tasks; a near-zero score
+    on any single task collapses the overall fitness.
+    """
+
+    def __init__(self, max_rewards: jnp.ndarray):
+        assert jnp.all(jnp.array(max_rewards) > 0), "max_rewards must be positive"
+        self.max_rewards = max_rewards
+
+    def aggregate(self, fitnesses, weights):
+        normalized = fitnesses / self.max_rewards
+        return jnp.prod(normalized)
+
+
 class MultiTaskBraxEnv(BaseProblem):
     """
     Evaluates a single shared network on multiple RL tasks.
@@ -70,13 +102,19 @@ class MultiTaskBraxEnv(BaseProblem):
 
     jitable = True
 
+    AGGREGATION_MODES = ("normalized_sum", "normalized_min", "normalized_product")
+
     def __init__(
         self,
         tasks: List[TaskSpec],
         aggregator: Optional[FitnessAggregator] = None,
+        aggregation_mode: str = "normalized_sum",
     ):
         super().__init__()
         assert len(tasks) >= 2, "Need at least 2 tasks for multi-task"
+        assert aggregation_mode in self.AGGREGATION_MODES, (
+            f"aggregation_mode must be one of {self.AGGREGATION_MODES}, got '{aggregation_mode}'"
+        )
         self.tasks = tasks
         self._max_obs = max(t.obs_size for t in tasks)
         self._max_act = max(t.act_size for t in tasks)
@@ -86,7 +124,12 @@ class MultiTaskBraxEnv(BaseProblem):
             self.aggregator = aggregator
         elif any(t.max_reward != 1.0 for t in tasks):
             max_rewards = jnp.array([t.max_reward for t in tasks])
-            self.aggregator = NormalizedWeightedSum(max_rewards=max_rewards)
+            if aggregation_mode == "normalized_min":
+                self.aggregator = NormalizedMin(max_rewards=max_rewards)
+            elif aggregation_mode == "normalized_product":
+                self.aggregator = NormalizedProduct(max_rewards=max_rewards)
+            else:
+                self.aggregator = NormalizedWeightedSum(max_rewards=max_rewards)
         else:
             self.aggregator = WeightedSum()
 
