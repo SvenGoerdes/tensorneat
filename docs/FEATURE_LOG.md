@@ -4,6 +4,31 @@ Running record of features implemented for the NEAT vs HA-NEAT thesis comparison
 
 ---
 
+## [2026-03-19] MLflow Experiment Organisation & Fitness Aggregation Modes
+
+**Branch:** `main`
+**Status:** Complete
+
+### What
+Three improvements to MLflow tracking and fitness aggregation:
+1. Runs now land in a named MLflow experiment (from `experiment_name` in config) instead of the Default experiment.
+2. NEAT/HA-NEAT hyperparameters (`species_size`, `survival_threshold`, `compatibility_threshold`, `max_nodes`, `max_conns`, `activation_mutate_rate`, `activation_options`) are now logged as MLflow params per run.
+3. Two new fitness aggregators added — `NormalizedMin` and `NormalizedProduct` — selectable via `aggregation_mode` in config.
+
+### Why
+Runs were piling up in MLflow's Default experiment making comparison difficult. Missing hyperparams made it impossible to filter runs in the UI. `NormalizedMin` forces evolution to improve the weakest task (prevents Hopper dominating Walker2D); `NormalizedProduct` collapses fitness when any task is near zero.
+
+### Key files changed
+- `src/tensorneat/pipeline.py` — `mlflow_experiment_name`, `mlflow_extra_params` params; compiled `per_task_evaluate` for performance; `mlflow.set_experiment()` call
+- `src/tensorneat/problem/rl/multi_task.py` — `NormalizedMin`, `NormalizedProduct` aggregators; `aggregation_mode` param on `MultiTaskBraxEnv`
+- `main.py` — passes `aggregation_mode` and extra MLflow params through
+- `config.yaml` — added `aggregation_mode` key
+
+### Notes
+`aggregation_mode` can be swept: `[normalized_sum, normalized_min]` creates a grid dimension. Per-task evaluation is now JIT-compiled at startup, eliminating the per-generation Python overhead that caused >5s inter-generation delays.
+
+---
+
 ## [2026-03-17] Experiment Orchestrator (`main.py`)
 
 **Branch:** `feat/experiment-orchestrator`
