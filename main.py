@@ -128,6 +128,7 @@ def build_pipeline(run_config: dict) -> Pipeline:
         fitness_target=run_config["fitness_target"],
         mlflow_tracking=run_config.get("mlflow_tracking", False),
         mlflow_run_name=run_name,
+        mlflow_experiment_name=run_config.get("experiment_name"),
         per_task_tracking=run_config.get("per_task_tracking", True),
     )
 

@@ -26,6 +26,7 @@ class Pipeline(StatefulBaseClass):
         eval_batch_size: int = None,
         mlflow_tracking: bool = False,
         mlflow_run_name: str = None,
+        mlflow_experiment_name: str = None,
         per_task_tracking: bool = True,
     ):
         assert problem.jitable, "Currently, problem must be jitable"
@@ -38,6 +39,7 @@ class Pipeline(StatefulBaseClass):
         self.pop_size = self.algorithm.pop_size
         self.mlflow_tracking = mlflow_tracking
         self.mlflow_run_name = mlflow_run_name
+        self.mlflow_experiment_name = mlflow_experiment_name
         self.per_task_tracking = per_task_tracking
 
         self.eval_batch_size = eval_batch_size
@@ -95,6 +97,8 @@ class Pipeline(StatefulBaseClass):
 
         if self.mlflow_tracking:
             import mlflow
+            if self.mlflow_experiment_name:
+                mlflow.set_experiment(self.mlflow_experiment_name)
             mlflow.start_run(run_name=self.mlflow_run_name)
             mlflow.log_params({
                 "seed": self.seed,
