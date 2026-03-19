@@ -200,6 +200,28 @@ class Pipeline(StatefulBaseClass):
             )
             compiled_step = jax.jit(self.step).lower(state).compile()
 
+        # Compile per-task evaluation if needed
+        compiled_per_task_eval = None
+        if self.per_task_tracking and hasattr(self.problem, 'per_task_evaluate'):
+            def _per_task_eval_jit(state, randkey, params):
+                fitnesses = []
+                for i, task in enumerate(self.problem.tasks):
+                    key = jax.random.fold_in(randkey, i)
+                    adapted = self.problem._make_adapted_act_func(
+                        self.algorithm.forward, task.obs_size, task.act_size
+                    )
+                    fitness = task.env.evaluate(state, key, adapted, params)
+                    fitnesses.append(fitness)
+                return jnp.array(fitnesses)
+
+            dummy_genome = self.algorithm.ask(state)
+            dummy_transformed = self.algorithm.transform(state, (dummy_genome[0][0], dummy_genome[1][0]))
+            compiled_per_task_eval = (
+                jax.jit(_per_task_eval_jit)
+                .lower(state, state.randkey, dummy_transformed)
+                .compile()
+            )
+
         if self.show_problem_details:
             self.compiled_pop_transform_func = (
                 jax.jit(jax.vmap(self.algorithm.transform, in_axes=(None, 0)))
@@ -219,7 +241,7 @@ class Pipeline(StatefulBaseClass):
 
             fitnesses = jax.device_get(fitnesses)
 
-            self.analysis(state, previous_pop, fitnesses)
+            self.analysis(state, previous_pop, fitnesses, compiled_per_task_eval)
 
             if max(fitnesses) >= self.fitness_target:
                 print("Fitness limit reached!")
@@ -245,7 +267,7 @@ class Pipeline(StatefulBaseClass):
 
         return state, self.best_genome
 
-    def analysis(self, state, pop, fitnesses):
+    def analysis(self, state, pop, fitnesses, compiled_per_task_eval=None):
 
         generation = int(state.generation)
 
@@ -318,12 +340,17 @@ class Pipeline(StatefulBaseClass):
             mlflow.log_metrics(metrics, step=generation)
 
             # Per-task fitness (best genome only, if multi-task)
-            if self.per_task_tracking and hasattr(self.problem, 'per_task_evaluate'):
+            if compiled_per_task_eval is not None:
                 try:
                     best_transformed = self.algorithm.transform(state, (best_nodes, best_conns))
-                    task_metrics = self.problem.per_task_evaluate(
-                        state, state.randkey, self.algorithm.forward, best_transformed
+                    task_fitnesses = jax.device_get(
+                        compiled_per_task_eval(state, state.randkey, best_transformed)
                     )
+                    task_metrics = {}
+                    for i, task in enumerate(self.problem.tasks):
+                        raw = float(task_fitnesses[i])
+                        task_metrics[f"fitness/{task.env.env_name}"] = raw
+                        task_metrics[f"fitness_normalized/{task.env.env_name}"] = raw / task.max_reward
                     mlflow.log_metrics(task_metrics, step=generation)
                 except Exception as e:
                     print(f"[per_task_tracking] ERROR: {e}")
