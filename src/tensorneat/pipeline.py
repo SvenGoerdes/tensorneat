@@ -319,11 +319,14 @@ class Pipeline(StatefulBaseClass):
 
             # Per-task fitness (best genome only, if multi-task)
             if self.per_task_tracking and hasattr(self.problem, 'per_task_evaluate'):
-                best_transformed = self.algorithm.transform(state, (best_nodes, best_conns))
-                task_metrics = self.problem.per_task_evaluate(
-                    state, state.randkey, self.algorithm.forward, best_transformed
-                )
-                mlflow.log_metrics(task_metrics, step=generation)
+                try:
+                    best_transformed = self.algorithm.transform(state, (best_nodes, best_conns))
+                    task_metrics = self.problem.per_task_evaluate(
+                        state, state.randkey, self.algorithm.forward, best_transformed
+                    )
+                    mlflow.log_metrics(task_metrics, step=generation)
+                except Exception as e:
+                    print(f"[per_task_tracking] ERROR: {e}")
 
         self.algorithm.show_details(state, fitnesses)
 
