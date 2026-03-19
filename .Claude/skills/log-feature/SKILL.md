@@ -1,6 +1,6 @@
 ---
 name: log-feature
-description: Use when a new feature has been implemented and is ready to be logged — after implementation is complete and verified, before committing or moving on.
+description: Use after any completed implementation — new features, bugfixes, performance improvements, or config changes — to append a structured entry to docs/FEATURE_LOG.md before committing or moving on.
 ---
 
 # Log Feature
