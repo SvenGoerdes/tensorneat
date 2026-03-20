@@ -1,10 +1,11 @@
 import argparse
+import os
 import numpy as np
 import jax.numpy as jnp
 
 from tensorneat.pipeline import Pipeline
 from tensorneat.algorithm.neat import NEAT
-from tensorneat.genome import DefaultGenome, BiasNode
+from tensorneat.genome import DefaultGenome, BiasNode, OriginConn, HANEATMutation
 from tensorneat.problem.rl import BraxEnv, MultiTaskBraxEnv, TaskSpec
 from tensorneat.common import ACT, AGG
 
@@ -27,7 +28,7 @@ PRESETS = {
 }
 
 
-def build_pipeline(preset_name):
+def build_pipeline(preset_name, is_ha_neat=False):
     """Build a Pipeline for the given preset."""
     specs = PRESETS[preset_name]
     tasks = [
@@ -38,24 +39,40 @@ def build_pipeline(preset_name):
     max_obs = max(t.obs_size for t in tasks)
     max_act = max(t.act_size for t in tasks)
 
+    if is_ha_neat:
+        activation_fns = [ACT.tanh, ACT.sigmoid, ACT.relu, ACT.sin, ACT.identity]
+        genome = DefaultGenome(
+            max_nodes=50, max_conns=200,
+            num_inputs=max_obs, num_outputs=max_act,
+            init_hidden_layers=(),
+            node_gene=BiasNode(
+                activation_options=activation_fns,
+                aggregation_options=AGG.sum,
+                activation_replace_rate=0.0,
+            ),
+            conn_gene=OriginConn(),
+            mutation=HANEATMutation(activation_mutate_rate=0.1, max_conns=200),
+            output_transform=ACT.tanh,
+        )
+    else:
+        genome = DefaultGenome(
+            max_nodes=50, max_conns=200,
+            num_inputs=max_obs, num_outputs=max_act,
+            init_hidden_layers=(),
+            node_gene=BiasNode(
+                activation_options=ACT.tanh,
+                aggregation_options=AGG.sum,
+            ),
+            output_transform=ACT.tanh,
+        )
+
     pipeline = Pipeline(
         algorithm=NEAT(
             pop_size=10,
             species_size=20,
             survival_threshold=0.1,
             compatibility_threshold=1.0,
-            genome=DefaultGenome(
-                max_nodes=50,
-                max_conns=200,
-                num_inputs=max_obs,
-                num_outputs=max_act,
-                init_hidden_layers=(),
-                node_gene=BiasNode(
-                    activation_options=ACT.tanh,
-                    aggregation_options=AGG.sum,
-                ),
-                output_transform=ACT.tanh,
-            ),
+            genome=genome,
         ),
         problem=MultiTaskBraxEnv(tasks=tasks),
         seed=42,
@@ -89,7 +106,9 @@ def main():
     if "fitness" in data:
         print(f"Loaded genome with fitness: {data['fitness']}")
 
-    pipeline, tasks = build_pipeline(args.preset)
+    is_ha_neat = os.path.basename(args.genome_path).startswith("ha_neat")
+    print(f"Algorithm: {'HA-NEAT' if is_ha_neat else 'NEAT'}")
+    pipeline, tasks = build_pipeline(args.preset, is_ha_neat=is_ha_neat)
     state = pipeline.setup()
 
     task_names = [name for name, _, _ in PRESETS[args.preset]]
