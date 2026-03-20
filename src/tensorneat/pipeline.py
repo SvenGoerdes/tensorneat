@@ -170,7 +170,7 @@ class Pipeline(StatefulBaseClass):
         previous_pop = self.algorithm.ask(state)
         state = self.algorithm.tell(state, fitnesses)
 
-        return state.update(randkey=randkey), previous_pop, fitnesses
+        return state.update(randkey=randkey), previous_pop, fitnesses, randkey_
 
     def _batched_evaluate(self, state, keys, pop_transformed):
         bs = self.eval_batch_size
@@ -237,11 +237,11 @@ class Pipeline(StatefulBaseClass):
 
             self.generation_timestamp = time.time()
 
-            state, previous_pop, fitnesses = compiled_step(state)
+            state, previous_pop, fitnesses, eval_key = compiled_step(state)
 
             fitnesses = jax.device_get(fitnesses)
 
-            self.analysis(state, previous_pop, fitnesses, compiled_per_task_eval)
+            self.analysis(state, previous_pop, fitnesses, compiled_per_task_eval, eval_key)
 
             if max(fitnesses) >= self.fitness_target:
                 print("Fitness limit reached!")
@@ -267,7 +267,7 @@ class Pipeline(StatefulBaseClass):
 
         return state, self.best_genome
 
-    def analysis(self, state, pop, fitnesses, compiled_per_task_eval=None):
+    def analysis(self, state, pop, fitnesses, compiled_per_task_eval=None, eval_key=None):
 
         generation = int(state.generation)
 
@@ -343,8 +343,11 @@ class Pipeline(StatefulBaseClass):
             if compiled_per_task_eval is not None:
                 try:
                     best_transformed = self.algorithm.transform(state, (best_nodes, best_conns))
+                    # Use the same eval key as the population step, folded into best_idx
+                    # so per-task metrics are consistent with the fitness ranking
+                    per_task_key = jax.random.fold_in(eval_key, max_idx) if eval_key is not None else state.randkey
                     task_fitnesses = jax.device_get(
-                        compiled_per_task_eval(state, state.randkey, best_transformed)
+                        compiled_per_task_eval(state, per_task_key, best_transformed)
                     )
                     task_metrics = {}
                     for i, task in enumerate(self.problem.tasks):
