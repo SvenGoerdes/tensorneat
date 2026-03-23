@@ -8,6 +8,8 @@ Compare standard NEAT against HA-NEAT on multi-task Brax environments (Hopper + 
 
 ## Build & Run
 
+**Backend**: Training uses `mjx` (MuJoCo on GPU) by default. Set `backend:` in `config.yaml` to change. The `generalized` backend is faster but allows Walker2D floor-penetration exploits.
+
 ```bash
 # Install (editable mode)
 uv pip install -e .
