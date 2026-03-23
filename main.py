@@ -152,8 +152,9 @@ def build_pipeline(run_config: dict) -> Pipeline:
 
 
 def run_single(run_config: dict, results_dir: str) -> tuple[float, float]:
+    agg_mode = run_config.get("aggregation_mode", "normalized_sum")
     run_name = (
-        f"{run_config['algorithm_type']}_pop{run_config['pop_size']}"
+        f"{run_config['algorithm_type']}_{agg_mode}_pop{run_config['pop_size']}"
         f"_gen{run_config['generation_limit']}"
         f"_seed{run_config['seed']}"
     )
