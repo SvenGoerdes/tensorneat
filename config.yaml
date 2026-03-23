@@ -1,4 +1,5 @@
 experiment_name: "multi_task_neat_vs_haneat"
+backend: mjx
 
 tasks:
   - env_name: hopper
