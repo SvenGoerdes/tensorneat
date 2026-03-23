@@ -10,14 +10,14 @@ from tensorneat.common import ACT, AGG
 
 if __name__ == "__main__":
     hopper = TaskSpec(
-        env=BraxEnv(env_name="hopper", max_step=1000),
+        env=BraxEnv(env_name="hopper", max_step=1000, backend="mjx"),
         obs_size=11,
         act_size=3,
         weight=1.0,
         max_reward=BRAX_REFERENCE_REWARDS["hopper"],
     )
     walker = TaskSpec(
-        env=BraxEnv(env_name="walker2d", max_step=1000),
+        env=BraxEnv(env_name="walker2d", max_step=1000, backend="mjx"),
         obs_size=17,
         act_size=6,
         weight=1.0,

@@ -15,7 +15,7 @@ from tensorneat.genome import DefaultGenome, BiasNode, OriginConn, HANEATMutatio
 from tensorneat.problem.rl import BraxEnv, MultiTaskBraxEnv, TaskSpec, BRAX_REFERENCE_REWARDS
 from tensorneat.common import ACT, AGG
 
-STRUCTURAL_KEYS = {"tasks", "activation_options", "experiment_name", "mlflow_tracking", "per_task_tracking"}
+STRUCTURAL_KEYS = {"tasks", "activation_options", "experiment_name", "mlflow_tracking", "per_task_tracking", "backend"}
 
 
 def load_config(path: str) -> dict:
@@ -45,10 +45,10 @@ def build_grid(config: dict) -> list[dict]:
     return grid
 
 
-def build_tasks(task_configs: list[dict]) -> list[TaskSpec]:
+def build_tasks(task_configs: list[dict], backend: str = "generalized") -> list[TaskSpec]:
     tasks = []
     for tc in task_configs:
-        env = BraxEnv(env_name=tc["env_name"], max_step=tc["max_step"])
+        env = BraxEnv(env_name=tc["env_name"], max_step=tc["max_step"], backend=backend)
         tasks.append(
             TaskSpec(
                 env=env,
@@ -62,7 +62,8 @@ def build_tasks(task_configs: list[dict]) -> list[TaskSpec]:
 
 
 def build_pipeline(run_config: dict) -> Pipeline:
-    tasks = build_tasks(run_config["tasks"])
+    backend = run_config.get("backend", "mjx")
+    tasks = build_tasks(run_config["tasks"], backend=backend)
     num_inputs = max(t.obs_size for t in tasks)
     num_outputs = max(t.act_size for t in tasks)
 
@@ -141,6 +142,7 @@ def build_pipeline(run_config: dict) -> Pipeline:
             "compatibility_threshold": run_config["compatibility_threshold"],
             "max_nodes": run_config["max_nodes"],
             "max_conns": run_config["max_conns"],
+            "backend": backend,
             **({"activation_mutate_rate": run_config["activation_mutate_rate"],
                 "activation_options": ",".join(run_config["activation_options"])}
                if algorithm_type == "ha_neat" else {}),
