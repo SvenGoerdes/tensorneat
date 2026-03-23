@@ -99,6 +99,8 @@ class Pipeline(StatefulBaseClass):
 
         if self.mlflow_tracking:
             import mlflow
+            if mlflow.active_run() is not None:
+                mlflow.end_run()
             if self.mlflow_experiment_name:
                 mlflow.set_experiment(self.mlflow_experiment_name)
             mlflow.start_run(run_name=self.mlflow_run_name)
