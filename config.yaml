@@ -1,4 +1,4 @@
-experiment_name: "multi_task_neat_vs_haneat"
+experiment_name: "multi_task_neat_vs_haneat_mjx_backend"
 backend: mjx
 
 tasks:
@@ -15,7 +15,7 @@ tasks:
 
 algorithm_type: [neat, ha_neat]
 aggregation_mode: [normalized_product, normalized_min, normalized_sum]  # options: normalized_sum, normalized_min, normalized_product
-pop_size: [512, 1024]
+pop_size: [512, 1024, 2048]
 species_size: 20
 survival_threshold: 0.1
 compatibility_threshold: 1.0
