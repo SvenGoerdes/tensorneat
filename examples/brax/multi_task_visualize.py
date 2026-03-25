@@ -28,11 +28,11 @@ PRESETS = {
 }
 
 
-def build_pipeline(preset_name, is_ha_neat=False):
+def build_pipeline(preset_name, is_ha_neat=False, backend="mjx"):
     """Build a Pipeline for the given preset."""
     specs = PRESETS[preset_name]
     tasks = [
-        TaskSpec(env=BraxEnv(env_name=name, max_step=1000),
+        TaskSpec(env=BraxEnv(env_name=name, max_step=1000, backend=backend),
                  obs_size=obs, act_size=act)
         for name, obs, act in specs
     ]
@@ -99,6 +99,10 @@ def main():
     parser.add_argument(
         "--tasks", "-t", nargs="*", default=None,
         help="Subset of task env names to visualize (default: all)")
+    parser.add_argument(
+        "--backend", "-b", default="mjx",
+        choices=["mjx", "generalized", "positional", "spring"],
+        help="Brax physics backend (default: mjx)")
     args = parser.parse_args()
 
     data = np.load(args.genome_path)
@@ -108,7 +112,8 @@ def main():
 
     is_ha_neat = os.path.basename(args.genome_path).startswith("ha_neat")
     print(f"Algorithm: {'HA-NEAT' if is_ha_neat else 'NEAT'}")
-    pipeline, tasks = build_pipeline(args.preset, is_ha_neat=is_ha_neat)
+    print(f"Backend:   {args.backend}")
+    pipeline, tasks = build_pipeline(args.preset, is_ha_neat=is_ha_neat, backend=args.backend)
     state = pipeline.setup()
 
     task_names = [name for name, _, _ in PRESETS[args.preset]]
