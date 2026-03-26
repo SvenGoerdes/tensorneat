@@ -1,4 +1,4 @@
-experiment_name: "multi_task_neat_vs_haneat_mjx_backend"
+experiment_name: "multi_task_neat_vs_haneat_mjx_backend_v2"
 backend: mjx
 
 tasks:
@@ -14,17 +14,20 @@ tasks:
     weight: 1.0
 
 algorithm_type: [neat, ha_neat]
-aggregation_mode: [normalized_product, normalized_min, normalized_sum]  # options: normalized_sum, normalized_min, normalized_product
-pop_size: [512, 1024, 2048]
+aggregation_mode: normalized_min
+pop_size: [1024, 2048]
 species_size: 20
-survival_threshold: 0.1
+survival_threshold: 0.3
 compatibility_threshold: 1.0
+compatibility_disjoint: [0.5, 1.0]
+max_stagnation: 40
+species_number_calculate_by: fitness
 max_nodes: 50
 max_conns: 200
 activation_mutate_rate: 0.1
 activation_options: [tanh, sigmoid, relu, sin, identity]
-generation_limit: [100, 200]
+generation_limit: 500
 fitness_target: 10000
-seed:  123
+seed: [42, 123]
 mlflow_tracking: true
 per_task_tracking: true
