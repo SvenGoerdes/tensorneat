@@ -4,6 +4,26 @@ Running record of features implemented for the NEAT vs HA-NEAT thesis comparison
 
 ---
 
+## [2026-03-26] Configurable Compatibility Disjoint Coefficient
+
+**Branch:** `main`
+**Status:** Complete
+
+### What
+Made `compatibility_disjoint` configurable via `config.yaml` and swept over `[0.5, 1.0]`, bringing the total grid to 16 runs.
+
+### Why
+At `compatibility_disjoint=1.0`, every new node/connection strongly increases genome distance, causing growing multi-task networks to split into new species immediately. Lowering to 0.5 keeps structurally diverging genomes in the same species longer, giving them more time to develop before competing for slots — important when networks need to grow to solve two tasks simultaneously.
+
+### Key files changed
+- `config.yaml` — added `compatibility_disjoint: [0.5, 1.0]` as sweep dimension
+- `main.py` — imports `DefaultDistance`, instantiates with `compatibility_disjoint` from config, logs it as MLflow param
+
+### Notes
+`compatibility_weight` (weight difference contribution) left at default 0.4 — only the structural disjoint penalty is swept. The grid is now 2×2×2×2 = 16 runs (algorithm × pop_size × seed × compatibility_disjoint).
+
+---
+
 ## [2026-03-26] Selection Pressure Tuning for Multi-Task NEAT
 
 **Branch:** `main`

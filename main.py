@@ -12,6 +12,7 @@ import yaml
 from tensorneat.pipeline import Pipeline
 from tensorneat.algorithm.neat import NEAT
 from tensorneat.genome import DefaultGenome, BiasNode, OriginConn, HANEATMutation
+from tensorneat.genome.operations.distance import DefaultDistance
 from tensorneat.problem.rl import BraxEnv, MultiTaskBraxEnv, TaskSpec, BRAX_REFERENCE_REWARDS
 from tensorneat.common import ACT, AGG
 
@@ -70,6 +71,9 @@ def build_pipeline(run_config: dict) -> Pipeline:
     algorithm_type = run_config["algorithm_type"]
     max_nodes = run_config["max_nodes"]
     max_conns = run_config["max_conns"]
+    distance = DefaultDistance(
+        compatibility_disjoint=run_config.get("compatibility_disjoint", 1.0),
+    )
 
     if algorithm_type == "neat":
         genome = DefaultGenome(
@@ -82,6 +86,7 @@ def build_pipeline(run_config: dict) -> Pipeline:
                 activation_options=ACT.tanh,
                 aggregation_options=AGG.sum,
             ),
+            distance=distance,
             output_transform=ACT.tanh,
         )
     elif algorithm_type == "ha_neat":
@@ -102,6 +107,7 @@ def build_pipeline(run_config: dict) -> Pipeline:
                 activation_mutate_rate=run_config["activation_mutate_rate"],
                 max_conns=max_conns,
             ),
+            distance=distance,
             output_transform=ACT.tanh,
         )
     else:
@@ -139,16 +145,19 @@ def build_pipeline(run_config: dict) -> Pipeline:
         mlflow_extra_params={
             "algorithm_type": algorithm_type,
             "aggregation_mode": run_config.get("aggregation_mode", "normalized_sum"),
+            "backend": run_config.get("backend", "generalized"),
+            "tasks": ",".join(t["env_name"] for t in run_config["tasks"]),
+            "max_step": ",".join(str(t["max_step"]) for t in run_config["tasks"]),
             "species_size": run_config["species_size"],
             "survival_threshold": run_config["survival_threshold"],
             "compatibility_threshold": run_config["compatibility_threshold"],
+            "compatibility_disjoint": run_config.get("compatibility_disjoint", 1.0),
             "max_stagnation": run_config.get("max_stagnation", 15),
             "species_number_calculate_by": run_config.get("species_number_calculate_by", "rank"),
             "max_nodes": run_config["max_nodes"],
             "max_conns": run_config["max_conns"],
-            "backend": backend,
-            **({"activation_mutate_rate": run_config["activation_mutate_rate"],
-                "activation_options": ",".join(run_config["activation_options"])}
+            "activation_mutate_rate": run_config["activation_mutate_rate"],
+            **({"activation_options": ",".join(run_config["activation_options"])}
                if algorithm_type == "ha_neat" else {}),
         },
         per_task_tracking=run_config.get("per_task_tracking", True),

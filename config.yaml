@@ -1,4 +1,4 @@
-experiment_name: "multi_task_neat_vs_haneat_mjx_backend"
+experiment_name: "multi_task_neat_vs_haneat_mjx_backend_v2"
 backend: mjx
 
 tasks:
@@ -19,6 +19,7 @@ pop_size: [1024, 2048]
 species_size: 20
 survival_threshold: 0.3
 compatibility_threshold: 1.0
+compatibility_disjoint: [0.5, 1.0]
 max_stagnation: 40
 species_number_calculate_by: fitness
 max_nodes: 50
