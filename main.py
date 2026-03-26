@@ -120,6 +120,8 @@ def build_pipeline(run_config: dict) -> Pipeline:
         species_size=run_config["species_size"],
         survival_threshold=run_config["survival_threshold"],
         compatibility_threshold=run_config["compatibility_threshold"],
+        max_stagnation=run_config.get("max_stagnation", 15),
+        species_number_calculate_by=run_config.get("species_number_calculate_by", "rank"),
     )
 
     return Pipeline(
@@ -140,6 +142,8 @@ def build_pipeline(run_config: dict) -> Pipeline:
             "species_size": run_config["species_size"],
             "survival_threshold": run_config["survival_threshold"],
             "compatibility_threshold": run_config["compatibility_threshold"],
+            "max_stagnation": run_config.get("max_stagnation", 15),
+            "species_number_calculate_by": run_config.get("species_number_calculate_by", "rank"),
             "max_nodes": run_config["max_nodes"],
             "max_conns": run_config["max_conns"],
             "backend": backend,

@@ -4,6 +4,26 @@ Running record of features implemented for the NEAT vs HA-NEAT thesis comparison
 
 ---
 
+## [2026-03-26] Selection Pressure Tuning for Multi-Task NEAT
+
+**Branch:** `main`
+**Status:** Complete
+
+### What
+Adjusted three NEAT selection pressure parameters to reduce task-specialisation and give multi-task generalist networks a better chance of survival.
+
+### Why
+Analysis of MJX runs showed that `survival_threshold=0.1`, `max_stagnation=15`, and linear rank species allocation caused the evolution to eliminate balanced multi-task species too aggressively — species attempting to solve both tasks simultaneously were starved of offspring and killed off before they could develop the required structure.
+
+### Key files changed
+- `config.yaml` — `survival_threshold` 0.1→0.3, `max_stagnation` 15→40, `species_number_calculate_by` rank→fitness, `aggregation_mode` fixed to `normalized_min`, `generation_limit` 200→500, `pop_size` [512,1024,2048]→[1024,2048], `seed` [42,123]
+- `main.py` — `max_stagnation` and `species_number_calculate_by` now read from config and passed to NEAT; both logged as MLflow params
+
+### Notes
+`species_number_calculate_by: fitness` uses proportional allocation based on absolute fitness differences rather than rank. With `normalized_min` aggregation, all species cluster in a narrow fitness band (0.3–0.4), so proportional allocation gives near-equal offspring counts — preventing any single species from dominating. Linear rank would still give the best species 3× more offspring than the worst even when fitness differences are tiny.
+
+---
+
 ## [2026-03-19] MLflow Experiment Organisation & Fitness Aggregation Modes
 
 **Branch:** `main`
