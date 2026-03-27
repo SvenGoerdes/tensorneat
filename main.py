@@ -169,6 +169,7 @@ def run_single(run_config: dict, results_dir: str) -> tuple[float, float]:
     run_name = (
         f"{run_config['algorithm_type']}_{agg_mode}_pop{run_config['pop_size']}"
         f"_gen{run_config['generation_limit']}"
+        f"_gen{run_config['compatibility_disjoint']}"
         f"_seed{run_config['seed']}"
     )
     try:
