@@ -158,6 +158,24 @@ class MultiTaskBraxEnv(BaseProblem):
         fitnesses = jnp.array(fitnesses)
         return self.aggregator.aggregate(fitnesses, self._weights)
 
+    def evaluate_with_breakdown(self, state: State, randkey, act_func: Callable, params):
+        """Evaluate and return both the aggregate fitness and per-task raw fitnesses.
+
+        Returns (aggregate_scalar, per_task_array) where per_task_array has shape (n_tasks,).
+        Both values come from the same evaluation, ensuring consistency.
+        """
+        fitnesses = []
+        for i, task in enumerate(self.tasks):
+            key = jax.random.fold_in(randkey, i)
+            adapted = self._make_adapted_act_func(
+                act_func, task.obs_size, task.act_size
+            )
+            fitness = task.env.evaluate(state, key, adapted, params)
+            fitnesses.append(fitness)
+        fitnesses = jnp.array(fitnesses)
+        aggregate = self.aggregator.aggregate(fitnesses, self._weights)
+        return aggregate, fitnesses
+
     def _make_adapted_act_func(self, act_func, obs_size, act_size):
         """Create an act_func that pads obs and slices actions."""
         max_obs = self._max_obs

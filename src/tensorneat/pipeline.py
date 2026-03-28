@@ -58,6 +58,7 @@ class Pipeline(StatefulBaseClass):
 
         self.best_genome = None
         self.best_fitness = float("-inf")
+        self.best_per_task = None
         self.stagnation_counter = 0
         self.generation_timestamp = None
         self.is_save = is_save
@@ -137,14 +138,28 @@ class Pipeline(StatefulBaseClass):
             state, pop
         )
 
+        use_breakdown = (
+            self.per_task_tracking
+            and hasattr(self.problem, 'evaluate_with_breakdown')
+        )
+
         if not self.using_multidevice:
             keys = jax.random.split(randkey_, self.pop_size)
-            if self.eval_batch_size is None or self.eval_batch_size >= self.pop_size:
-                fitnesses = jax.vmap(self.problem.evaluate, in_axes=(None, 0, None, 0))(
-                    state, keys, self.algorithm.forward, pop_transformed
-                )
+            if use_breakdown:
+                if self.eval_batch_size is None or self.eval_batch_size >= self.pop_size:
+                    fitnesses, all_per_task = jax.vmap(
+                        self.problem.evaluate_with_breakdown, in_axes=(None, 0, None, 0)
+                    )(state, keys, self.algorithm.forward, pop_transformed)
+                else:
+                    fitnesses, all_per_task = self._batched_evaluate(state, keys, pop_transformed, use_breakdown=True)
             else:
-                fitnesses = self._batched_evaluate(state, keys, pop_transformed)
+                if self.eval_batch_size is None or self.eval_batch_size >= self.pop_size:
+                    fitnesses = jax.vmap(self.problem.evaluate, in_axes=(None, 0, None, 0))(
+                        state, keys, self.algorithm.forward, pop_transformed
+                    )
+                else:
+                    fitnesses = self._batched_evaluate(state, keys, pop_transformed)
+                all_per_task = None
         else: # using_multidevice
             num_devices = jax.device_count()
             assert self.pop_size % num_devices == 0, "if you want to use multiple gpus, pop_size must be divisible by jax.device_count()"
@@ -156,13 +171,24 @@ class Pipeline(StatefulBaseClass):
                 pop_transformed
             )
 
-            fitnesses = jax.pmap(
-                lambda key_slice, pop_slice: jax.vmap(self.problem.evaluate, in_axes=(None, 0, None, 0))(
-                    state, key_slice, self.algorithm.forward, pop_slice
-                ),
-                axis_name='devices',
-                in_axes=(0, 0)
-            )(keys, split_pop_transformed)
+            if use_breakdown:
+                fitnesses, all_per_task = jax.pmap(
+                    lambda key_slice, pop_slice: jax.vmap(
+                        self.problem.evaluate_with_breakdown, in_axes=(None, 0, None, 0)
+                    )(state, key_slice, self.algorithm.forward, pop_slice),
+                    axis_name='devices',
+                    in_axes=(0, 0)
+                )(keys, split_pop_transformed)
+                all_per_task = all_per_task.reshape(self.pop_size, -1)
+            else:
+                fitnesses = jax.pmap(
+                    lambda key_slice, pop_slice: jax.vmap(self.problem.evaluate, in_axes=(None, 0, None, 0))(
+                        state, key_slice, self.algorithm.forward, pop_slice
+                    ),
+                    axis_name='devices',
+                    in_axes=(0, 0)
+                )(keys, split_pop_transformed)
+                all_per_task = None
 
             fitnesses = fitnesses.reshape(self.pop_size)
 
@@ -172,12 +198,15 @@ class Pipeline(StatefulBaseClass):
         previous_pop = self.algorithm.ask(state)
         state = self.algorithm.tell(state, fitnesses)
 
-        return state.update(randkey=randkey), previous_pop, fitnesses, randkey_
+        if use_breakdown:
+            return state.update(randkey=randkey), previous_pop, fitnesses, all_per_task
+        return state.update(randkey=randkey), previous_pop, fitnesses
 
-    def _batched_evaluate(self, state, keys, pop_transformed):
+    def _batched_evaluate(self, state, keys, pop_transformed, use_breakdown=False):
         bs = self.eval_batch_size
         n_batches = self.pop_size // bs
         all_fitnesses = []
+        all_per_task_batches = []
 
         for i in range(n_batches):
             start = i * bs
@@ -185,13 +214,22 @@ class Pipeline(StatefulBaseClass):
             batch_keys = keys[start:end]
             batch_params = jax.tree_map(lambda x: x[start:end], pop_transformed)
 
-            batch_fitnesses = jax.vmap(
-                self.problem.evaluate, in_axes=(None, 0, None, 0)
-            )(state, batch_keys, self.algorithm.forward, batch_params)
+            if use_breakdown:
+                batch_fitnesses, batch_per_task = jax.vmap(
+                    self.problem.evaluate_with_breakdown, in_axes=(None, 0, None, 0)
+                )(state, batch_keys, self.algorithm.forward, batch_params)
+                all_per_task_batches.append(batch_per_task)
+            else:
+                batch_fitnesses = jax.vmap(
+                    self.problem.evaluate, in_axes=(None, 0, None, 0)
+                )(state, batch_keys, self.algorithm.forward, batch_params)
 
             all_fitnesses.append(batch_fitnesses)
 
-        return jnp.concatenate(all_fitnesses, axis=0)
+        fitnesses = jnp.concatenate(all_fitnesses, axis=0)
+        if use_breakdown:
+            return fitnesses, jnp.concatenate(all_per_task_batches, axis=0)
+        return fitnesses
 
     def auto_run(self, state):
         print("start compile")
@@ -201,28 +239,6 @@ class Pipeline(StatefulBaseClass):
                 message=r"The jitted function .* includes a pmap. Using jit-of-pmap can lead to inefficient data movement"
             )
             compiled_step = jax.jit(self.step).lower(state).compile()
-
-        # Compile per-task evaluation if needed
-        compiled_per_task_eval = None
-        if self.per_task_tracking and hasattr(self.problem, 'per_task_evaluate'):
-            def _per_task_eval_jit(state, randkey, params):
-                fitnesses = []
-                for i, task in enumerate(self.problem.tasks):
-                    key = jax.random.fold_in(randkey, i)
-                    adapted = self.problem._make_adapted_act_func(
-                        self.algorithm.forward, task.obs_size, task.act_size
-                    )
-                    fitness = task.env.evaluate(state, key, adapted, params)
-                    fitnesses.append(fitness)
-                return jnp.array(fitnesses)
-
-            dummy_genome = self.algorithm.ask(state)
-            dummy_transformed = self.algorithm.transform(state, (dummy_genome[0][0], dummy_genome[1][0]))
-            compiled_per_task_eval = (
-                jax.jit(_per_task_eval_jit)
-                .lower(state, state.randkey, dummy_transformed)
-                .compile()
-            )
 
         if self.show_problem_details:
             self.compiled_pop_transform_func = (
@@ -239,11 +255,17 @@ class Pipeline(StatefulBaseClass):
 
             self.generation_timestamp = time.time()
 
-            state, previous_pop, fitnesses, eval_key = compiled_step(state)
+            step_result = compiled_step(state)
+            if len(step_result) == 4:
+                state, previous_pop, fitnesses, all_per_task = step_result
+                all_per_task = jax.device_get(all_per_task)
+            else:
+                state, previous_pop, fitnesses = step_result
+                all_per_task = None
 
             fitnesses = jax.device_get(fitnesses)
 
-            self.analysis(state, previous_pop, fitnesses, compiled_per_task_eval, eval_key)
+            self.analysis(state, previous_pop, fitnesses, all_per_task)
 
             if max(fitnesses) >= self.fitness_target:
                 print("Fitness limit reached!")
@@ -269,7 +291,7 @@ class Pipeline(StatefulBaseClass):
 
         return state, self.best_genome
 
-    def analysis(self, state, pop, fitnesses, compiled_per_task_eval=None, eval_key=None):
+    def analysis(self, state, pop, fitnesses, all_per_task=None):
 
         generation = int(state.generation)
 
@@ -293,6 +315,8 @@ class Pipeline(StatefulBaseClass):
         if fitnesses[max_idx] > self.best_fitness:
             self.best_fitness = fitnesses[max_idx]
             self.best_genome = pop[0][max_idx], pop[1][max_idx]
+            if all_per_task is not None:
+                self.best_per_task = all_per_task[max_idx]
             self.stagnation_counter = 0
         else:
             self.stagnation_counter += 1
@@ -341,24 +365,21 @@ class Pipeline(StatefulBaseClass):
 
             mlflow.log_metrics(metrics, step=generation)
 
-            # Per-task fitness (best genome only, if multi-task)
-            if compiled_per_task_eval is not None:
-                try:
-                    best_transformed = self.algorithm.transform(state, (best_nodes, best_conns))
-                    # Use the same eval key as the population step, folded into best_idx
-                    # so per-task metrics are consistent with the fitness ranking
-                    per_task_key = jax.random.fold_in(eval_key, max_idx) if eval_key is not None else state.randkey
-                    task_fitnesses = jax.device_get(
-                        compiled_per_task_eval(state, per_task_key, best_transformed)
-                    )
-                    task_metrics = {}
+            # Per-task fitness — from the same population evaluation, no re-evaluation
+            if all_per_task is not None and hasattr(self.problem, 'tasks'):
+                task_metrics = {}
+                best_per_task_gen = all_per_task[max_idx]
+                for i, task in enumerate(self.problem.tasks):
+                    raw = float(best_per_task_gen[i])
+                    task_metrics[f"fitness/{task.env.env_name}"] = raw
+                    task_metrics[f"fitness_normalized/{task.env.env_name}"] = raw / task.max_reward
+                # All-time best per-task (logged every generation, flat until a new best)
+                if self.best_per_task is not None:
                     for i, task in enumerate(self.problem.tasks):
-                        raw = float(task_fitnesses[i])
-                        task_metrics[f"fitness/{task.env.env_name}"] = raw
-                        task_metrics[f"fitness_normalized/{task.env.env_name}"] = raw / task.max_reward
-                    mlflow.log_metrics(task_metrics, step=generation)
-                except Exception as e:
-                    print(f"[per_task_tracking] ERROR: {e}")
+                        raw_best = float(self.best_per_task[i])
+                        task_metrics[f"best_fitness/{task.env.env_name}"] = raw_best
+                        task_metrics[f"best_fitness_normalized/{task.env.env_name}"] = raw_best / task.max_reward
+                mlflow.log_metrics(task_metrics, step=generation)
 
         self.algorithm.show_details(state, fitnesses)
 

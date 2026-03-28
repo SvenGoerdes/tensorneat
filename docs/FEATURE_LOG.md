@@ -4,6 +4,26 @@ Running record of features implemented for the NEAT vs HA-NEAT thesis comparison
 
 ---
 
+## [2026-03-28] Fix Per-Task Metric Inconsistency (XLA Non-Determinism)
+
+**Branch:** `main`
+**Status:** Complete
+
+### What
+Eliminated a re-evaluation step for per-task MLflow metrics by capturing per-task fitnesses during the population evaluation itself via a new `evaluate_with_breakdown()` method.
+
+### Why
+`fitness/max` and `fitness_normalized/walker2d` were wildly inconsistent (e.g., `fitness/max=0.31` but `walker2d_norm=0.0086` at the same generation) because the per-task re-evaluation ran through a separately JIT-compiled function — XLA compiled it differently (vmap'd vs single-genome graph), producing slightly different floating-point results that cascaded into completely different MuJoCo trajectories over 1000 steps.
+
+### Key files changed
+- `src/tensorneat/problem/rl/multi_task.py` — added `evaluate_with_breakdown()` returning `(aggregate, per_task_array)` from one evaluation
+- `src/tensorneat/pipeline.py` — `step()` uses `evaluate_with_breakdown` when `per_task_tracking=True`; `analysis()` indexes into `all_per_task` instead of re-evaluating; removed `compiled_per_task_eval`; added `best_per_task` tracking
+
+### Notes
+Also added `best_fitness/{env}` and `best_fitness_normalized/{env}` MLflow metrics: the all-time best genome's per-task breakdown, logged every generation (flat until a new best is found). These are guaranteed consistent with `best_fitness`. Consistency verified: `best_fitness == min(best_per_task[i] / max_reward[i])` within float precision.
+
+---
+
 ## [2026-03-26] Configurable Compatibility Disjoint Coefficient
 
 **Branch:** `main`
