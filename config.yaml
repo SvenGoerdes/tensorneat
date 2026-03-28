@@ -1,4 +1,4 @@
-experiment_name: "multi_task_neat_vs_haneat_mjx_backend_v2"
+experiment_name: "multi_task_neat_vs_haneat_v3"
 backend: mjx
 
 tasks:
@@ -15,11 +15,11 @@ tasks:
 
 algorithm_type: [neat, ha_neat]
 aggregation_mode: normalized_min
-pop_size: [1024, 2048]
+pop_size: [2048, 4096]
 species_size: 20
 survival_threshold: 0.3
-compatibility_threshold: 1.0
-compatibility_disjoint: [0.5, 1.0]
+compatibility_threshold: 0.5        # was 1.0 — lower threshold = finer species partitioning
+compatibility_disjoint: 1.0         # fixed at 1.0 — best in v2
 max_stagnation: 40
 species_number_calculate_by: fitness
 max_nodes: 50
