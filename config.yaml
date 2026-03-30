@@ -15,7 +15,7 @@ tasks:
 
 algorithm_type: [neat, ha_neat]
 aggregation_mode: normalized_min
-pop_size: [2048, 4096]
+pop_size: 2048
 species_size: 20
 survival_threshold: 0.3
 compatibility_threshold: 0.5        # was 1.0 — lower threshold = finer species partitioning
