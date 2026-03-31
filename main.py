@@ -110,6 +110,30 @@ def build_pipeline(run_config: dict) -> Pipeline:
             distance=distance,
             output_transform=ACT.tanh,
         )
+    elif algorithm_type == "ha_neat_ablation":
+        # Ablation control: HA-NEAT machinery (OriginConn, HANEATMutation, marker reassignment)
+        # but restricted to tanh only — activation diversity is removed.
+        # If this ≈ neat, the only meaningful difference between neat and ha_neat is
+        # activation diversity, not the underlying mutation/speciation machinery.
+        genome = DefaultGenome(
+            max_nodes=max_nodes,
+            max_conns=max_conns,
+            num_inputs=num_inputs,
+            num_outputs=num_outputs,
+            init_hidden_layers=(),
+            node_gene=BiasNode(
+                activation_options=ACT.tanh,
+                aggregation_options=AGG.sum,
+                activation_replace_rate=0.0,
+            ),
+            conn_gene=OriginConn(),
+            mutation=HANEATMutation(
+                activation_mutate_rate=run_config["activation_mutate_rate"],
+                max_conns=max_conns,
+            ),
+            distance=distance,
+            output_transform=ACT.tanh,
+        )
     else:
         raise ValueError(f"Unknown algorithm_type: {algorithm_type}")
 
@@ -158,7 +182,9 @@ def build_pipeline(run_config: dict) -> Pipeline:
             "max_conns": run_config["max_conns"],
             "activation_mutate_rate": run_config["activation_mutate_rate"],
             **({"activation_options": ",".join(run_config["activation_options"])}
-               if algorithm_type == "ha_neat" else {}),
+               if algorithm_type == "ha_neat" else
+               {"activation_options": "tanh"}
+               if algorithm_type == "ha_neat_ablation" else {}),
         },
         per_task_tracking=run_config.get("per_task_tracking", True),
     )
