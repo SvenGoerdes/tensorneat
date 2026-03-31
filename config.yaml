@@ -1,4 +1,4 @@
-experiment_name: "multi_task_neat_vs_haneat_v3"
+experiment_name: "multi_task_neat_vs_haneat_v4"
 backend: mjx
 
 tasks:
@@ -13,9 +13,9 @@ tasks:
     act_size: 6
     weight: 1.0
 
-algorithm_type: [neat, ha_neat]
+algorithm_type: [ha_neat, neat]
 aggregation_mode: normalized_min
-pop_size: 2048
+pop_size: 4096
 species_size: 20
 survival_threshold: 0.3
 compatibility_threshold: 0.5        # was 1.0 — lower threshold = finer species partitioning
@@ -26,7 +26,7 @@ max_nodes: 50
 max_conns: 200
 activation_mutate_rate: 0.1
 activation_options: [tanh, sigmoid, relu, sin, identity]
-generation_limit: 500
+generation_limit: 1000
 fitness_target: 10000
 seed: [42, 123]
 mlflow_tracking: true
