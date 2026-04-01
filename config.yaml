@@ -1,4 +1,4 @@
-experiment_name: "multi_task_neat_vs_haneat_ablation"
+experiment_name: "multi_task_neat_vs_haneat_final"
 backend: mjx
 
 tasks:
@@ -13,21 +13,21 @@ tasks:
     act_size: 6
     weight: 1.0
 
-algorithm_type: [ha_neat_ablation, neat]
+algorithm_type: [neat, ha_neat]
 aggregation_mode: normalized_min
-pop_size: 1024
+pop_size: 4096
 species_size: 20
 survival_threshold: 0.3
-compatibility_threshold: 0.5        # was 1.0 — lower threshold = finer species partitioning
-compatibility_disjoint: 1.0         # fixed at 1.0 — best in v2
+compatibility_threshold: [0.3, 0.5]
+compatibility_disjoint: 1.0
 max_stagnation: 40
 species_number_calculate_by: fitness
 max_nodes: 50
 max_conns: 200
 activation_mutate_rate: 0.1
 activation_options: [tanh, sigmoid, relu, sin, identity]
-generation_limit: 500
+generation_limit: 2000
 fitness_target: 10000
-seed: [42, 123, 75]
+seed: [42, 123, 75, 7, 21]
 mlflow_tracking: true
 per_task_tracking: true
