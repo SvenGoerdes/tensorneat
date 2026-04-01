@@ -141,6 +141,8 @@ def build_pipeline(run_config: dict) -> Pipeline:
     run_name = (
         f"{algorithm_type}_{agg_mode}_pop{run_config['pop_size']}"
         f"_gen{run_config['generation_limit']}"
+        f"_disjoint{run_config.get('compatibility_disjoint', 1.0)}"
+        f"_compat{run_config['compatibility_threshold']}"
         f"_seed{run_config['seed']}"
     )
 
@@ -195,7 +197,8 @@ def run_single(run_config: dict, results_dir: str) -> tuple[float, float]:
     run_name = (
         f"{run_config['algorithm_type']}_{agg_mode}_pop{run_config['pop_size']}"
         f"_gen{run_config['generation_limit']}"
-        f"_gen{run_config['compatibility_disjoint']}"
+        f"_disjoint{run_config['compatibility_disjoint']}"
+        f"_compat{run_config['compatibility_threshold']}"
         f"_seed{run_config['seed']}"
     )
     try:
