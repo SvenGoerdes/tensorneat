@@ -4,6 +4,26 @@ Running record of features implemented for the NEAT vs HA-NEAT thesis comparison
 
 ---
 
+## [2026-04-03] Ablation Experiment: HA-NEAT with Single Activation
+
+**Branch:** `main`
+**Status:** Complete
+
+### What
+Added a third algorithm condition `ha_neat_ablation` to the experiment grid. Uses the full HA-NEAT machinery (`HANEATMutation`, `OriginConn`, historical marker reassignment) but restricted to `activation_options=[ACT.tanh]` only — removing activation diversity while keeping all other algorithmic differences intact.
+
+### Why
+Leonardo (friend and fellow researcher) raised the methodological concern that any performance gap between NEAT and HA-NEAT could be caused by hidden differences in the underlying mutation/speciation machinery (e.g. `OriginConn` vs default connection gene, marker reassignment logic) rather than activation diversity itself. The ablation isolates the activation diversity mechanism: if `ha_neat_ablation ≈ neat`, the only meaningful difference is activation diversity and the experimental isolation is clean. If `ha_neat_ablation ≠ neat`, `OriginConn` marker reassignment is independently affecting speciation dynamics.
+
+### Key files changed
+- `main.py` — added `ha_neat_ablation` branch in `build_pipeline()`: identical to `ha_neat` but `activation_options=ACT.tanh` fixed; MLflow logs `activation_options: "tanh"`; fixed cosmetic run-name bug (`_gen{disjoint}` → `_disjoint{disjoint}`) and added `_compat{threshold}` to run name
+- `config.yaml` — `experiment_name` → `multi_task_neat_vs_haneat_ablation`; `algorithm_type` → `[ha_neat_ablation, neat]`
+
+### Notes
+`activation_mutate_rate=0.1` is left unchanged — with only one activation option, the mutation fires but is a no-op (selects tanh from a set of one). Setting it to `0.0` would have no effect on runtime performance since `jax.lax.cond` compiles both branches regardless of the condition value. Grid: 2 algorithms × 2 seeds = 4 runs.
+
+---
+
 ## [2026-03-28] Fix Per-Task Metric Inconsistency (XLA Non-Determinism)
 
 **Branch:** `main`
