@@ -24,10 +24,10 @@ MAX_CONNS = 200
 N_EVAL = 5  # number of episodes per task to average over
 
 
-def build_eval_pipeline(is_ha_neat: bool):
+def build_eval_pipeline(is_ha_neat: bool, backend: str = "mjx"):
     tasks = []
     for tc in TASKS_CONFIG:
-        env = BraxEnv(env_name=tc["env_name"], max_step=tc["max_step"])
+        env = BraxEnv(env_name=tc["env_name"], max_step=tc["max_step"], backend=backend)
         tasks.append(TaskSpec(
             env=env,
             obs_size=tc["obs_size"],
@@ -87,8 +87,9 @@ def evaluate_genome(pipeline, state, tasks, nodes, conns, n_eval=N_EVAL):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--results_dir", default="results/multi_task_neat_vs_haneat")
+    parser.add_argument("--results_dir", default="../results/multi_task_neat_vs_haneat")
     parser.add_argument("--n_eval", type=int, default=N_EVAL)
+    parser.add_argument("--backend", default="mjx", choices=["mjx", "generalized", "positional", "spring"])
     args = parser.parse_args()
 
     npz_files = sorted(glob.glob(os.path.join(args.results_dir, "*.npz")))
@@ -97,12 +98,13 @@ def main():
         return
 
     print(f"Found {len(npz_files)} genome files. Evaluating each on {args.n_eval} episodes per task.\n")
+    print(f"Backend: {args.backend}")
     print(f"{'File':<55} {'hopper':>10} {'walker2d':>10} {'hop_norm':>10} {'wal_norm':>10}")
     print("-" * 100)
 
     # Build pipelines once each
-    pipeline_neat,    state_neat,    tasks = build_eval_pipeline(is_ha_neat=False)
-    pipeline_haneat,  state_haneat,  _     = build_eval_pipeline(is_ha_neat=True)
+    pipeline_neat,    state_neat,    tasks = build_eval_pipeline(is_ha_neat=False, backend=args.backend)
+    pipeline_haneat,  state_haneat,  _     = build_eval_pipeline(is_ha_neat=True,  backend=args.backend)
 
     for path in npz_files:
         fname = os.path.basename(path)
