@@ -2,7 +2,7 @@
 # Usage: bash run_after.sh <hours>
 # Example: bash run_after.sh 3.5
 
-HOURS=${1:-15}
+HOURS=${1:-4}
 SECONDS_WAIT=$(awk "BEGIN {printf \"%.0f\", $HOURS * 3600}")
 
 echo "Waiting ${HOURS}h (${SECONDS_WAIT}s) before starting..."
