@@ -1,8 +1,10 @@
 """Evaluate all saved genomes in a results directory on each task independently."""
 
+import json
 import os
 import glob
 import argparse
+from datetime import datetime
 
 import jax
 import jax.numpy as jnp
@@ -80,8 +82,13 @@ def evaluate_genome(pipeline, state, tasks, nodes, conns, n_eval=N_EVAL):
             key = jax.random.PRNGKey(ep * 100 + i)
             f = task.env.evaluate(state, key, adapted, transformed)
             fitnesses.append(float(f))
-        mean_f = np.mean(fitnesses)
-        results[task.env.env_name] = mean_f
+        results[task.env.env_name] = {
+            "episodes": fitnesses,
+            "mean": float(np.mean(fitnesses)),
+            "std": float(np.std(fitnesses)),
+            "min": float(np.min(fitnesses)),
+            "max": float(np.max(fitnesses)),
+        }
     return results
 
 
@@ -106,6 +113,8 @@ def main():
     pipeline_neat,    state_neat,    tasks = build_eval_pipeline(is_ha_neat=False, backend=args.backend)
     pipeline_haneat,  state_haneat,  _     = build_eval_pipeline(is_ha_neat=True,  backend=args.backend)
 
+    all_results = []
+
     for path in npz_files:
         fname = os.path.basename(path)
         is_ha = fname.startswith("ha_neat")
@@ -115,18 +124,75 @@ def main():
         data  = np.load(path)
         nodes = jnp.array(data["nodes"])
         conns = jnp.array(data["conns"])
+        training_fitness = float(data["fitness"]) if "fitness" in data else None
 
         try:
             res = evaluate_genome(pipeline, state, tasks, nodes, conns, n_eval=args.n_eval)
-            hopper   = res.get("hopper",   float("nan"))
-            walker2d = res.get("walker2d", float("nan"))
+            hopper   = res.get("hopper",   {}).get("mean", float("nan"))
+            walker2d = res.get("walker2d", {}).get("mean", float("nan"))
             hop_norm = hopper   / BRAX_REFERENCE_REWARDS["hopper"]
             wal_norm = walker2d / BRAX_REFERENCE_REWARDS["walker2d"]
             print(f"{fname:<55} {hopper:>10.1f} {walker2d:>10.1f} {hop_norm:>10.3f} {wal_norm:>10.3f}")
+
+            all_results.append({
+                "file": fname,
+                "algorithm": "ha_neat" if is_ha else "neat",
+                "training_fitness": training_fitness,
+                "tasks": res,
+                "normalized": {
+                    env: res[env]["mean"] / BRAX_REFERENCE_REWARDS[env]
+                    for env in res
+                },
+            })
         except Exception as e:
             print(f"{fname:<55} ERROR: {e}")
+            all_results.append({"file": fname, "error": str(e)})
 
     print("-" * 100)
+
+    # Compute summary stats per algorithm
+    summary = {}
+    for algo in ["neat", "ha_neat"]:
+        algo_runs = [r for r in all_results if r.get("algorithm") == algo and "error" not in r]
+        if not algo_runs:
+            continue
+        summary[algo] = {}
+        for env in ["hopper", "walker2d"]:
+            means = [r["tasks"][env]["mean"] for r in algo_runs if env in r["tasks"]]
+            norms = [r["normalized"][env] for r in algo_runs if env in r.get("normalized", {})]
+            summary[algo][env] = {
+                "mean_across_seeds": float(np.mean(means)),
+                "std_across_seeds": float(np.std(means)),
+                "mean_normalized": float(np.mean(norms)),
+                "std_normalized": float(np.std(norms)),
+                "n_seeds": len(means),
+            }
+
+    # Save to eval/outputs/
+    output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "outputs")
+    os.makedirs(output_dir, exist_ok=True)
+
+    experiment_name = os.path.basename(os.path.normpath(args.results_dir))
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_path = os.path.join(output_dir, f"{experiment_name}_{timestamp}.json")
+
+    output = {
+        "metadata": {
+            "experiment": experiment_name,
+            "results_dir": args.results_dir,
+            "backend": args.backend,
+            "n_eval": args.n_eval,
+            "timestamp": timestamp,
+            "n_genomes": len(npz_files),
+        },
+        "runs": all_results,
+        "summary": summary,
+    }
+
+    with open(output_path, "w") as f:
+        json.dump(output, f, indent=2)
+
+    print(f"\nResults saved to {output_path}")
 
 
 if __name__ == "__main__":
