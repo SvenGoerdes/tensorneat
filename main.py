@@ -16,7 +16,7 @@ from tensorneat.genome.operations.distance import DefaultDistance
 from tensorneat.problem.rl import BraxEnv, MultiTaskBraxEnv, TaskSpec, BRAX_REFERENCE_REWARDS
 from tensorneat.common import ACT, AGG
 
-STRUCTURAL_KEYS = {"tasks", "activation_options", "experiment_name", "mlflow_tracking", "per_task_tracking", "backend"}
+STRUCTURAL_KEYS = {"tasks", "activation_options", "experiment_name", "experiment_description", "mlflow_tracking", "per_task_tracking", "backend"}
 
 
 def load_config(path: str) -> dict:
@@ -188,6 +188,7 @@ def build_pipeline(run_config: dict) -> Pipeline:
                {"activation_options": "tanh"}
                if algorithm_type == "ha_neat_ablation" else {}),
         },
+        mlflow_experiment_description=run_config.get("experiment_description"),
         per_task_tracking=run_config.get("per_task_tracking", True),
     )
 
