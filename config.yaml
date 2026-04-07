@@ -1,4 +1,5 @@
 experiment_name: "multi_task_neat_vs_haneat_final"
+experiment_description: "Final NEAT vs HA-NEAT comparison on multi-task Brax (Hopper + Walker2D). Pop 4096, 2000 generations, normalized_min aggregation, MJX backend. Sweep over algorithm_type, compatibility_threshold, and 5 seeds."
 backend: mjx
 
 tasks:
