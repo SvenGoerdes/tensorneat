@@ -132,7 +132,11 @@ src/evox/*
 experiment/
 pyproject.toml
 
+# genome folder
+results/
 
+# Claude skills
+.Claude/skills/
 
 # MLflow — too large for GitHub (>100MB), sync via rsync from server
 mlflow.db
