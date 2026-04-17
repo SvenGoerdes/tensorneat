@@ -1,0 +1,24 @@
+Re-evaluation results — multi_task_neat_vs_haneat_ablation
+Backend: MJX | Episodes per genome per task: 10 | Seeds: 42, 123, 75
+
+File                                                          hopper   walker2d   hop_norm   wal_norm
+------------------------------------------------------------------------------------------------------
+ha_neat_ablation_normalized_min_pop1024_gen500_gen1.0_seed123   1168.2     1995.8      0.389      0.399
+ha_neat_ablation_normalized_min_pop1024_gen500_gen1.0_seed42    1058.3     1356.8      0.353      0.271
+ha_neat_ablation_normalized_min_pop1024_gen500_gen1.0_seed75    1020.7      519.4      0.340      0.104
+neat_normalized_min_pop1024_gen500_gen1.0_seed123               1120.5      816.6      0.373      0.163
+neat_normalized_min_pop1024_gen500_gen1.0_seed42                 878.6     1994.1      0.293      0.399
+neat_normalized_min_pop1024_gen500_gen1.0_seed75                1026.3     1390.5      0.342      0.278
+
+Descriptive statistics (mean ± std across 3 seeds):
+  Hopper   — NEAT: 1008.5 ± 99.6  (norm: 0.336 ± 0.033) | HA-NEAT-ablation: 1082.4 ± 62.6  (norm: 0.361 ± 0.021)
+  Walker2D — NEAT: 1400.4 ± 480.8 (norm: 0.280 ± 0.096) | HA-NEAT-ablation: 1290.7 ± 604.5 (norm: 0.258 ± 0.121)
+  Aggregate (normalised_min) — NEAT: 0.245 ± 0.058 | HA-NEAT-ablation: 0.255 ± 0.117
+
+Mann-Whitney U test (two-sided):
+  Hopper:    U=3, p=0.700
+  Walker2D:  U=5, p=1.000
+  Aggregate: U=5, p=1.000
+
+Reference rewards: hopper=3000, walker2d=5000
+Config: pop_size=1024, generation_limit=500, aggregation_mode=normalized_min, compatibility_threshold=0.5

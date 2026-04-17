@@ -141,3 +141,4 @@ results/
 # MLflow — too large for GitHub (>100MB), sync via rsync from server
 mlflow.db
 mlruns/
+.gstack/
