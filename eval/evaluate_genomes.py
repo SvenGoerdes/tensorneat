@@ -118,6 +118,12 @@ def main():
     for path in npz_files:
         fname = os.path.basename(path)
         is_ha = fname.startswith("ha_neat")
+        if fname.startswith("ha_neat_ablation"):
+            algo_label = "ha_neat_ablation"
+        elif fname.startswith("ha_neat"):
+            algo_label = "ha_neat"
+        else:
+            algo_label = "neat"
         pipeline = pipeline_haneat if is_ha else pipeline_neat
         state    = state_haneat    if is_ha else state_neat
 
@@ -136,7 +142,7 @@ def main():
 
             all_results.append({
                 "file": fname,
-                "algorithm": "ha_neat" if is_ha else "neat",
+                "algorithm": algo_label,
                 "training_fitness": training_fitness,
                 "tasks": res,
                 "normalized": {
@@ -152,7 +158,7 @@ def main():
 
     # Compute summary stats per algorithm
     summary = {}
-    for algo in ["neat", "ha_neat"]:
+    for algo in ["neat", "ha_neat", "ha_neat_ablation"]:
         algo_runs = [r for r in all_results if r.get("algorithm") == algo and "error" not in r]
         if not algo_runs:
             continue

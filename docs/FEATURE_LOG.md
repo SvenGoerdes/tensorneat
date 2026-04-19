@@ -4,6 +4,67 @@ Running record of features implemented for the NEAT vs HA-NEAT thesis comparison
 
 ---
 
+## [2026-04-04] Ablation Study Analysis and Thesis Section
+
+**Branch:** `final-experiment`
+**Status:** Complete
+
+### What
+Re-evaluated all six ablation genomes (NEAT x3 seeds, HA-NEAT ablation x3 seeds) over 10 independent episodes each using the MJX backend. Ran Mann-Whitney U tests and computed descriptive statistics. Wrote the ablation subsection for the thesis and generated a bar chart visualisation.
+
+### Why
+Provides the methodological validation that any HA-NEAT performance gains in the main experiment are attributable to activation diversity, not hidden differences in `OriginConn` or `HANEATMutation` machinery.
+
+### Key files changed
+- `text/ablation_section.md` — thesis subsection (results table, stats, interpretation)
+- `text/ablation_eval_results.txt` — raw re-evaluation scores (10 episodes per task)
+- `text/ablation_comparison.png` — bar chart with mean +/- std and per-seed scatter
+
+### Notes
+Mann-Whitney U: Hopper p=0.700, Walker2D p=1.000, aggregate p=1.000. Within-condition variance dominates between-condition variance across all tasks. n=3 seeds per condition — acknowledged as a limitation in the thesis text.
+
+---
+
+## [2026-04-03] Evaluation Scripts Reorganised into `eval/` Folder
+
+**Branch:** `final-experiment`
+**Status:** Complete
+
+### What
+Moved `evaluate_genomes.py`, `evaluate_mjx.py`, and `visualize_folder.py` from the project root into a dedicated `eval/` directory.
+
+### Why
+Separates evaluation tooling from the training entrypoint (`main.py`) and keeps the root clean.
+
+### Key files changed
+- `eval/evaluate_genomes.py` — default `--results_dir` updated to `../results/...`
+- `eval/visualize_folder.py` — output path anchored to project root via `__file__`
+- `eval/evaluate_mjx.py` — no path changes needed (all paths are CLI args)
+
+### Notes
+All three scripts should be invoked from the project root: `uv run python eval/<script>.py`.
+
+---
+
+## [2026-04-03] Training vs Re-evaluation Notebook
+
+**Branch:** `final-experiment`
+**Status:** Complete
+
+### What
+Added `Notebooks/training_vs_reeval.ipynb` — loads MLflow `best_fitness/{env}` for a given experiment, re-evaluates saved genomes over N episodes, and produces a summary table and bar chart comparing training fitness against re-evaluation scores.
+
+### Why
+Training fitness is a single-episode optimistic estimate. The notebook makes the gap between training and re-evaluation explicit and provides the correct numbers for thesis reporting.
+
+### Key files changed
+- `Notebooks/training_vs_reeval.ipynb` — new notebook
+
+### Notes
+Config cell at the top controls `RESULTS_DIR`, `EXPERIMENT_NAME`, `N_EVAL`, `BACKEND`, and `TASKS_CONFIG` — swap these to analyse any experiment folder. Matches runs to `.npz` files via `(algorithm, seed)` parsed from filenames.
+
+---
+
 ## [2026-04-03] Ablation Experiment: HA-NEAT with Single Activation
 
 **Branch:** `main`
