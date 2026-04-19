@@ -142,3 +142,6 @@ results/
 mlflow.db
 mlruns/
 .gstack/
+
+# Analysis run outputs (generated artifacts, timestamped)
+analysis/outputs/final_*/
