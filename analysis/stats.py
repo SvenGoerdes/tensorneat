@@ -100,7 +100,7 @@ def format_txt_report(test_results: dict, label_a: str, label_b: str) -> str:
     pr("=" * 70)
 
     for task, r in test_results.items():
-        ref = BRAX_REFERENCE_REWARDS.get(task, 1.0)
+        ref = REFERENCE_REWARDS.get(task, 1.0)
         pr(f"\n{'='*70}")
         pr(f"  Task: {task.upper()}")
         pr(f"{'='*70}")
