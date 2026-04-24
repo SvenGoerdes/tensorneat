@@ -55,9 +55,13 @@ def setup_logging(log_path: str) -> None:
     )
 
 
-def make_output_dir(output_root: str) -> str:
+def make_output_dir(output_root: str, experiments: list[str] | None = None) -> str:
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    out = os.path.join(output_root, f"final_{ts}")
+    if experiments and len(experiments) == 1:
+        prefix = experiments[0]
+    else:
+        prefix = "final"
+    out = os.path.join(output_root, f"{prefix}_{ts}")
     for sub in ["reeval", "training_curves", "eval_plots", "stats"]:
         os.makedirs(os.path.join(out, sub), exist_ok=True)
     return out
@@ -269,7 +273,7 @@ def main() -> None:
     experiments = args.experiments if args.experiments else _DEFAULT_EXPERIMENTS
 
     os.makedirs(args.output_root, exist_ok=True)
-    out_dir = make_output_dir(args.output_root)
+    out_dir = make_output_dir(args.output_root, experiments)
 
     setup_logging(os.path.join(out_dir, "log.txt"))
     logging.info(f"Output directory: {out_dir}")
