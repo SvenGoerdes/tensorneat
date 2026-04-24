@@ -36,7 +36,7 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECT_ROOT)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "text", "figures"))
 
-EXPERIMENTS = [
+_DEFAULT_EXPERIMENTS = [
     "multi_task_neat_vs_haneat_final",
     "multi_task_haneat_finalv2",
 ]
@@ -79,9 +79,13 @@ def step_sync(project_root: str) -> None:
 # Step 2+3 – Merge + Re-evaluate
 # ---------------------------------------------------------------------------
 
-def step_reevaluate(project_root: str, out_dir: str, n_eval: int, force: bool) -> dict:
+def step_reevaluate(project_root: str, out_dir: str, n_eval: int, force: bool,
+                    experiments: list[str] | None = None) -> dict:
     from analysis.merge import collect_genomes, dedup_haneat
     from analysis.reevaluate import run_reevaluation, build_combined_json, save_json
+
+    if experiments is None:
+        experiments = _DEFAULT_EXPERIMENTS
 
     combined_path = os.path.join(out_dir, "reeval", "combined.json")
     if os.path.exists(combined_path) and not force:
@@ -91,7 +95,7 @@ def step_reevaluate(project_root: str, out_dir: str, n_eval: int, force: bool) -
 
     logging.info("=== STEP 2: Collecting + merging genomes ===")
     results_root = os.path.join(project_root, "results")
-    all_entries = collect_genomes(results_root, EXPERIMENTS)
+    all_entries = collect_genomes(results_root, experiments)
     deduped = dedup_haneat(all_entries)
 
     neat_entries = [e for e in deduped if e.algorithm == "neat"]
@@ -101,7 +105,7 @@ def step_reevaluate(project_root: str, out_dir: str, n_eval: int, force: bool) -
 
     logging.info(f"=== STEP 3: Re-evaluating {len(deduped)} genomes ({n_eval} eps/task) ===")
     results = run_reevaluation(deduped, n_eval=n_eval, backend=BACKEND)
-    combined = build_combined_json(results, n_eval=n_eval, backend=BACKEND, experiments=EXPERIMENTS)
+    combined = build_combined_json(results, n_eval=n_eval, backend=BACKEND, experiments=experiments)
     save_json(combined, combined_path)
     return combined
 
@@ -110,8 +114,12 @@ def step_reevaluate(project_root: str, out_dir: str, n_eval: int, force: bool) -
 # Step 4 – Training curves
 # ---------------------------------------------------------------------------
 
-def step_training_curves(project_root: str, out_dir: str, fmt: str) -> None:
+def step_training_curves(project_root: str, out_dir: str, fmt: str,
+                         experiments: list[str] | None = None) -> None:
     from plot_training_curves import load_metrics, setup_matplotlib, plot_per_task, plot_aggregated
+
+    if experiments is None:
+        experiments = _DEFAULT_EXPERIMENTS
 
     logging.info("=== STEP 4: Plotting training curves ===")
     db_path = os.path.join(project_root, "mlflow.db")
@@ -120,9 +128,8 @@ def step_training_curves(project_root: str, out_dir: str, fmt: str) -> None:
 
     setup_matplotlib()
 
-    # Both experiments share the same run names; load and merge by combining dicts
     merged_data: dict = {}
-    for exp in EXPERIMENTS:
+    for exp in experiments:
         try:
             data = load_metrics(db_path, exp, metric_keys)
             merged_data.update(data)
@@ -252,24 +259,29 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--output-root", default=os.path.join(PROJECT_ROOT, "analysis", "outputs"),
                    help="Root directory for output folders")
     p.add_argument("--format", default="pdf", choices=["pdf", "png", "svg"], dest="fmt")
+    p.add_argument("--experiments", nargs="+", default=None,
+                   help="Experiment names to analyse (default: final + finalv2)")
     return p.parse_args()
 
 
 def main() -> None:
     args = parse_args()
+    experiments = args.experiments if args.experiments else _DEFAULT_EXPERIMENTS
+
     os.makedirs(args.output_root, exist_ok=True)
     out_dir = make_output_dir(args.output_root)
 
     setup_logging(os.path.join(out_dir, "log.txt"))
     logging.info(f"Output directory: {out_dir}")
+    logging.info(f"Experiments: {experiments}")
 
     if not args.skip_sync:
         step_sync(PROJECT_ROOT)
 
-    skip_reeval = args.skip_reeval and not args.force_reeval
-    combined = step_reevaluate(PROJECT_ROOT, out_dir, args.n_eval, force=args.force_reeval)
+    combined = step_reevaluate(PROJECT_ROOT, out_dir, args.n_eval, force=args.force_reeval,
+                               experiments=experiments)
 
-    step_training_curves(PROJECT_ROOT, out_dir, args.fmt)
+    step_training_curves(PROJECT_ROOT, out_dir, args.fmt, experiments=experiments)
     step_eval_plots(combined, out_dir, args.fmt)
     test_results = step_stats(combined, out_dir)
     step_interpretation(combined, test_results, out_dir, args.n_eval)
