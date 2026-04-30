@@ -145,3 +145,14 @@ mlruns/
 
 # Analysis run outputs (generated artifacts, timestamped)
 analysis/outputs/final_*/
+analysis/outputs/reduced/
+analysis/outputs/reduced_*/
+
+# One-off run configs
+config_haneat_reduced_seed871.yaml
+
+# Wiki system
+wiki/
+
+# macOS
+.DS_Store
