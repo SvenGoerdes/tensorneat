@@ -5,29 +5,28 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 DB = "/Users/svengoerdes/Projects/Thesisv2/tensorneat/mlflow.db"
-OUT = "/Users/svengoerdes/Projects/Thesisv2/tensorneat/analysis/outputs"
+OUT = "/Users/svengoerdes/Projects/Thesisv2/tensorneat/analysis/outputs/compat_threshold_analysis"
 
 conn = sqlite3.connect(DB)
 
-# --- Deduplicate: keep latest run per (algo, compat, seed) ---
+# NEAT from experiment 9 (multi_task_neat_vs_haneat_final)
+# HA-NEAT from experiment 11 (multi_task_haneat_finalv2) — authoritative parallel run
 rows = conn.execute("""
-    SELECT r.run_uuid, t.value as run_name, r.start_time
+    SELECT r.run_uuid, t.value as run_name, r.experiment_id
     FROM runs r
     JOIN tags t ON r.run_uuid = t.run_uuid AND t.key = 'mlflow.runName'
-    WHERE r.experiment_id IN (9, 10, 11)
-    ORDER BY r.start_time DESC
+    WHERE (r.experiment_id = 9 AND t.value LIKE 'neat_%')
+       OR  r.experiment_id = 11
+    ORDER BY run_name
 """).fetchall()
 
-seen = {}
-for uuid, name, ts in rows:
+runs = {}
+for uuid, name, exp_id in rows:
     m = re.match(r'(neat|ha_neat)_.*_compat(\d\.\d)_seed(\d+)', name)
     if not m:
         continue
     key = (m.group(1), m.group(2), m.group(3))
-    if key not in seen:
-        seen[key] = (uuid, name)
-
-runs = {k: v for k, v in seen.items()}
+    runs[key] = (uuid, name)
 
 # ── Plot 1: Bar chart with individual seed dots ──────────────────────────────
 
