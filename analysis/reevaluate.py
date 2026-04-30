@@ -32,7 +32,7 @@ def run_reevaluation(
 
     all_results = []
     for i, entry in enumerate(entries):
-        is_ha = entry.algorithm == "ha_neat"
+        is_ha = entry.algorithm in ("ha_neat", "ha_neat_ablation")
         pipeline = pipeline_haneat if is_ha else pipeline_neat
         state = state_haneat if is_ha else state_neat
 
@@ -81,7 +81,8 @@ def build_combined_json(
     runs_ok = [r for r in all_results if "error" not in r]
 
     summary: dict[str, dict] = {}
-    for algo in ["neat", "ha_neat"]:
+    present_algos = sorted({r.get("algorithm") for r in runs_ok if r.get("algorithm")})
+    for algo in present_algos:
         algo_runs = [r for r in runs_ok if r.get("algorithm") == algo]
         if not algo_runs:
             continue
