@@ -15,8 +15,8 @@ def _load_helpers():
     """Lazy import of statistical_test helpers (avoids top-level path issues)."""
     import sys
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "text", "figures"))
-    from statistical_test import permutation_test_exact, cohens_d
-    return permutation_test_exact, cohens_d
+    from statistical_test import permutation_test_mc, cohens_d
+    return permutation_test_mc, cohens_d
 
 
 def _seed_means(runs: list[dict], task: str) -> np.ndarray:
@@ -43,7 +43,7 @@ def compute_normalized_min(runs: list[dict]) -> list[float]:
 
 def compute_tests(runs_a: list[dict], runs_b: list[dict], label_a: str = "neat", label_b: str = "ha_neat") -> dict:
     """Run all statistical tests per task + normalized_min aggregate. Returns structured dict."""
-    permutation_test_exact, cohens_d = _load_helpers()
+    permutation_test_mc, cohens_d = _load_helpers()
     results = {}
 
     task_groups = {t: (_seed_means(runs_a, t), _seed_means(runs_b, t)) for t in TASKS}
@@ -75,7 +75,7 @@ def compute_tests(runs_a: list[dict], runs_b: list[dict], label_a: str = "neat",
             entry["mannwhitney_u"] = None
             entry["p_mannwhitney"] = None
 
-        diff, p_perm, n_perms = permutation_test_exact(ma, mb)
+        diff, p_perm, n_perms = permutation_test_mc(ma, mb)
         entry["observed_diff"] = float(diff)
         entry["p_permutation"] = float(p_perm)
         entry["n_permutations"] = int(n_perms)

@@ -14,7 +14,6 @@ Usage:
 
 import argparse
 import json
-import itertools
 
 import numpy as np
 from scipy import stats
@@ -32,24 +31,28 @@ def detect_algorithm(run: dict) -> str:
     return "neat"
 
 
-def permutation_test_exact(group_a, group_b):
-    """Exact permutation test for difference in means (feasible for small n)."""
+def permutation_test_mc(group_a, group_b, n_perms: int = 10_000, seed: int = 42):
+    """Monte Carlo permutation test for difference in means (two-sided).
+
+    C(40,20) ≈ 137B makes a true exact test infeasible at n=20 per arm.
+    10k resamples gives a standard error on p of ~0.002 at p=0.05, which is
+    more than sufficient for reporting purposes.
+    """
+    rng = np.random.default_rng(seed)
+    group_a = np.asarray(group_a)
+    group_b = np.asarray(group_b)
     observed_diff = np.mean(group_a) - np.mean(group_b)
     combined = np.concatenate([group_a, group_b])
     n_a = len(group_a)
-    n_total = len(combined)
 
     count_extreme = 0
-    total_perms = 0
-    for indices in itertools.combinations(range(n_total), n_a):
-        perm_a = combined[list(indices)]
-        perm_b = combined[[i for i in range(n_total) if i not in indices]]
-        diff = np.mean(perm_a) - np.mean(perm_b)
+    for _ in range(n_perms):
+        perm = rng.permutation(combined)
+        diff = np.mean(perm[:n_a]) - np.mean(perm[n_a:])
         if abs(diff) >= abs(observed_diff):
             count_extreme += 1
-        total_perms += 1
 
-    return observed_diff, count_extreme / total_perms, total_perms
+    return observed_diff, count_extreme / n_perms, n_perms
 
 
 def cohens_d(group_a, group_b):
@@ -128,7 +131,7 @@ def main():
             print(f"\n  1. Mann-Whitney U: insufficient samples")
 
         # 2. Exact permutation test (seed-level)
-        diff, p_perm, n_perms = permutation_test_exact(seed_means_a, seed_means_b)
+        diff, p_perm, n_perms = permutation_test_mc(seed_means_a, seed_means_b)
         print(f"\n  2. Exact permutation test (seed means, two-sided):")
         print(f"     observed diff={diff:.1f}, p={p_perm:.4f} ({n_perms} permutations)")
 
