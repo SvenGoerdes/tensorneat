@@ -56,6 +56,23 @@ See `REFERENCE.md` for internals (HA-NEAT mechanism, pipeline details, aggregati
 - NEAT: 10 seeds (5 × compat0.3 + 5 × compat0.5), all FINISHED
 - HA-NEAT: 14 seeds total across both experiments (dedup needed for compat0.3 duplicates)
 
+## Server access
+
+Training runs and the canonical `mlflow.db` (~580 MB) live on the Nova GPU server.
+
+```bash
+ssh 20240503@10.10.80.3
+cd /home/20240503/tensorneat
+```
+
+SSH key auth is set up — no password needed. The server tracks the same git remote (`origin`); pull with `git pull` to sync code changes.
+
+What lives on the server but not on the laptop / GitHub (intentionally):
+- `mlflow.db` — too large for GitHub; rsync to laptop when needed for local analysis
+- `results/<experiment>/*.npz` — trained genomes (gitignored)
+- `output*.log`, `logs/*.log` — training stdout (gitignored)
+- `analysis/outputs/multi_task_*_*/` — timestamped intermediate analysis runs (gitignored)
+
 ## Key Directories
 
 ```
