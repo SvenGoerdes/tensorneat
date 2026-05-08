@@ -8,7 +8,7 @@ import numpy as np
 
 from tensorneat.algorithm import BaseAlgorithm
 from tensorneat.problem import BaseProblem
-from tensorneat.common import State, StatefulBaseClass
+from tensorneat.common import State, StatefulBaseClass, capture_git_state
 
 
 class Pipeline(StatefulBaseClass):
@@ -122,6 +122,7 @@ class Pipeline(StatefulBaseClass):
                 "num_inputs": self.algorithm.num_inputs,
                 "num_outputs": self.algorithm.num_outputs,
             }
+            params.update(capture_git_state())
             params.update(self.mlflow_extra_params)
             mlflow.log_params(params)
 

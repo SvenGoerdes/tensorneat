@@ -2,6 +2,7 @@
 
 import argparse
 import itertools
+import json
 import os
 import traceback
 
@@ -14,7 +15,7 @@ from tensorneat.algorithm.neat import NEAT
 from tensorneat.genome import DefaultGenome, BiasNode, OriginConn, HANEATMutation
 from tensorneat.genome.operations.distance import DefaultDistance
 from tensorneat.problem.rl import BraxEnv, MultiTaskBraxEnv, TaskSpec, BRAX_REFERENCE_REWARDS
-from tensorneat.common import ACT, AGG
+from tensorneat.common import ACT, AGG, capture_git_state
 
 STRUCTURAL_KEYS = {"tasks", "activation_options", "experiment_name", "mlflow_tracking", "per_task_tracking", "backend"}
 
@@ -211,11 +212,16 @@ def run_single(run_config: dict, results_dir: str) -> tuple[float, float]:
         state, best = pipeline.auto_run(state)
 
         best_nodes, best_conns = jax.device_get(best)
+        git_state = capture_git_state()
         np.savez(
             os.path.join(results_dir, f"{run_name}.npz"),
             nodes=best_nodes,
             conns=best_conns,
             fitness=pipeline.best_fitness,
+            git_sha=git_state["git_sha"],
+            git_branch=git_state["git_branch"],
+            git_dirty=git_state["git_dirty"],
+            run_config_json=json.dumps(run_config),
         )
         print(f"[{run_name}] Best fitness: {pipeline.best_fitness:.4f}")
         return pipeline.best_fitness, pipeline.best_fitness
