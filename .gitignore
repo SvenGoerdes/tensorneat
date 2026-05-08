@@ -147,6 +147,8 @@ mlruns/
 analysis/outputs/final_*/
 analysis/outputs/reduced/
 analysis/outputs/reduced_*/
+analysis/outputs/multi_task_neat_vs_haneat_ablation_*/
+analysis/outputs/multi_task_neat_vs_haneat_final_*/
 
 # One-off run configs
 config_haneat_reduced_seed871.yaml
