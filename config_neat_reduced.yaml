@@ -1,5 +1,5 @@
-experiment_name: "multi_task_neat_vs_haneat_final"
-experiment_description: "Final NEAT vs HA-NEAT comparison on multi-task Brax (Hopper + Walker2D). Pop 4096, 2000 generations, normalized_min aggregation, MJX backend. Sweep over algorithm_type, compatibility_threshold, and 5 seeds."
+experiment_name: "multi_task_neat_vs_haneat_reduced"
+experiment_description: "Reduced NEAT vs HA-NEAT comparison. Pop 1024, 750 generations, normalized_min, MJX backend, compat 0.3, n=20 seeds per algorithm. Split across two GPUs for parallel execution."
 backend: mjx
 
 tasks:
@@ -14,12 +14,12 @@ tasks:
     act_size: 6
     weight: 1.0
 
-algorithm_type: [neat, ha_neat]
+algorithm_type: neat
 aggregation_mode: normalized_min
-pop_size: 4096
+pop_size: 1024
 species_size: 20
 survival_threshold: 0.3
-compatibility_threshold: [0.3, 0.5]
+compatibility_threshold: 0.3
 compatibility_disjoint: 1.0
 max_stagnation: 40
 species_number_calculate_by: fitness
@@ -27,8 +27,8 @@ max_nodes: 50
 max_conns: 200
 activation_mutate_rate: 0.1
 activation_options: [tanh, sigmoid, relu, sin, identity]
-generation_limit: 2000
+generation_limit: 750
 fitness_target: 10000
-seed: [42, 123, 75, 7, 21]
+seed: [871, 1227, 1312, 1597, 2164, 2444, 3081, 3715, 4157, 4335, 4421, 5213, 6522, 6592, 7920, 8038, 8745, 9303, 9355, 9401]
 mlflow_tracking: true
 per_task_tracking: true

@@ -2,6 +2,7 @@
 
 import argparse
 import itertools
+import json
 import os
 import traceback
 
@@ -14,9 +15,9 @@ from tensorneat.algorithm.neat import NEAT
 from tensorneat.genome import DefaultGenome, BiasNode, OriginConn, HANEATMutation
 from tensorneat.genome.operations.distance import DefaultDistance
 from tensorneat.problem.rl import BraxEnv, MultiTaskBraxEnv, TaskSpec, BRAX_REFERENCE_REWARDS
-from tensorneat.common import ACT, AGG
+from tensorneat.common import ACT, AGG, capture_git_state
 
-STRUCTURAL_KEYS = {"tasks", "activation_options", "experiment_name", "mlflow_tracking", "per_task_tracking", "backend"}
+STRUCTURAL_KEYS = {"tasks", "activation_options", "experiment_name", "experiment_description", "mlflow_tracking", "per_task_tracking", "backend"}
 
 
 def load_config(path: str) -> dict:
@@ -188,11 +189,12 @@ def build_pipeline(run_config: dict) -> Pipeline:
                {"activation_options": "tanh"}
                if algorithm_type == "ha_neat_ablation" else {}),
         },
+        mlflow_experiment_description=run_config.get("experiment_description"),
         per_task_tracking=run_config.get("per_task_tracking", True),
     )
 
 
-def run_single(run_config: dict, results_dir: str) -> tuple[float, float]:
+def run_single(run_config: dict, results_dir: str, skip_existing: bool = False) -> tuple[float, float]:
     agg_mode = run_config.get("aggregation_mode", "normalized_sum")
     run_name = (
         f"{run_config['algorithm_type']}_{agg_mode}_pop{run_config['pop_size']}"
@@ -201,17 +203,26 @@ def run_single(run_config: dict, results_dir: str) -> tuple[float, float]:
         f"_compat{run_config['compatibility_threshold']}"
         f"_seed{run_config['seed']}"
     )
+    out_path = os.path.join(results_dir, f"{run_name}.npz")
+    if skip_existing and os.path.exists(out_path):
+        print(f"[{run_name}] Already exists, skipping.")
+        return float("nan"), float("nan")
     try:
         pipeline = build_pipeline(run_config)
         state = pipeline.setup()
         state, best = pipeline.auto_run(state)
 
         best_nodes, best_conns = jax.device_get(best)
+        git_state = capture_git_state()
         np.savez(
-            os.path.join(results_dir, f"{run_name}.npz"),
+            out_path,
             nodes=best_nodes,
             conns=best_conns,
             fitness=pipeline.best_fitness,
+            git_sha=git_state["git_sha"],
+            git_branch=git_state["git_branch"],
+            git_dirty=git_state["git_dirty"],
+            run_config_json=json.dumps(run_config),
         )
         print(f"[{run_name}] Best fitness: {pipeline.best_fitness:.4f}")
         return pipeline.best_fitness, pipeline.best_fitness
@@ -224,6 +235,11 @@ def run_single(run_config: dict, results_dir: str) -> tuple[float, float]:
 def main():
     parser = argparse.ArgumentParser(description="Run NEAT/HA-NEAT experiment grid")
     parser.add_argument("--config", default="config.yaml", help="Path to config YAML")
+    parser.add_argument(
+        "--skip-existing",
+        action="store_true",
+        help="Skip runs whose .npz already exists in results/<experiment>/ (resume mode)",
+    )
     args = parser.parse_args()
 
     config = load_config(args.config)
@@ -253,7 +269,7 @@ def main():
               f"aggregation_mode={run_config['aggregation_mode']}, "
               f"generation_limit={run_config['generation_limit']}, "
               f"seed={run_config['seed']}")
-        run_single(run_config, results_dir)
+        run_single(run_config, results_dir, skip_existing=args.skip_existing)
 
     print(f"\n{'='*60}")
     print(f"  All runs complete. Results saved to {results_dir}/")

@@ -8,7 +8,7 @@ import numpy as np
 
 from tensorneat.algorithm import BaseAlgorithm
 from tensorneat.problem import BaseProblem
-from tensorneat.common import State, StatefulBaseClass
+from tensorneat.common import State, StatefulBaseClass, capture_git_state
 
 
 class Pipeline(StatefulBaseClass):
@@ -28,6 +28,7 @@ class Pipeline(StatefulBaseClass):
         mlflow_run_name: str = None,
         mlflow_experiment_name: str = None,
         mlflow_extra_params: dict = None,
+        mlflow_experiment_description: str = None,
         per_task_tracking: bool = True,
     ):
         assert problem.jitable, "Currently, problem must be jitable"
@@ -42,6 +43,7 @@ class Pipeline(StatefulBaseClass):
         self.mlflow_run_name = mlflow_run_name
         self.mlflow_experiment_name = mlflow_experiment_name
         self.mlflow_extra_params = mlflow_extra_params or {}
+        self.mlflow_experiment_description = mlflow_experiment_description
         self.per_task_tracking = per_task_tracking
 
         self.eval_batch_size = eval_batch_size
@@ -104,6 +106,11 @@ class Pipeline(StatefulBaseClass):
                 mlflow.end_run()
             if self.mlflow_experiment_name:
                 mlflow.set_experiment(self.mlflow_experiment_name)
+                if self.mlflow_experiment_description:
+                    experiment = mlflow.get_experiment_by_name(self.mlflow_experiment_name)
+                    mlflow.tracking.MlflowClient().set_experiment_tag(
+                        experiment.experiment_id, "mlflow.note.content", self.mlflow_experiment_description
+                    )
             mlflow.start_run(run_name=self.mlflow_run_name)
             params = {
                 "seed": self.seed,
@@ -115,6 +122,7 @@ class Pipeline(StatefulBaseClass):
                 "num_inputs": self.algorithm.num_inputs,
                 "num_outputs": self.algorithm.num_outputs,
             }
+            params.update(capture_git_state())
             params.update(self.mlflow_extra_params)
             mlflow.log_params(params)
 
