@@ -194,7 +194,7 @@ def build_pipeline(run_config: dict) -> Pipeline:
     )
 
 
-def run_single(run_config: dict, results_dir: str) -> tuple[float, float]:
+def run_single(run_config: dict, results_dir: str, skip_existing: bool = False) -> tuple[float, float]:
     agg_mode = run_config.get("aggregation_mode", "normalized_sum")
     run_name = (
         f"{run_config['algorithm_type']}_{agg_mode}_pop{run_config['pop_size']}"
@@ -203,6 +203,10 @@ def run_single(run_config: dict, results_dir: str) -> tuple[float, float]:
         f"_compat{run_config['compatibility_threshold']}"
         f"_seed{run_config['seed']}"
     )
+    out_path = os.path.join(results_dir, f"{run_name}.npz")
+    if skip_existing and os.path.exists(out_path):
+        print(f"[{run_name}] Already exists, skipping.")
+        return float("nan"), float("nan")
     try:
         pipeline = build_pipeline(run_config)
         state = pipeline.setup()
@@ -211,7 +215,7 @@ def run_single(run_config: dict, results_dir: str) -> tuple[float, float]:
         best_nodes, best_conns = jax.device_get(best)
         git_state = capture_git_state()
         np.savez(
-            os.path.join(results_dir, f"{run_name}.npz"),
+            out_path,
             nodes=best_nodes,
             conns=best_conns,
             fitness=pipeline.best_fitness,
@@ -231,6 +235,11 @@ def run_single(run_config: dict, results_dir: str) -> tuple[float, float]:
 def main():
     parser = argparse.ArgumentParser(description="Run NEAT/HA-NEAT experiment grid")
     parser.add_argument("--config", default="config.yaml", help="Path to config YAML")
+    parser.add_argument(
+        "--skip-existing",
+        action="store_true",
+        help="Skip runs whose .npz already exists in results/<experiment>/ (resume mode)",
+    )
     args = parser.parse_args()
 
     config = load_config(args.config)
@@ -260,7 +269,7 @@ def main():
               f"aggregation_mode={run_config['aggregation_mode']}, "
               f"generation_limit={run_config['generation_limit']}, "
               f"seed={run_config['seed']}")
-        run_single(run_config, results_dir)
+        run_single(run_config, results_dir, skip_existing=args.skip_existing)
 
     print(f"\n{'='*60}")
     print(f"  All runs complete. Results saved to {results_dir}/")
