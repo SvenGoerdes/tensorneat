@@ -1,0 +1,34 @@
+experiment_name: "multi_task_neat_vs_haneat_pop200"
+experiment_description: "Small-population study. pop=200, gen=750, species_size=10, n=30 seeds per algorithm (neat, ha_neat, ha_neat_ablation). normalized_min, MJX, compat 0.3. 90 runs total, parallelized via --shard on a single A6000 GPU."
+backend: mjx
+
+tasks:
+  - env_name: hopper
+    max_step: 1000
+    obs_size: 11
+    act_size: 3
+    weight: 1.0
+  - env_name: walker2d
+    max_step: 1000
+    obs_size: 17
+    act_size: 6
+    weight: 1.0
+
+algorithm_type: [neat, ha_neat, ha_neat_ablation]
+aggregation_mode: normalized_min
+pop_size: 200
+species_size: 10
+survival_threshold: 0.3
+compatibility_threshold: 0.3
+compatibility_disjoint: 1.0
+max_stagnation: 40
+species_number_calculate_by: fitness
+max_nodes: 50
+max_conns: 200
+activation_mutate_rate: 0.1
+activation_options: [tanh, sigmoid, relu, sin, identity]
+generation_limit: 750
+fitness_target: 10000
+seed: [42, 123, 75, 7, 21, 871, 1227, 1312, 1597, 2164, 2444, 3081, 3715, 4157, 4335, 4421, 5213, 6522, 6592, 7920, 8038, 8745, 9303, 9355, 9401, 101, 202, 303, 404, 505]
+mlflow_tracking: true
+per_task_tracking: true

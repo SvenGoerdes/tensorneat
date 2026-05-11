@@ -240,10 +240,24 @@ def main():
         action="store_true",
         help="Skip runs whose .npz already exists in results/<experiment>/ (resume mode)",
     )
+    parser.add_argument(
+        "--shard",
+        default=None,
+        help="Shard the grid: 'i/N' takes every Nth run starting at index i (0..N-1). "
+             "For parallel launches on one GPU.",
+    )
     args = parser.parse_args()
 
     config = load_config(args.config)
     grid = build_grid(config)
+    grid_total = len(grid)
+
+    if args.shard is not None:
+        i_str, n_str = args.shard.replace(":", "/").split("/")
+        shard_i, shard_n = int(i_str), int(n_str)
+        assert 0 <= shard_i < shard_n, f"--shard {args.shard} invalid"
+        grid = grid[shard_i::shard_n]
+        print(f"  Shard {shard_i}/{shard_n}: running {len(grid)} of {grid_total} total runs")
 
     # Identify sweep dimensions for summary
     sweep_dims = {
