@@ -1,0 +1,346 @@
+{
+  "normalized_min": {
+    "descriptives": {
+      "neat": {
+        "n": 30,
+        "mean": 0.1879062135145399,
+        "std": 0.08830090387427608,
+        "sem": 0.016121465633345444,
+        "ci_lo": 0.1549341141265981,
+        "ci_hi": 0.2208783129024817,
+        "median": 0.18348818359375002,
+        "iqr": 0.12874334106445312,
+        "min": 0.026646435546875,
+        "max": 0.4074008544921875
+      },
+      "ha_neat": {
+        "n": 30,
+        "mean": 0.21377555216471356,
+        "std": 0.08350663757689226,
+        "sem": 0.015246156367424147,
+        "ci_lo": 0.18259366123346743,
+        "ci_hi": 0.24495744309595968,
+        "median": 0.20753408203125,
+        "iqr": 0.12418880615234373,
+        "min": 0.06118568115234375,
+        "max": 0.3685810546875
+      },
+      "ha_neat_ablation": {
+        "n": 30,
+        "mean": 0.2094728136528863,
+        "std": 0.08031183485766348,
+        "sem": 0.01466286786205733,
+        "ci_lo": 0.17948388166273166,
+        "ci_hi": 0.23946174564304096,
+        "median": 0.19933685913085936,
+        "iqr": 0.10685829467773439,
+        "min": 0.08804944458007813,
+        "max": 0.36732853190104164
+      }
+    },
+    "omnibus": {
+      "kruskal_h": 1.4830769230769647,
+      "p_kruskal": 0.4763804584549399,
+      "epsilon_sq": -0.005941644562333739
+    },
+    "pairwise": {
+      "neat_vs_ha_neat": {
+        "a": "neat",
+        "b": "ha_neat",
+        "mannwhitney_u": 368.0,
+        "p_mannwhitney": 0.22823006680742364,
+        "observed_diff": -0.025869338650173657,
+        "p_permutation": 0.2478,
+        "n_permutations": 10000,
+        "cohens_d": -0.3010260471956334,
+        "magnitude": "small",
+        "p_mannwhitney_holm": 0.6846902004222709,
+        "p_permutation_holm": 0.7434
+      },
+      "neat_vs_ha_neat_ablation": {
+        "a": "neat",
+        "b": "ha_neat_ablation",
+        "mannwhitney_u": 394.0,
+        "p_mannwhitney": 0.4119108371475996,
+        "observed_diff": -0.02156660013834641,
+        "p_permutation": 0.325,
+        "n_permutations": 10000,
+        "cohens_d": -0.2555255639800591,
+        "magnitude": "small",
+        "p_mannwhitney_holm": 0.8238216742951991,
+        "p_permutation_holm": 0.7434
+      },
+      "ha_neat_vs_ha_neat_ablation": {
+        "a": "ha_neat",
+        "b": "ha_neat_ablation",
+        "mannwhitney_u": 467.0,
+        "p_mannwhitney": 0.8072749507289148,
+        "observed_diff": 0.004302738511827248,
+        "p_permutation": 0.8409,
+        "n_permutations": 10000,
+        "cohens_d": 0.05252057899978568,
+        "magnitude": "negligible",
+        "p_mannwhitney_holm": 0.8238216742951991,
+        "p_permutation_holm": 0.8409
+      }
+    }
+  },
+  "hopper": {
+    "descriptives": {
+      "neat": {
+        "n": 30,
+        "mean": 1025.2332987467448,
+        "std": 53.02705111659832,
+        "sem": 9.681370684846803,
+        "ci_lo": 1005.4326724456215,
+        "ci_hi": 1045.033925047868,
+        "median": 1024.7713623046875,
+        "iqr": 16.001113891601562,
+        "min": 845.6696166992188,
+        "max": 1229.8765869140625
+      },
+      "ha_neat": {
+        "n": 30,
+        "mean": 971.8615529378255,
+        "std": 160.18332543608233,
+        "sem": 29.245340225844448,
+        "ci_lo": 912.0481162136725,
+        "ci_hi": 1031.6749896619785,
+        "median": 1014.2225036621094,
+        "iqr": 31.8746337890625,
+        "min": 272.3279724121094,
+        "max": 1105.7431640625
+      },
+      "ha_neat_ablation": {
+        "n": 30,
+        "mean": 1015.6308064778646,
+        "std": 71.96125569359445,
+        "sem": 13.13826766992625,
+        "ci_lo": 988.7600319930576,
+        "ci_hi": 1042.5015809626716,
+        "median": 1024.9764404296875,
+        "iqr": 28.750656127929688,
+        "min": 825.6121215820312,
+        "max": 1134.908447265625
+      }
+    },
+    "omnibus": {
+      "kruskal_h": 4.786227106227045,
+      "p_kruskal": 0.09134483366822148,
+      "epsilon_sq": 0.03202559892214994
+    },
+    "pairwise": {
+      "neat_vs_ha_neat": {
+        "a": "neat",
+        "b": "ha_neat",
+        "mannwhitney_u": 593.0,
+        "p_mannwhitney": 0.03513659994217983,
+        "observed_diff": 53.371745808919286,
+        "p_permutation": 0.0722,
+        "n_permutations": 10000,
+        "cohens_d": 0.4473303420726041,
+        "magnitude": "small",
+        "p_mannwhitney_holm": 0.1054097998265395,
+        "p_permutation_holm": 0.21660000000000001
+      },
+      "neat_vs_ha_neat_ablation": {
+        "a": "neat",
+        "b": "ha_neat_ablation",
+        "mannwhitney_u": 465.0,
+        "p_mannwhitney": 0.8302552839111963,
+        "observed_diff": 9.602492268880269,
+        "p_permutation": 0.5651,
+        "n_permutations": 10000,
+        "cohens_d": 0.15192095446532514,
+        "magnitude": "negligible",
+        "p_mannwhitney_holm": 0.8302552839111963,
+        "p_permutation_holm": 0.5651
+      },
+      "ha_neat_vs_ha_neat_ablation": {
+        "a": "ha_neat",
+        "b": "ha_neat_ablation",
+        "mannwhitney_u": 340.0,
+        "p_mannwhitney": 0.10546994652177778,
+        "observed_diff": -43.76925354003902,
+        "p_permutation": 0.1913,
+        "n_permutations": 10000,
+        "cohens_d": -0.35249035000579415,
+        "magnitude": "small",
+        "p_mannwhitney_holm": 0.21093989304355557,
+        "p_permutation_holm": 0.3826
+      }
+    }
+  },
+  "walker2d": {
+    "descriptives": {
+      "neat": {
+        "n": 30,
+        "mean": 956.7963053385416,
+        "std": 469.73921528225384,
+        "sem": 85.76225478495529,
+        "ci_lo": 781.3927996762137,
+        "ci_hi": 1132.1998110008694,
+        "median": 917.44091796875,
+        "iqr": 643.7167053222656,
+        "min": 133.232177734375,
+        "max": 2037.0042724609375
+      },
+      "ha_neat": {
+        "n": 30,
+        "mean": 1124.4237681070963,
+        "std": 433.35520231268043,
+        "sem": 79.11947323962333,
+        "ci_lo": 962.6062761674934,
+        "ci_hi": 1286.2412600466992,
+        "median": 1135.2588500976562,
+        "iqr": 702.810546875,
+        "min": 305.92840576171875,
+        "max": 1956.706787109375
+      },
+      "ha_neat_ablation": {
+        "n": 30,
+        "mean": 1072.0733327229818,
+        "std": 441.825996707799,
+        "sem": 80.66602162968826,
+        "ci_lo": 907.0927941730256,
+        "ci_hi": 1237.053871272938,
+        "median": 996.6842956542969,
+        "iqr": 534.2914733886719,
+        "min": 440.2472229003906,
+        "max": 2075.642578125
+      }
+    },
+    "omnibus": {
+      "kruskal_h": 2.146324786324783,
+      "p_kruskal": 0.3419255029898697,
+      "epsilon_sq": 0.0016818940956871604
+    },
+    "pairwise": {
+      "neat_vs_ha_neat": {
+        "a": "neat",
+        "b": "ha_neat",
+        "mannwhitney_u": 348.0,
+        "p_mannwhitney": 0.13345408758779304,
+        "observed_diff": -167.62746276855466,
+        "p_permutation": 0.1509,
+        "n_permutations": 10000,
+        "cohens_d": -0.37092818605940153,
+        "magnitude": "small",
+        "p_mannwhitney_holm": 0.4003622627633791,
+        "p_permutation_holm": 0.4527
+      },
+      "neat_vs_ha_neat_ablation": {
+        "a": "neat",
+        "b": "ha_neat_ablation",
+        "mannwhitney_u": 396.0,
+        "p_mannwhitney": 0.4289633888604326,
+        "observed_diff": -115.2770273844402,
+        "p_permutation": 0.3251,
+        "n_permutations": 10000,
+        "cohens_d": -0.2528025831770376,
+        "magnitude": "small",
+        "p_mannwhitney_holm": 0.8579267777208652,
+        "p_permutation_holm": 0.6502
+      },
+      "ha_neat_vs_ha_neat_ablation": {
+        "a": "ha_neat",
+        "b": "ha_neat_ablation",
+        "mannwhitney_u": 487.0,
+        "p_mannwhitney": 0.5894511694056184,
+        "observed_diff": 52.35043538411446,
+        "p_permutation": 0.6504,
+        "n_permutations": 10000,
+        "cohens_d": 0.11962776049089746,
+        "magnitude": "negligible",
+        "p_mannwhitney_holm": 0.8579267777208652,
+        "p_permutation_holm": 0.6504
+      }
+    }
+  },
+  "training_fitness": {
+    "descriptives": {
+      "neat": {
+        "n": 30,
+        "mean": 0.33495527803897857,
+        "std": 0.03298182483833523,
+        "sem": 0.006021629817213461,
+        "ci_lo": 0.32263966224286345,
+        "ci_hi": 0.3472708938350937,
+        "median": 0.33913983404636383,
+        "iqr": 0.01855883002281189,
+        "min": 0.25266125798225403,
+        "max": 0.4201675057411194
+      },
+      "ha_neat": {
+        "n": 30,
+        "mean": 0.33010950982570647,
+        "std": 0.03075004346210762,
+        "sem": 0.005614164149486866,
+        "ci_lo": 0.31862725489137717,
+        "ci_hi": 0.3415917647600358,
+        "median": 0.3400968760251999,
+        "iqr": 0.015902772545814514,
+        "min": 0.2557292580604553,
+        "max": 0.3832525908946991
+      },
+      "ha_neat_ablation": {
+        "n": 30,
+        "mean": 0.3375189214944839,
+        "std": 0.026513093074968762,
+        "sem": 0.004840606382131466,
+        "ci_lo": 0.3276187698358519,
+        "ci_hi": 0.34741907315311593,
+        "median": 0.34174901247024536,
+        "iqr": 0.008976317942142487,
+        "min": 0.2718818187713623,
+        "max": 0.39044997096061707
+      }
+    },
+    "omnibus": {
+      "kruskal_h": 1.3765079365079487,
+      "p_kruskal": 0.5024526018100052,
+      "epsilon_sq": -0.007166575442437372
+    },
+    "pairwise": {
+      "neat_vs_ha_neat": {
+        "a": "neat",
+        "b": "ha_neat",
+        "mannwhitney_u": 428.0,
+        "p_mannwhitney": 0.7505872315223063,
+        "observed_diff": 0.004845768213272095,
+        "p_permutation": 0.5618,
+        "n_permutations": 10000,
+        "cohens_d": 0.15197419863799935,
+        "magnitude": "negligible",
+        "p_mannwhitney_holm": 0.8238216742951991,
+        "p_permutation_holm": 1.0
+      },
+      "neat_vs_ha_neat_ablation": {
+        "a": "neat",
+        "b": "ha_neat_ablation",
+        "mannwhitney_u": 374.0,
+        "p_mannwhitney": 0.26432621279678536,
+        "observed_diff": -0.00256364345550536,
+        "p_permutation": 0.7389,
+        "n_permutations": 10000,
+        "cohens_d": -0.08567532569025024,
+        "magnitude": "negligible",
+        "p_mannwhitney_holm": 0.7929786383903561,
+        "p_permutation_holm": 1.0
+      },
+      "ha_neat_vs_ha_neat_ablation": {
+        "a": "ha_neat",
+        "b": "ha_neat_ablation",
+        "mannwhitney_u": 394.0,
+        "p_mannwhitney": 0.4119108371475996,
+        "observed_diff": -0.007409411668777455,
+        "p_permutation": 0.3092,
+        "n_permutations": 10000,
+        "cohens_d": -0.25807921259881317,
+        "magnitude": "small",
+        "p_mannwhitney_holm": 0.8238216742951991,
+        "p_permutation_holm": 0.9276
+      }
+    }
+  }
+}

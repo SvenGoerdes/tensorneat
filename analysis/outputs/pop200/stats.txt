@@ -1,0 +1,46 @@
+pop200 3-way statistical comparison
+======================================================================
+
+======================================================================
+METRIC: normalized_min
+======================================================================
+  NEAT                                n=30  mean=0.1879  sd=0.0883  sem=0.0161  95%CI=[0.1549,0.2209]
+  HA-NEAT                             n=30  mean=0.2138  sd=0.0835  sem=0.0152  95%CI=[0.1826,0.2450]
+  HA-NEAT (ablation, tanh-only)       n=30  mean=0.2095  sd=0.0803  sem=0.0147  95%CI=[0.1795,0.2395]
+  Kruskal-Wallis: H=1.483 p=0.4764 eps2=-0.006
+  neat_vs_ha_neat                        d=-0.301 (small     ) p_mwu=0.2282 holm=0.6847 p_perm=0.2478 holm=0.7434
+  neat_vs_ha_neat_ablation               d=-0.256 (small     ) p_mwu=0.4119 holm=0.8238 p_perm=0.3250 holm=0.7434
+  ha_neat_vs_ha_neat_ablation            d=0.053 (negligible) p_mwu=0.8073 holm=0.8238 p_perm=0.8409 holm=0.8409
+
+======================================================================
+METRIC: hopper
+======================================================================
+  NEAT                                n=30  mean=1025.2333  sd=53.0271  sem=9.6814  95%CI=[1005.4327,1045.0339]
+  HA-NEAT                             n=30  mean=971.8616  sd=160.1833  sem=29.2453  95%CI=[912.0481,1031.6750]
+  HA-NEAT (ablation, tanh-only)       n=30  mean=1015.6308  sd=71.9613  sem=13.1383  95%CI=[988.7600,1042.5016]
+  Kruskal-Wallis: H=4.786 p=0.0913 eps2=0.032
+  neat_vs_ha_neat                        d=0.447 (small     ) p_mwu=0.0351 holm=0.1054 p_perm=0.0722 holm=0.2166
+  neat_vs_ha_neat_ablation               d=0.152 (negligible) p_mwu=0.8303 holm=0.8303 p_perm=0.5651 holm=0.5651
+  ha_neat_vs_ha_neat_ablation            d=-0.352 (small     ) p_mwu=0.1055 holm=0.2109 p_perm=0.1913 holm=0.3826
+
+======================================================================
+METRIC: walker2d
+======================================================================
+  NEAT                                n=30  mean=956.7963  sd=469.7392  sem=85.7623  95%CI=[781.3928,1132.1998]
+  HA-NEAT                             n=30  mean=1124.4238  sd=433.3552  sem=79.1195  95%CI=[962.6063,1286.2413]
+  HA-NEAT (ablation, tanh-only)       n=30  mean=1072.0733  sd=441.8260  sem=80.6660  95%CI=[907.0928,1237.0539]
+  Kruskal-Wallis: H=2.146 p=0.3419 eps2=0.002
+  neat_vs_ha_neat                        d=-0.371 (small     ) p_mwu=0.1335 holm=0.4004 p_perm=0.1509 holm=0.4527
+  neat_vs_ha_neat_ablation               d=-0.253 (small     ) p_mwu=0.4290 holm=0.8579 p_perm=0.3251 holm=0.6502
+  ha_neat_vs_ha_neat_ablation            d=0.120 (negligible) p_mwu=0.5895 holm=0.8579 p_perm=0.6504 holm=0.6504
+
+======================================================================
+METRIC: training_fitness
+======================================================================
+  NEAT                                n=30  mean=0.3350  sd=0.0330  sem=0.0060  95%CI=[0.3226,0.3473]
+  HA-NEAT                             n=30  mean=0.3301  sd=0.0308  sem=0.0056  95%CI=[0.3186,0.3416]
+  HA-NEAT (ablation, tanh-only)       n=30  mean=0.3375  sd=0.0265  sem=0.0048  95%CI=[0.3276,0.3474]
+  Kruskal-Wallis: H=1.377 p=0.5025 eps2=-0.007
+  neat_vs_ha_neat                        d=0.152 (negligible) p_mwu=0.7506 holm=0.8238 p_perm=0.5618 holm=1.0000
+  neat_vs_ha_neat_ablation               d=-0.086 (negligible) p_mwu=0.2643 holm=0.7930 p_perm=0.7389 holm=1.0000
+  ha_neat_vs_ha_neat_ablation            d=-0.258 (small     ) p_mwu=0.4119 holm=0.8238 p_perm=0.3092 holm=0.9276
