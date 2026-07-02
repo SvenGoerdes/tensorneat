@@ -72,10 +72,10 @@ the multi-task Hopper$+$Walker2D problem and the normalized-minimum objective
 $\mathrm{fit} = \min(r_{\text{hopper}}/3000,\, r_{\text{walker2d}}/5000)$.
 
 Across the three conditions, the best-found normalized-minimum fitness showed no significant
-difference (Kruskal--Wallis $H = [\,\ldots\,]$, $p = 0.476$). The analyses that follow were
-therefore run \emph{after} this null result, to ask a different question: whether the conditions
-that reach equal fitness do so with equivalent internal structure and task balance. These are
-exploratory, post-hoc analyses and are framed as such throughout.
+difference (Kruskal--Wallis $H = [\,\ldots\,]$, $p = 0.476$). We ran the analyses that follow
+\emph{after} this null result. They ask a second question: whether conditions that reach equal
+fitness do so with equivalent internal structure and task balance. These are exploratory, post-hoc
+analyses, and we frame them as such throughout.
 \label{res:pop200-fitness}
 ```
 
@@ -91,10 +91,10 @@ exploratory, post-hoc analyses and are framed as such throughout.
 
 Because the three conditions reached statistically indistinguishable fitness
 (Section~\ref{res:pop200-fitness}), we examined whether they arrived there with equivalent genome
-structure, testing the possibility that activation diversity substitutes for topological
-complexity. For each of the 90 champion genomes (30 per condition) we counted hidden nodes and
-active connections from the raw genome arrays; the 17 input and 6 output nodes are fixed by the
-task and excluded from the hidden-node count.
+structure. This tests one reading of the null: that activation diversity substitutes for
+topological complexity. For each of the 90 champion genomes (30 per condition) we counted hidden
+nodes and active connections from the raw genome arrays. The 17 input and 6 output nodes are fixed
+by the task and excluded from the hidden-node count.
 
 The number of hidden nodes in the final champions differed across conditions
 (Figure~\ref{fig:pop200-hidden}). NEAT champions carried a median of 2.0 hidden nodes
@@ -114,8 +114,8 @@ against 24.7 (HA-NEAT) and 24.0 (ablation). Connection counts pruned in lockstep
 conditions, falling from roughly 100 to 40--44 by the final window. Species counts saturated near
 the same ceiling in every condition (final-window means 9.97 / 9.97 / 9.97; Kruskal--Wallis
 $H = 0.11$, $p = 0.945$; Figure~\ref{fig:pop200-species}), consistent with the configured target of
-$\approx 10$ species. Taken together, the conditions converged to equal fitness but not to
-equal topology, with the ablation and HA-NEAT settling on more compact networks than NEAT.
+$\approx 10$ species. The conditions therefore converged to equal fitness while ending at different
+topologies: the ablation and HA-NEAT settled on more compact networks than NEAT.
 ```
 
 Figure environments for finding 1:
@@ -188,7 +188,7 @@ large majority of genomes (Figure~\ref{fig:pop200-tradeoff}). Walker2D was the b
 $|r_{\text{hopper}} - r_{\text{walker2d}}|$ did not differ across conditions (medians 0.159 /
 0.117 / 0.142; Kruskal--Wallis $H = 3.39$, $p = 0.184$). The Hopper band sits at
 $0.34 \times 3000 \approx 1000$ raw reward, which for this environment corresponds to roughly
-1000 timesteps of the per-step healthy/alive bonus. Across every condition, then, champions solved
+1000 timesteps of the per-step healthy/alive bonus [CITE: Brax Hopper reward structure, freeman_brax_2021]. Across every condition, then, champions solved
 the multi-task problem with the same lopsided profile: a saturated Hopper score and a Walker2D
 score that carried the aggregate.
 ```
@@ -229,8 +229,8 @@ sigmoid 24\%, identity 22\%, sin 16\%, and tanh 11\%. Neither summary of diversi
 fitness across the 17 informative champions (Figure~\ref{fig:pop200-activation-fit}): activation
 entropy showed no monotonic relationship with fitness (Spearman $\rho = -0.05$, $p = 0.84$), nor
 did the fraction of non-tanh hidden nodes ($\rho = 0.27$, $p = 0.30$). With only 17 informative
-genomes these correlation tests are underpowered, so this is an absence of evidence rather than
-evidence of absence.
+genomes these correlation tests are underpowered. We therefore read the flat correlations as an
+absence of evidence, not as evidence that diversity is irrelevant.
 ```
 
 Figure environments for finding 3:
@@ -270,37 +270,36 @@ predicts fitness across the 17 champions with hidden nodes.}
 \subsection{Discussion of the pop200 analyses}
 \label{sec:pop200-discussion}
 
-Activation diversity was expected to raise multi-task fitness; it did not, but the HA-NEAT
-machinery left a structural fingerprint that the fitness comparison alone would have missed. The
-three analyses in this section were exploratory, run only after the pre-registered fitness
-comparison returned a null result, and are interpreted here as hypothesis-generating rather than
-confirmatory.
+Activation diversity did not raise multi-task fitness. The HA-NEAT machinery still left a
+structural signal that the fitness comparison alone would have missed. The three analyses in this
+section were exploratory, run only after the pre-registered fitness comparison returned a null
+result, and we read them as hypothesis-generating.
 
-The clearest structural signal is that NEAT champions were topologically larger than the
-ablation's, even though the two reached the same fitness. This is the opposite of a simple
-"NEAT with one activation" expectation, and it points to the ablation not being standard NEAT at
-all. The ablation runs the HA-NEAT mutation operator, and even with a tanh-only activation set the
+The clearest structural signal is that NEAT champions carried more hidden nodes than the
+ablation's, even though the two reached the same fitness. A naive "NEAT with one activation"
+expectation predicts the opposite, which suggests the ablation does not behave like standard NEAT.
+The ablation runs the HA-NEAT mutation operator. Even with a tanh-only activation set, the
 activation-mutation event still fires and still reassigns the historical markers on every
 connection of the chosen hidden node. The activation change is a functional no-op (tanh to tanh),
-but the marker side effect persists: reassigned markers register as disjoint genes in the
-compatibility distance and degrade crossover alignment for any genome carrying hidden nodes. A
-plausible reading is that this suppresses the spread of hidden-node structures, which would explain
-why the ablation patterns with HA-NEAT rather than with NEAT in the node counts, and would locate
-the compactness effect in the HA-NEAT machinery rather than in activation diversity itself. We
-stress that this mechanism is a hypothesis: it is consistent with the code path and with the
-observed ordering, but it was not tested directly, and the observed effect is small and rests on a
-single significant pairwise contrast.
+yet the marker side effect persists: reassigned markers register as disjoint genes in the
+compatibility distance and degrade crossover alignment for any genome carrying hidden nodes. We
+hypothesize that this suppresses the spread of hidden-node structures. That account would explain
+why the ablation tracks HA-NEAT, and not NEAT, in the node counts, and it would locate the
+compactness effect in the HA-NEAT machinery instead of in activation diversity. We stress that this
+mechanism is a hypothesis. It is consistent with the code path and with the observed ordering, but
+we did not test it directly, and the effect is small and rests on a single significant pairwise
+contrast.
 
-Within HA-NEAT, the evolved networks did use the full activation set rather than collapsing back to
-tanh, so the diversity mechanism is genuinely exercised. But no relationship between activation
-diversity and fitness was detectable, which is consistent with the headline null: on this task the
-lever HA-NEAT provides is pulled, and pulling it does not move fitness. The per-task analysis
-suggests why the task may be insensitive to it. In every condition the champions saturated Hopper
-at a low plateau and were bottlenecked by Walker2D, and the normalized-minimum objective makes
-Hopper improvements beyond the plateau selectively invisible once Hopper already exceeds Walker2D.
-The effective optimization problem degenerates toward "improve Walker2D subject to keeping Hopper
-alive," which exerts far less genuine multi-task pressure than the two-task framing implies, and
-leaves little room for any mechanism to distinguish itself.
+Within HA-NEAT, the evolved networks used the full activation set and did not collapse back to
+tanh, so the diversity mechanism is genuinely exercised. Even so, we detected no relationship
+between activation diversity and fitness, which is consistent with the headline null: on this task
+the lever HA-NEAT provides is pulled, and pulling it does not move fitness. The per-task analysis
+suggests why the task may be insensitive to that lever. In every condition the champions saturated
+Hopper at a low plateau and were bottlenecked by Walker2D. Once Hopper already exceeds Walker2D,
+the normalized-minimum objective makes further Hopper gains selectively invisible. We therefore
+read the effective optimization problem as degenerating toward "improve Walker2D subject to keeping
+Hopper alive." That regime exerts far less genuine multi-task pressure than the two-task framing
+implies, and it leaves little room for any mechanism to distinguish itself.
 
 These analyses have clear limitations. First, the hidden-node comparison rests on very small,
 heavily tied counts (medians of 0--2 hidden nodes), which weakens the rank test and inflates the
@@ -346,10 +345,11 @@ are left to future work.
    (`\textit{(a) ...}` inside minipages, lines 989–998), replace each
    `\subcaption{...}\label{...}` accordingly and move sub-labels into the main caption.
 
-4. **No new citations are strictly required.** Optional: cite Brax (`\cite{freeman_brax_2021}`,
-   already in the bib) at the first mention of Hopper's alive bonus in §2.2 if you want a source
-   for the reward structure. The marker-reassignment mechanism is internal to this work and needs
-   no citation.
+4. **Resolve the one citation marker.** §2.2 carries a `[CITE: Brax Hopper reward structure,
+   freeman_brax_2021]` marker at the alive-bonus claim; replace it with `\cite{freeman_brax_2021}`
+   (already in the bib) or drop the marker if you prefer to state the reward structure without a
+   source. No other citations are required. The marker-reassignment mechanism is internal to this
+   work and needs no citation.
 
 5. **Cross-references and build.** After pasting, update the section roadmap in
    `\subsection{Experimental overview}` (lines 960–962) so the "Section 5.x" list points at the
