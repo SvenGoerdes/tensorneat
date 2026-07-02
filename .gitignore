@@ -159,3 +159,5 @@ wiki/
 # macOS
 .DS_Store
 mlflow.db
+mlflow.db-shm
+mlflow.db-wal
