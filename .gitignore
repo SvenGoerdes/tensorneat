@@ -1,0 +1,36 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.bbl
+*.bbl-SAVE-ERROR
+*.bcf
+*.blg
+*.run.xml
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+*.nav
+*.snm
+*.vrb
+*.figlist
+*.makefile
+*.auxlock
+*.xdv
+
+# LaTeX build output directory
+build/
+
+# Compiled thesis PDF (regenerate with latexmk -pdf main.tex)
+main.pdf
+
+# latexindent backups
+*.tex.bak*
+indent.log
+
+# macOS
+.DS_Store
