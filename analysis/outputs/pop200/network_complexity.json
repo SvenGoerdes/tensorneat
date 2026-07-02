@@ -1,0 +1,1292 @@
+{
+  "records": [
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed101.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 101,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 54,
+      "fitness_normalized_min": 0.1077466064453125
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed1227.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 1227,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 35,
+      "fitness_normalized_min": 0.17245797119140624
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed123.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 123,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 62,
+      "fitness_normalized_min": 0.20102935791015625
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed1312.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 1312,
+      "n_nodes": 28,
+      "n_hidden_nodes": 5,
+      "n_connections": 68,
+      "fitness_normalized_min": 0.234409130859375
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed1597.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 1597,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 49,
+      "fitness_normalized_min": 0.36732853190104164
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed202.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 202,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 46,
+      "fitness_normalized_min": 0.3187780517578125
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed21.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 21,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 25,
+      "fitness_normalized_min": 0.2663396484375
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed2164.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 2164,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 24,
+      "fitness_normalized_min": 0.27520404052734376
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed2444.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 2444,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 45,
+      "fitness_normalized_min": 0.290337841796875
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed303.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 303,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 66,
+      "fitness_normalized_min": 0.3422120361328125
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed3081.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 3081,
+      "n_nodes": 26,
+      "n_hidden_nodes": 3,
+      "n_connections": 51,
+      "fitness_normalized_min": 0.3164920654296875
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed3715.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 3715,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 51,
+      "fitness_normalized_min": 0.147642333984375
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed404.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 404,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 45,
+      "fitness_normalized_min": 0.19410494384765625
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed4157.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 4157,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 32,
+      "fitness_normalized_min": 0.18686744384765624
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed42.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 42,
+      "n_nodes": 31,
+      "n_hidden_nodes": 8,
+      "n_connections": 52,
+      "fitness_normalized_min": 0.2197065673828125
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed4335.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 4335,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 38,
+      "fitness_normalized_min": 0.08804944458007813
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed4421.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 4421,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 46,
+      "fitness_normalized_min": 0.1887038818359375
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed505.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 505,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 41,
+      "fitness_normalized_min": 0.2246745361328125
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed5213.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 5213,
+      "n_nodes": 26,
+      "n_hidden_nodes": 3,
+      "n_connections": 50,
+      "fitness_normalized_min": 0.366279345703125
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed6522.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 6522,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 49,
+      "fitness_normalized_min": 0.10128902587890624
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed6592.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 6592,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 51,
+      "fitness_normalized_min": 0.09621251220703125
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed7.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 7,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 45,
+      "fitness_normalized_min": 0.1630678955078125
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed75.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 75,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 58,
+      "fitness_normalized_min": 0.18253597412109376
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed7920.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 7920,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 31,
+      "fitness_normalized_min": 0.229584521484375
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed8038.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 8038,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 33,
+      "fitness_normalized_min": 0.21018291015625
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed871.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 871,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 48,
+      "fitness_normalized_min": 0.13424400634765624
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed8745.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 8745,
+      "n_nodes": 27,
+      "n_hidden_nodes": 4,
+      "n_connections": 71,
+      "fitness_normalized_min": 0.218372021484375
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed9303.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 9303,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 36,
+      "fitness_normalized_min": 0.1401715087890625
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed9355.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 9355,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 46,
+      "fitness_normalized_min": 0.1025158935546875
+    },
+    {
+      "file": "ha_neat_ablation_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed9401.npz",
+      "condition": "ha_neat_ablation",
+      "seed": 9401,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 58,
+      "fitness_normalized_min": 0.1976443603515625
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed101.npz",
+      "condition": "ha_neat",
+      "seed": 101,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 79,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 2
+      },
+      "fitness_normalized_min": 0.11911708984375
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed1227.npz",
+      "condition": "ha_neat",
+      "seed": 1227,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 51,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 1,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.24402880859375
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed123.npz",
+      "condition": "ha_neat",
+      "seed": 123,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 48,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 1
+      },
+      "fitness_normalized_min": 0.245648974609375
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed1312.npz",
+      "condition": "ha_neat",
+      "seed": 1312,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 44,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 1,
+        "sin": 0,
+        "identity": 1
+      },
+      "fitness_normalized_min": 0.13956416015625
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed1597.npz",
+      "condition": "ha_neat",
+      "seed": 1597,
+      "n_nodes": 29,
+      "n_hidden_nodes": 6,
+      "n_connections": 66,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 2,
+        "relu": 1,
+        "sin": 1,
+        "identity": 2
+      },
+      "fitness_normalized_min": 0.2959194580078125
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed202.npz",
+      "condition": "ha_neat",
+      "seed": 202,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 62,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 1,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.3411301676432292
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed21.npz",
+      "condition": "ha_neat",
+      "seed": 21,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 30,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.1866965576171875
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed2164.npz",
+      "condition": "ha_neat",
+      "seed": 2164,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 60,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.2963224853515625
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed2444.npz",
+      "condition": "ha_neat",
+      "seed": 2444,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 43,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.1651333251953125
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed303.npz",
+      "condition": "ha_neat",
+      "seed": 303,
+      "n_nodes": 29,
+      "n_hidden_nodes": 6,
+      "n_connections": 93,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 2,
+        "relu": 2,
+        "sin": 2,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.1666359375
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed3081.npz",
+      "condition": "ha_neat",
+      "seed": 3081,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 62,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.07906806030273437
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed3715.npz",
+      "condition": "ha_neat",
+      "seed": 3715,
+      "n_nodes": 38,
+      "n_hidden_nodes": 15,
+      "n_connections": 85,
+      "hidden_activation_counts": {
+        "tanh": 1,
+        "sigmoid": 3,
+        "relu": 4,
+        "sin": 3,
+        "identity": 4
+      },
+      "fitness_normalized_min": 0.1508670166015625
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed404.npz",
+      "condition": "ha_neat",
+      "seed": 404,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 45,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.25698954264322915
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed4157.npz",
+      "condition": "ha_neat",
+      "seed": 4157,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 52,
+      "hidden_activation_counts": {
+        "tanh": 1,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.09077599080403646
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed42.npz",
+      "condition": "ha_neat",
+      "seed": 42,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 37,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.2125521728515625
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed4335.npz",
+      "condition": "ha_neat",
+      "seed": 4335,
+      "n_nodes": 27,
+      "n_hidden_nodes": 4,
+      "n_connections": 54,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 2,
+        "relu": 1,
+        "sin": 1,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.1564911376953125
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed4421.npz",
+      "condition": "ha_neat",
+      "seed": 4421,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 30,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.279270361328125
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed505.npz",
+      "condition": "ha_neat",
+      "seed": 505,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 37,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.2025159912109375
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed5213.npz",
+      "condition": "ha_neat",
+      "seed": 5213,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 64,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.26692763671875
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed6522.npz",
+      "condition": "ha_neat",
+      "seed": 6522,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 43,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.13425767822265625
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed6592.npz",
+      "condition": "ha_neat",
+      "seed": 6592,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 63,
+      "hidden_activation_counts": {
+        "tanh": 1,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 1,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.15039710693359376
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed7.npz",
+      "condition": "ha_neat",
+      "seed": 7,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 55,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.1553824462890625
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed75.npz",
+      "condition": "ha_neat",
+      "seed": 75,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 54,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 1,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.06118568115234375
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed7920.npz",
+      "condition": "ha_neat",
+      "seed": 7920,
+      "n_nodes": 26,
+      "n_hidden_nodes": 3,
+      "n_connections": 59,
+      "hidden_activation_counts": {
+        "tanh": 1,
+        "sigmoid": 1,
+        "relu": 1,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.331123974609375
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed8038.npz",
+      "condition": "ha_neat",
+      "seed": 8038,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 49,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 1,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.3424160970052083
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed871.npz",
+      "condition": "ha_neat",
+      "seed": 871,
+      "n_nodes": 30,
+      "n_hidden_nodes": 7,
+      "n_connections": 70,
+      "hidden_activation_counts": {
+        "tanh": 2,
+        "sigmoid": 0,
+        "relu": 4,
+        "sin": 0,
+        "identity": 1
+      },
+      "fitness_normalized_min": 0.1856402099609375
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed8745.npz",
+      "condition": "ha_neat",
+      "seed": 8745,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 48,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 1,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.2415513671875
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed9303.npz",
+      "condition": "ha_neat",
+      "seed": 9303,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 51,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.2967610107421875
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed9355.npz",
+      "condition": "ha_neat",
+      "seed": 9355,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 34,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 0
+      },
+      "fitness_normalized_min": 0.2503150634765625
+    },
+    {
+      "file": "ha_neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed9401.npz",
+      "condition": "ha_neat",
+      "seed": 9401,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 48,
+      "hidden_activation_counts": {
+        "tanh": 0,
+        "sigmoid": 0,
+        "relu": 0,
+        "sin": 0,
+        "identity": 1
+      },
+      "fitness_normalized_min": 0.3685810546875
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed101.npz",
+      "condition": "neat",
+      "seed": 101,
+      "n_nodes": 26,
+      "n_hidden_nodes": 3,
+      "n_connections": 67,
+      "fitness_normalized_min": 0.15879498291015626
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed1227.npz",
+      "condition": "neat",
+      "seed": 1227,
+      "n_nodes": 26,
+      "n_hidden_nodes": 3,
+      "n_connections": 55,
+      "fitness_normalized_min": 0.05355551147460937
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed123.npz",
+      "condition": "neat",
+      "seed": 123,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 69,
+      "fitness_normalized_min": 0.15831568603515625
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed1312.npz",
+      "condition": "neat",
+      "seed": 1312,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 58,
+      "fitness_normalized_min": 0.16727652587890626
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed1597.npz",
+      "condition": "neat",
+      "seed": 1597,
+      "n_nodes": 28,
+      "n_hidden_nodes": 5,
+      "n_connections": 40,
+      "fitness_normalized_min": 0.2826066162109375
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed202.npz",
+      "condition": "neat",
+      "seed": 202,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 36,
+      "fitness_normalized_min": 0.240395947265625
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed21.npz",
+      "condition": "neat",
+      "seed": 21,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 41,
+      "fitness_normalized_min": 0.256858935546875
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed2164.npz",
+      "condition": "neat",
+      "seed": 2164,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 79,
+      "fitness_normalized_min": 0.12193663330078125
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed2444.npz",
+      "condition": "neat",
+      "seed": 2444,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 44,
+      "fitness_normalized_min": 0.2352234619140625
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed303.npz",
+      "condition": "neat",
+      "seed": 303,
+      "n_nodes": 28,
+      "n_hidden_nodes": 5,
+      "n_connections": 61,
+      "fitness_normalized_min": 0.2142357421875
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed3081.npz",
+      "condition": "neat",
+      "seed": 3081,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 43,
+      "fitness_normalized_min": 0.2750037109375
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed3715.npz",
+      "condition": "neat",
+      "seed": 3715,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 53,
+      "fitness_normalized_min": 0.026646435546875
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed404.npz",
+      "condition": "neat",
+      "seed": 404,
+      "n_nodes": 27,
+      "n_hidden_nodes": 4,
+      "n_connections": 47,
+      "fitness_normalized_min": 0.246289306640625
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed4157.npz",
+      "condition": "neat",
+      "seed": 4157,
+      "n_nodes": 26,
+      "n_hidden_nodes": 3,
+      "n_connections": 36,
+      "fitness_normalized_min": 0.226783642578125
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed42.npz",
+      "condition": "neat",
+      "seed": 42,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 52,
+      "fitness_normalized_min": 0.12987183837890626
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed4335.npz",
+      "condition": "neat",
+      "seed": 4335,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 90,
+      "fitness_normalized_min": 0.1101047119140625
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed4421.npz",
+      "condition": "neat",
+      "seed": 4421,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 70,
+      "fitness_normalized_min": 0.1058386962890625
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed505.npz",
+      "condition": "neat",
+      "seed": 505,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 70,
+      "fitness_normalized_min": 0.050012896728515624
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed5213.npz",
+      "condition": "neat",
+      "seed": 5213,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 27,
+      "fitness_normalized_min": 0.13656041259765625
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed6522.npz",
+      "condition": "neat",
+      "seed": 6522,
+      "n_nodes": 26,
+      "n_hidden_nodes": 3,
+      "n_connections": 44,
+      "fitness_normalized_min": 0.3281018310546875
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed6592.npz",
+      "condition": "neat",
+      "seed": 6592,
+      "n_nodes": 34,
+      "n_hidden_nodes": 11,
+      "n_connections": 55,
+      "fitness_normalized_min": 0.19306693115234375
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed7.npz",
+      "condition": "neat",
+      "seed": 7,
+      "n_nodes": 23,
+      "n_hidden_nodes": 0,
+      "n_connections": 56,
+      "fitness_normalized_min": 0.2547885986328125
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed75.npz",
+      "condition": "neat",
+      "seed": 75,
+      "n_nodes": 26,
+      "n_hidden_nodes": 3,
+      "n_connections": 37,
+      "fitness_normalized_min": 0.09041812744140625
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed7920.npz",
+      "condition": "neat",
+      "seed": 7920,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 38,
+      "fitness_normalized_min": 0.1107377197265625
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed8038.npz",
+      "condition": "neat",
+      "seed": 8038,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 88,
+      "fitness_normalized_min": 0.1844491943359375
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed871.npz",
+      "condition": "neat",
+      "seed": 871,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 39,
+      "fitness_normalized_min": 0.28188987223307294
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed8745.npz",
+      "condition": "neat",
+      "seed": 8745,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 46,
+      "fitness_normalized_min": 0.13791142578125
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed9303.npz",
+      "condition": "neat",
+      "seed": 9303,
+      "n_nodes": 25,
+      "n_hidden_nodes": 2,
+      "n_connections": 50,
+      "fitness_normalized_min": 0.2695829833984375
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed9355.npz",
+      "condition": "neat",
+      "seed": 9355,
+      "n_nodes": 26,
+      "n_hidden_nodes": 3,
+      "n_connections": 42,
+      "fitness_normalized_min": 0.4074008544921875
+    },
+    {
+      "file": "neat_normalized_min_pop200_gen750_disjoint1.0_compat0.3_seed9401.npz",
+      "condition": "neat",
+      "seed": 9401,
+      "n_nodes": 24,
+      "n_hidden_nodes": 1,
+      "n_connections": 37,
+      "fitness_normalized_min": 0.1825271728515625
+    }
+  ],
+  "stats": {
+    "n_hidden_nodes": {
+      "descriptives": {
+        "neat": {
+          "n": 30,
+          "mean": 2.1666666666666665,
+          "std": 2.166887698716889,
+          "median": 2.0,
+          "q1": 1.0,
+          "q3": 3.0,
+          "min": 0.0,
+          "max": 11.0
+        },
+        "ha_neat": {
+          "n": 30,
+          "mean": 1.8333333333333333,
+          "std": 3.1631862301225295,
+          "median": 1.0,
+          "q1": 0.0,
+          "q3": 2.0,
+          "min": 0.0,
+          "max": 15.0
+        },
+        "ha_neat_ablation": {
+          "n": 30,
+          "mean": 1.2,
+          "std": 1.864366398797596,
+          "median": 0.0,
+          "q1": 0.0,
+          "q3": 2.0,
+          "min": 0.0,
+          "max": 8.0
+        }
+      },
+      "omnibus": {
+        "kruskal_h": 7.450641752942854,
+        "p_kruskal": 0.024105364341466998,
+        "epsilon_sq": 0.06265105463152705
+      },
+      "pairwise": {
+        "neat_vs_ha_neat": {
+          "a": "neat",
+          "b": "ha_neat",
+          "U": 579.5,
+          "p_mwu": 0.05013115613495225,
+          "rank_biserial": -0.2877777777777777,
+          "cliffs_delta": 0.2877777777777778,
+          "magnitude": "small",
+          "p_holm": 0.1002623122699045
+        },
+        "neat_vs_ha_neat_ablation": {
+          "a": "neat",
+          "b": "ha_neat_ablation",
+          "U": 619.5,
+          "p_mwu": 0.009905238372097603,
+          "rank_biserial": -0.3766666666666667,
+          "cliffs_delta": 0.37666666666666665,
+          "magnitude": "medium",
+          "p_holm": 0.02971571511629281
+        },
+        "ha_neat_vs_ha_neat_ablation": {
+          "a": "ha_neat",
+          "b": "ha_neat_ablation",
+          "U": 491.5,
+          "p_mwu": 0.517060822785583,
+          "rank_biserial": -0.0922222222222222,
+          "cliffs_delta": 0.09222222222222222,
+          "magnitude": "negligible",
+          "p_holm": 0.517060822785583
+        }
+      }
+    },
+    "n_connections": {
+      "descriptives": {
+        "neat": {
+          "n": 30,
+          "mean": 52.333333333333336,
+          "std": 15.942425146138524,
+          "median": 48.5,
+          "q1": 40.25,
+          "q3": 60.25,
+          "min": 27.0,
+          "max": 90.0
+        },
+        "ha_neat": {
+          "n": 30,
+          "mean": 53.86666666666667,
+          "std": 15.069341640272954,
+          "median": 51.5,
+          "q1": 44.25,
+          "q3": 62.0,
+          "min": 30.0,
+          "max": 93.0
+        },
+        "ha_neat_ablation": {
+          "n": 30,
+          "mean": 46.86666666666667,
+          "std": 11.848856581917538,
+          "median": 47.0,
+          "q1": 38.75,
+          "q3": 51.75,
+          "min": 24.0,
+          "max": 71.0
+        }
+      },
+      "omnibus": {
+        "kruskal_h": 2.819040910426556,
+        "p_kruskal": 0.2442603888685599,
+        "epsilon_sq": 0.009414263338236277
+      },
+      "pairwise": {
+        "neat_vs_ha_neat": {
+          "a": "neat",
+          "b": "ha_neat",
+          "U": 409.0,
+          "p_mwu": 0.5491213694564602,
+          "rank_biserial": 0.09111111111111114,
+          "cliffs_delta": -0.09111111111111111,
+          "magnitude": "negligible",
+          "p_holm": 0.6433335536265661
+        },
+        "neat_vs_ha_neat_ablation": {
+          "a": "neat",
+          "b": "ha_neat_ablation",
+          "U": 517.5,
+          "p_mwu": 0.32166677681328304,
+          "rank_biserial": -0.1499999999999999,
+          "cliffs_delta": 0.15,
+          "magnitude": "small",
+          "p_holm": 0.6433335536265661
+        },
+        "ha_neat_vs_ha_neat_ablation": {
+          "a": "ha_neat",
+          "b": "ha_neat_ablation",
+          "U": 564.0,
+          "p_mwu": 0.09305862521825005,
+          "rank_biserial": -0.2533333333333334,
+          "cliffs_delta": 0.25333333333333335,
+          "magnitude": "small",
+          "p_holm": 0.27917587565475016
+        }
+      }
+    },
+    "n_nodes": {
+      "descriptives": {
+        "neat": {
+          "n": 30,
+          "mean": 25.166666666666668,
+          "std": 2.1668876987168884,
+          "median": 25.0,
+          "q1": 24.0,
+          "q3": 26.0,
+          "min": 23.0,
+          "max": 34.0
+        },
+        "ha_neat": {
+          "n": 30,
+          "mean": 24.833333333333332,
+          "std": 3.1631862301225295,
+          "median": 24.0,
+          "q1": 23.0,
+          "q3": 25.0,
+          "min": 23.0,
+          "max": 38.0
+        },
+        "ha_neat_ablation": {
+          "n": 30,
+          "mean": 24.2,
+          "std": 1.864366398797596,
+          "median": 23.0,
+          "q1": 23.0,
+          "q3": 25.0,
+          "min": 23.0,
+          "max": 31.0
+        }
+      },
+      "omnibus": {
+        "kruskal_h": 7.450641752942854,
+        "p_kruskal": 0.024105364341466998,
+        "epsilon_sq": 0.06265105463152705
+      },
+      "pairwise": {
+        "neat_vs_ha_neat": {
+          "a": "neat",
+          "b": "ha_neat",
+          "U": 579.5,
+          "p_mwu": 0.05013115613495225,
+          "rank_biserial": -0.2877777777777777,
+          "cliffs_delta": 0.2877777777777778,
+          "magnitude": "small",
+          "p_holm": 0.1002623122699045
+        },
+        "neat_vs_ha_neat_ablation": {
+          "a": "neat",
+          "b": "ha_neat_ablation",
+          "U": 619.5,
+          "p_mwu": 0.009905238372097603,
+          "rank_biserial": -0.3766666666666667,
+          "cliffs_delta": 0.37666666666666665,
+          "magnitude": "medium",
+          "p_holm": 0.02971571511629281
+        },
+        "ha_neat_vs_ha_neat_ablation": {
+          "a": "ha_neat",
+          "b": "ha_neat_ablation",
+          "U": 491.5,
+          "p_mwu": 0.517060822785583,
+          "rank_biserial": -0.0922222222222222,
+          "cliffs_delta": 0.09222222222222222,
+          "magnitude": "negligible",
+          "p_holm": 0.517060822785583
+        }
+      }
+    }
+  },
+  "correlations": {
+    "n_connections": {
+      "neat": {
+        "n": 30,
+        "rho": -0.3681692278463946,
+        "p": 0.04530634972040734
+      },
+      "ha_neat": {
+        "n": 30,
+        "rho": -0.14342993302983215,
+        "p": 0.44956567560363886
+      },
+      "ha_neat_ablation": {
+        "n": 30,
+        "rho": 0.041889534018533854,
+        "p": 0.8260382380300817
+      },
+      "pooled": {
+        "n": 90,
+        "rho": -0.18462186355625507,
+        "p": 0.08150805556111186
+      }
+    },
+    "n_hidden_nodes": {
+      "neat": {
+        "n": 30,
+        "rho": 0.3264399709056496,
+        "p": 0.07830542134147118
+      },
+      "ha_neat": {
+        "n": 30,
+        "rho": -0.12856346114742778,
+        "p": 0.49836280598268695
+      },
+      "ha_neat_ablation": {
+        "n": 30,
+        "rho": 0.12656979919959754,
+        "p": 0.5051028219709738
+      },
+      "pooled": {
+        "n": 90,
+        "rho": 0.061484431902233426,
+        "p": 0.5648287372132486
+      }
+    }
+  },
+  "haneat_activation_totals": {
+    "tanh": 6,
+    "sigmoid": 13,
+    "relu": 15,
+    "sin": 9,
+    "identity": 12
+  }
+}

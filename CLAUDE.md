@@ -56,22 +56,18 @@ See `REFERENCE.md` for internals (HA-NEAT mechanism, pipeline details, aggregati
 - NEAT: 10 seeds (5 × compat0.3 + 5 × compat0.5), all FINISHED
 - HA-NEAT: 14 seeds total across both experiments (dedup needed for compat0.3 duplicates)
 
-## Server access
+## Server access (no longer available)
 
-Training runs and the canonical `mlflow.db` (~580 MB) live on the Nova GPU server.
+Training previously ran on a Nova GPU server (`ssh 20240503@10.10.80.3`). **That access has been permanently lost — the SSH command no longer works and there is no way to reach the server.** All experiment work now must run locally; do not suggest SSH, rsync from the server, or `git pull`-to-sync-from-server as a next step.
 
-```bash
-ssh 20240503@10.10.80.3
-cd /home/20240503/tensorneat
-```
+Data availability (checked locally on 2026-07-02):
+- `mlflow.db` (~847 MB) — **present locally** in the repo root, already synced.
+- `results/<experiment>/*.npz` — **present locally**, 221 genome files across all experiments (gitignored, not on GitHub).
+- `eval/outputs/*.json` — **present locally** (re-evaluation results).
+- `analysis/outputs/` — **present locally**, populated with prior analysis runs.
+- `output*.log`, `logs/*.log` — **not present locally**. These training stdout logs only ever lived on the server and are now unrecoverable.
 
-SSH key auth is set up — no password needed. The server tracks the same git remote (`origin`); pull with `git pull` to sync code changes.
-
-What lives on the server but not on the laptop / GitHub (intentionally):
-- `mlflow.db` — too large for GitHub; rsync to laptop when needed for local analysis
-- `results/<experiment>/*.npz` — trained genomes (gitignored)
-- `output*.log`, `logs/*.log` — training stdout (gitignored)
-- `analysis/outputs/multi_task_*_*/` — timestamped intermediate analysis runs (gitignored)
+Since the local `mlflow.db` and `results/*.npz` already cover everything needed for analysis, this is not expected to block ongoing work — but any server-only artifact not already synced (raw stdout logs, anything not listed above as present) is permanently gone.
 
 ## Key Directories
 
