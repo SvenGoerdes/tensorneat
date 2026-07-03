@@ -135,8 +135,8 @@ pyproject.toml
 # genome folder
 results/
 
-# Claude skills
-.Claude/skills/
+# Claude local settings (machine-specific; skills + principles are tracked)
+.claude/settings.local.json
 
 # MLflow — too large for GitHub (>100MB), sync via rsync from server
 mlflow.db
@@ -153,8 +153,8 @@ analysis/outputs/multi_task_neat_vs_haneat_final_*/
 # One-off run configs
 config_haneat_reduced_seed871.yaml
 
-# Wiki system
-wiki/
+# Wiki system (root-level knowledge base only, not .claude/skills/wiki)
+/wiki/
 
 # macOS
 .DS_Store
