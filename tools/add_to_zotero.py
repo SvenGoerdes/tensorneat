@@ -22,6 +22,7 @@ import argparse
 import json
 import os
 import sys
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -29,6 +30,7 @@ from pyzotero import zotero
 
 CREDENTIALS_PATH = Path.home() / ".config" / "zotero" / "credentials.json"
 CROSSREF_URL = "https://api.crossref.org/works/{doi}"
+DATACITE_URL = "https://api.datacite.org/dois/{doi}"
 
 
 def load_credentials() -> tuple[str, str]:
@@ -47,15 +49,26 @@ def load_credentials() -> tuple[str, str]:
     )
 
 
-def crossref_metadata(doi: str) -> dict:
-    """Fetch metadata for a DOI from CrossRef and map it to Zotero item fields."""
+def _fetch_json(url: str) -> dict | None:
+    """GET a JSON URL, returning None on 404 so callers can fall back."""
     request = urllib.request.Request(
-        CROSSREF_URL.format(doi=doi),
-        headers={"User-Agent": "add_to_zotero.py (mailto:sven@goerdes.com)"},
+        url, headers={"User-Agent": "add_to_zotero.py (mailto:sven@goerdes.com)"}
     )
-    with urllib.request.urlopen(request, timeout=15) as response:
-        work = json.load(response)["message"]
+    try:
+        with urllib.request.urlopen(request, timeout=15) as response:
+            return json.load(response)
+    except urllib.error.HTTPError as error:
+        if error.code == 404:
+            return None
+        raise
 
+
+def crossref_metadata(doi: str) -> dict | None:
+    """Map CrossRef metadata to Zotero item fields; None if the DOI is unknown there."""
+    payload = _fetch_json(CROSSREF_URL.format(doi=doi))
+    if payload is None:
+        return None
+    work = payload["message"]
     creators = [
         {
             "creatorType": "author",
@@ -76,6 +89,38 @@ def crossref_metadata(doi: str) -> dict:
         "pages": work.get("page", ""),
         "url": work.get("URL", ""),
     }
+
+
+def datacite_metadata(doi: str) -> dict | None:
+    """Map DataCite metadata to Zotero item fields (covers arXiv 10.48550 DOIs)."""
+    payload = _fetch_json(DATACITE_URL.format(doi=doi))
+    if payload is None:
+        return None
+    attrs = payload["data"]["attributes"]
+    creators = [
+        {
+            "creatorType": "author",
+            "firstName": person.get("givenName", ""),
+            "lastName": person.get("familyName", "") or person.get("name", ""),
+        }
+        for person in attrs.get("creators", [])
+    ]
+    titles = attrs.get("titles") or [{}]
+    return {
+        "title": titles[0].get("title", ""),
+        "creators": creators,
+        "date": str(attrs.get("publicationYear", "")),
+        "DOI": doi,
+        "url": attrs.get("url", ""),
+    }
+
+
+def fetch_metadata(doi: str) -> dict:
+    """Resolve DOI metadata via CrossRef, falling back to DataCite (arXiv etc.)."""
+    meta = crossref_metadata(doi) or datacite_metadata(doi)
+    if meta is None:
+        sys.exit(f"DOI {doi} not found in CrossRef or DataCite.")
+    return meta
 
 
 def find_collection_key(zot: zotero.Zotero, name: str) -> str:
@@ -109,8 +154,8 @@ def main() -> None:
 
     item = zot.item_template(args.item_type)
     if args.doi:
-        print(f"Fetching CrossRef metadata for {args.doi} ...")
-        fetched = crossref_metadata(args.doi)
+        print(f"Fetching metadata for {args.doi} ...")
+        fetched = fetch_metadata(args.doi)
         item.update({k: v for k, v in fetched.items() if k in item and v})
     if args.title:
         item["title"] = args.title
