@@ -69,6 +69,19 @@ Data availability (checked locally on 2026-07-02):
 
 Since the local `mlflow.db` and `results/*.npz` already cover everything needed for analysis, this is not expected to block ongoing work — but any server-only artifact not already synced (raw stdout logs, anything not listed above as present) is permanently gone.
 
+## Zotero
+
+PDFs can be added to the user's Zotero library via `tools/add_to_zotero.py` (Web API, pyzotero via PEP 723 inline deps — no project dependency):
+
+```bash
+uv run tools/add_to_zotero.py paper.pdf --doi 10.48550/arXiv.2106.13281 --collection "Thesis"
+uv run tools/add_to_zotero.py paper.pdf --title "Some Paper" --item-type preprint
+```
+
+- Credentials live in `~/.config/zotero/credentials.json` (`user_id` + `api_key`, key needs personal-library write access). Never print or commit the key.
+- Items go to the cloud library and appear in the desktop app on next sync.
+- The local Zotero HTTP API (port 23119) is read-only — useless for adding items. Better BibTeX is installed (JSON-RPC on the same port) for citekey lookups.
+
 ## Key Directories
 
 ```
@@ -88,6 +101,8 @@ text/                        # Older Markdown drafts (superseded by thesis/main.
     plot_training_curves.py       # Training curves from MLflow SQLite
     plot_evaluation_results.py    # Bar plots from re-evaluation JSON
     statistical_test.py           # Mann-Whitney U, permutation test, Cohen's d
+tools/
+  add_to_zotero.py           # Upload PDF + metadata to Zotero (see Zotero section)
 src/tensorneat/              # Library source
 docs/FEATURE_LOG.md          # Running log of all implemented features
 REFERENCE.md                 # Detailed implementation notes
