@@ -78,8 +78,12 @@ eval/
   evaluate_genomes.py        # Batch re-evaluate .npz genomes → JSON
   outputs/                   # JSON re-evaluation results
 results/                     # Best genomes saved as .npz per run
-text/
-  results_and_discussion.md  # Thesis Results & Discussion draft
+thesis/                      # Master thesis LaTeX source (subtree-merged from the former
+  main.tex                   #   github.com/SvenGoerdes/master-thesis repo — canonical thesis text)
+  master_thesis.bib          # Bibliography
+  Figures/                   # Thesis figures
+text/                        # Older Markdown drafts (superseded by thesis/main.tex)
+  results_and_discussion.md  # Thesis Results & Discussion draft (Markdown, legacy)
   figures/                   # Plotting + stats scripts
     plot_training_curves.py       # Training curves from MLflow SQLite
     plot_evaluation_results.py    # Bar plots from re-evaluation JSON
