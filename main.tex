@@ -233,7 +233,7 @@ This allows the network to learn faster. A simple ANN trained on the CIFAR-10 da
 \label{fig:activation-functions}
 \end{figure}
 
-Artificial neural networks typically only use one activation function across every node (\cite{tutuncuoglu_neuronlevel_2025}). 
+Artificial neural networks typically only use one activation function across every node (\cite{dubey_activation_2022}). 
 Biological neurons, in contrast, vary in their response properties even within a single cell type, and this diversity allows a population of neurons to encode roughly 
 twice as much information as an equivalent homogeneous population (\cite{padmanabhan_intrinsic_2010}).
 
@@ -386,7 +386,10 @@ This thesis hypothesizes that by providing a set of activation functions, evolut
 can explicitly assign these specialized mathematical ”personalities” to specific neurons,
 thereby organically modularizing the control policy.
 
-To evaluate the efficacy of heterogeneous activation functions in high-dimensional continuous control, this research uses two Brax locomotion environments (\cite{freeman_brax_2021}): Hopper and Walker2D. A single evolved network must control both bodies at once using one shared set of weights. The two tasks require diverse motor skills, from single-leg hopping to bipedal balance and forward propulsion. This setting is suited for this study because the two environments differ in observation dimensionality and body dynamics, challenging a single genome to generalize across both. While approaches such as Mixture-of-World (MoW) models address this heterogeneity by explicitly engineering diverse expert modules (\cite{zhang_mixture_2025}), this thesis posits that a heterogeneous neural network based on the NEAT algorithm can emergently discover similar functional modularity by evolving a diverse population of neurons tailored to the two locomotion tasks.
+To evaluate the efficacy of heterogeneous activation functions in high-dimensional continuous control, this research uses two Brax locomotion environments (\cite{freeman_brax_2021}): Hopper and Walker2D. 
+A single evolved network must control both bodies at once using one shared set of weights. 
+The two tasks require diverse motor skills, from single-leg hopping to bipedal balance and forward propulsion. 
+This setting is suited for this study because the two environments differ in observation dimensionality and body dynamics, challenging a single genome to generalize across both. While approaches such as Mixture-of-World (MoW) models address this heterogeneity by explicitly engineering diverse expert modules (\cite{zhang_mixtureofworld_2026}), this thesis posits that a heterogeneous neural network based on the NEAT algorithm can emergently discover similar functional modularity by evolving a diverse population of neurons tailored to the two locomotion tasks.
 
 % ---------------------------------------------------------------------
 % 1.8
