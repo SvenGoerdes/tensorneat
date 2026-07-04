@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[margin=1in]{geometry}
+\usepackage{float}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{tikz-cd}
@@ -103,16 +104,27 @@
 \section{Literature Review}
 
 
-\subsection{Structural differencies in the brain and in artificial neural Networks}
+\subsection{Structural Differences in the Brain and in Artificial Neural Networks}
 
 
-Unlike Artificial Neural Networks (ANNs), the human brain is a non-static and continuously changing network. Neural cells form new connections throughout time and rewire to adapt to the current environment (\cite{pascualleone_plastic_2005,holtmaat_experience-dependent_2009}). Cells are constantly rewiring and find new pathways to best represent the environment the human body is experiencing. Human learning yields measurable structural plasticity, demonstrating that adaptation is supported by tangible architectural reconfiguration of the brain (\cite{draganski_changes_2004}).
+Unlike Artificial Neural Networks (ANNs), the human brain is a non-static and continuously changing network.
+Neural cells form new connections throughout time and rewire to adapt to the current environment (\cite{pascualleone_plastic_2005,holtmaat_experience-dependent_2009}).
+Cells are constantly rewiring and find new pathways to best represent the environment the human body is experiencing.
+Human learning yields measurable structural plasticity, demonstrating that adaptation is supported by tangible architectural reconfiguration of the brain (\cite{draganski_changes_2004}).
 
-In contrast, ANNs typically rely on static connections. We create the structure of the neural, network before we start training it. Hence, the topology of the ANN is fixed. Therefore, it is not possible for artificial intelligence (AI) to create new connections to different neurons while being trained. We solely rely on adapting the weights of the ANN through a process called backpropagation (\cite{rumelhart_learning_1986}). Inspired by biological learning, backpropagation can be seen as a simplified mathematical way to change synaptic strengths: the network keeps its wiring, but the "strength" of each connection is adjusted during training. However, classical approaches with backpropagation do not allow to adjust and change the topology of the ANNs.
+In contrast, ANNs typically rely on static connections.
+We create the structure of the neural network before we start training it.
+Hence, the topology of the ANN is fixed.
+Therefore, it is not possible for the ANN to create new connections while being trained.
+We solely rely on adapting the weights of the ANN through a process called backpropagation (\cite{rumelhart_learning_1986}).
+Inspired by biological learning, backpropagation can be seen as a simplified mathematical way to change synaptic strengths: the network keeps its wiring, but the "strength" of each connection is adjusted during training.
+However, classical approaches with backpropagation do not allow us to adjust and change the topology of the ANNs.
 
-Biological neurons also differ in their built-in response. 
-Two neurons can receive the same input and react differently, because their internal properties determine how each one transforms it (\cite{drion_ion_2015}). 
-This variety is functionally useful. A population of differently responding neurons encodes information more effectively than a uniform one (\cite{tripathy_intermediate_2013}), and adding similar variety to artificial networks improves how well they learn (\cite{perez-nieves_neural_2021}). A single activation function shared across every node discards this source of variety.
+Biological neurons also differ in their built-in response.
+Two neurons can receive the same input and react differently, because their internal properties determine how each one transforms it (\cite{drion_ion_2015}).
+This variety is functionally useful.
+A population of differently responding neurons encodes information more effectively than a uniform one (\cite{tripathy_intermediate_2013}), and adding similar variety to artificial networks improves how well they learn (\cite{perez-nieves_neural_2021}).
+A single activation function shared across every node discards this source of variety.
 
 
 
@@ -120,6 +132,7 @@ This variety is functionally useful. A population of differently responding neur
 % 1.2
 % ---------------------------------------------------------------------
 \subsection{Neuroevolution and the TWEANN Problem}
+\label{subsec:neuroevolution}
 % PURPOSE: introduce neuroevolution; motivate why evolving *topology*
 %          (not only weights) is hard.
 % COVER:
@@ -135,17 +148,33 @@ This variety is functionally useful. A population of differently responding neur
 
 % >>> write 1.1 here
 
-An alternative approach to evolving ANNs is Neuroevolution. Neuroevolution uses a evolutionary/genetic algorithm approach to design and train ANNs. Selection crossover and mutation produce the next generation. Not only can the connection weights change throughout the training process but also its topology. Topology and weight evolving artificial neural networks (TWEANNs) are able to discover novel topological solutions and remove the manual design choice that one faces in the classical approach.
+An alternative approach to evolving ANNs is Neuroevolution.
+Neuroevolution uses a evolutionary/genetic algorithm approach to design and train ANNs.
+Selection crossover and mutation produce the next generation.
+Not only can the connection weights change throughout the training process but also its topology.
+Topology and weight evolving artificial neural networks (TWEANNs) are able to discover novel topological solutions and remove the manual design choice that one faces in the classical approach (\cite{stanley_designing_2019}).
 
-A central obstacle for any method that evolves topology is that the same network function can be encoded by genomes whose nodes appear in different orders. Because crossover recombines genomes by position, it can produce offsprings that lose structures both parents possessed or that duplicate them incoherently. Recombination then destroys the innovations it should preserve. A TWEANN method therefore needs a way to identify matching structure before combining genomes.
+% can we cite sth. here? 
+% This just sounds really generic
 
-A second obstacle is the survival of new structure. When a mutation adds a node or a connection, it almost always lowers fitness at first, because the new weights that have been added have not yet been optimized. Such an innovation is out-competed and discarded before it can be tuned, even when the topology it introduces would ultimately prove valuable. A TWEANN method therefore needs a way to give new network time to sature before selection can eliminate it.
+A central obstacle for any method that evolves topology is that the same network function can be encoded by genomes whose nodes appear in different orders.
+Because crossover recombines genomes by position, it can produce offspring that lose structures both parents possessed or that duplicate them incoherently.
+Recombination then destroys the innovations it should preserve.
+A method therefore needs a way to identify matching structure before combining genomes.
 
-A third problem is that evolved topologies can grow without boundaries. Many early TWEANNs added penalty terms to discourage bloat. Such penalties however, are hard to tune and risk suppressing useful growth along with wasteful growth. Therefore, we need to let a network add structure only when that structure earns its keep.
+A second obstacle is the survival of new structure.
+When a mutation adds a node or a connection, it almost always lowers fitness at first, because the new weights that have been added have not yet been optimized.
+Such an innovation is out-competed and discarded before it can be tuned, even when the topology it introduces would ultimately prove valuable.
+A TWEANN method therefore needs a way to give new structure time to mature before selection can eliminate it.
 
-Earlier TWEANN methods addressed these three problems and controlling complexity only in part. Neuroevolution of Augmenting Topologies (NEAT) (\cite{stanley_evolving_2002}) addresses all three at once. It does so with a single coherent set of mechanisms.
+A third problem is that evolved topologies can grow without boundaries.
+Many early TWEANNs added penalty terms to discourage bloat.
+Such penalties however, are hard to tune and risk suppressing useful growth along with wasteful growth.
+Therefore, we need to let a network add structure only when that structure earns its keep.
 
-
+Earlier TWEANN methods addressed these three problems and controlling complexity only in part.
+Neuroevolution of Augmenting Topologies (NEAT) (\cite{stanley_evolving_2002}) addresses all three at once.
+It does so with a single coherent set of mechanisms.
 
 
 % ---------------------------------------------------------------------
@@ -165,15 +194,25 @@ Earlier TWEANN methods addressed these three problems and controlling complexity
 
 % >>> write 1.2 here
 
+NEAT introduces a dynamic evolutionary based framework that optimizes both weights and network topology simultaneously (\cite{stanley_evolving_2002}).
+It allows for the organic emergence of topological structures and starts out with a population of uniform ANNs with zero hidden nodes.
+New structures (nodes and connections) are introduced with mutation throughout the evolutionary learning process.
+This approach ensures that the algorithm starts searching for solutions in low dimensions first.
 
-NEAT introduces a dynamic evolutionary based framework that optimizes both weights and network topology simultaneously (\cite{stanley_evolving_2002}). 
-The NEAT algorithm is based on evolutionary learning theory and can be called a TWEANN. It allows for the organic emergence of topological structures and starts out with a population of uniform ANNs with zero hidden nodes. New structures (nodes and connections) are introduced with mutation throughout the evolutionary learning process. This approach ensures that the algorithm starts searching for solutions in low dimensions first.
+NEAT answers the three obstacles above with three mechanisms.
+It assigns each new gene a global innovation number that is inherited unchanged.
+Genes sharing a number encode the same structure, so NEAT aligns genomes during crossover without any prior topological analysis.
+This solves the alignment problem.
+To protect young structure, NEAT groups genomes into species by a compatibility distance and lets them compete mainly within their own species.
+A fresh innovation then has time to be tuned before it faces the full population.
+To control growth, NEAT starts from a minimal topology and adds nodes and connections only through mutation.
+A network therefore expands only when the added structure survives selection, and no hand-tuned complexity penalty is needed. This incremental strategy keeps the search low-dimensional at the outset.
+Scaling the evolved topologies to higher dimensions remains a challenge for NEATw.
 
-To manage the increasing structural diversity between the ANNs, NEAT utilizes historical markings to align gene crossover between differing topologies. Additionally, it employs speciation to protect new topological innovations, allowing new structures to survive and develope before competing against other solutions of the population.
-
-NEAT evolves topology and weights together. This however, creates the problem where the neural network can be encoded by genomes whose nodes appear in different orders. Naive crossover of such genomes can damage structures that both parents had already discovered. To prevent this, NEAT assigns each new gene a global innovation number that is inherited unchanged. Genes sharing a number encode the same structure, so NEAT is able to align them during crossover without previous topological analysis.
-
-While NEAT starts out with a small search spaces by starting with minimal topology, scaling to higher dimensions remains a challenge. 
+Because NEAT optimises weights and topology by selection alone, it needs no gradient and no differentiable reward.
+This suits continuous-control reinforcement learning, where the reward is delayed and non-differentiable.
+NEAT evolves controllers directly from episodic returns and has been applied to control and locomotion tasks of the kind studied here (\cite{stanley_evolving_2002}).
+The Hopper and Walker2D benchmarks used in this thesis belong to that setting.
 
 
 % ---------------------------------------------------------------------
@@ -202,27 +241,23 @@ While NEAT starts out with a small search spaces by starting with minimal topolo
 
 % short explanation what activation functions are:
 
-An activation function is the nonlinear transfer function applied at each neuron. Without them, a multilayer network reduces to a single linear map regardless of depth (\cite{dubey_activation_2022}). Its choice governs a network's trainability and expressive power, and although many alternatives have been proposed, Rectified Linear Unit (ReLu) remains the default in deep learning \cite{ramachandran_searching_2017}. ReLU (\cite{nair_rectified_2010}) outputs zero for negative inputs and the input itself for positive inputs. Mathematically, it is defined as $\mathrm{ReLU}(x)=\max(0,x)$. ReLu can accelerate the convergence of Stochastic Gradient Descend, as its gradient is always one for positive inputs. 
+An activation function is the nonlinear transfer function applied at each neuron of an ANN.
+Without them, a multilayer network reduces to a single linear map regardless of depth (\cite{dubey_activation_2022}).
+Its choice governs a network's trainability and expressive power, and although many alternatives have been proposed, the Rectified Linear Unit (ReLU) remains the default in deep learning \cite{ramachandran_searching_2017}.
+ReLU (\cite{nair_rectified_2010}) outputs zero for negative inputs and the input itself for positive ones, and it accelerates the convergence of stochastic gradient descent because its gradient is always one for positive inputs.
 
 
 
-Common activation functions that are often used are the identity function $f(x)=x$, the sigmoid function $\sigma(x)=\frac{1}{1+e^{-x}}$, the hyperbolic tangent $\tanh(x)$, the Rectified Linear Unit $\mathrm{ReLU}(x)=\max(0,x)$, and the sine function $\sin(x)$. These functions differ along the properties commonly used to characterise activation functions: output range, monotonicity, and smoothness \textcite{dubey_activation_2022}. The sigmoid and the hyperbolic tangent are the classical
-choices, both bounded and saturating; the sigmoid maps to $(0,1)$ and $\tanh$
-to the zero-centred interval $(-1,1)$ \cite{dubey_activation_2022}. Their saturation at
-large inputs later motivated the Rectified Linear Unit, which is
-piecewise-linear, unbounded above, and cheap to evaluate \textcite{nair_rectified_2010}. ReLU
-has since become the default activation in deep learning; in deep convolutional
-networks such as AlexNet it accelerated training over saturating units
-\textcite{krizhevsky_imagenet_2012,ramachandran_searching_2017}. The sine function is uncommon in
-feedforward training but has a longer history in neuroevolution, where periodic
-activations let a network encode repeating and symmetric structure compactly
-\cite{stanley_compositional_2007}. The identity function applies no nonlinearity. A network of
-identity units collapses to a single linear map, the property that nonlinear
-activations exist to overcome \textcite{dubey_activation_2022}. The sigmoid and the hyperbolic tangent are the classical.
-The choice of activation therefore shapes which mappings a network can represent and how efficiently it
-learns them \textcite{dubey_activation_2022}. An overview of all those activation functions can be found below in Figure~\ref{fig:activation-functions}
-
-This allows the network to learn faster. A simple ANN trained on the CIFAR-10 dataset achieved six times faster a 25\% training error rate than using the $\tanh$ function (\cite{krizhevsky_imagenet_2012}). 
+Common activation functions that are often used are the identity function $f(x)=x$, the sigmoid function $\sigma(x)=\frac{1}{1+e^{-x}}$, the hyperbolic tangent $\tanh(x)$, the Rectified Linear Unit $\mathrm{ReLU}(x)=\max(0,x)$, and the sine function $\sin(x)$.
+These functions differ along the properties commonly used to characterise activation functions: output range, monotonicity, and smoothness (\cite{dubey_activation_2022}).
+The sigmoid and the hyperbolic tangent are the classical choices, both bounded and saturating; the sigmoid maps to $(0,1)$ and $\tanh$ to the zero-centred interval $(-1,1)$ (\cite{dubey_activation_2022}).
+Their saturation at large inputs later motivated the Rectified Linear Unit, which is piecewise-linear, unbounded above, and cheap to evaluate (\cite{nair_rectified_2010}).
+ReLU has since become the default activation in deep learning; in deep convolutional networks such as AlexNet it accelerated training over saturating units (\cite{krizhevsky_imagenet_2012,ramachandran_searching_2017}).
+The sine function is uncommon in feedforward training but has a longer history in neuroevolution, where periodic activations let a network encode repeating and symmetric structure compactly (\cite{stanley_compositional_2007}).
+The identity function applies no nonlinearity.
+A network of identity units collapses to a single linear map, the property that nonlinear activations exist to overcome (\cite{dubey_activation_2022}).
+The choice of activation therefore shapes which mappings a network can represent and how efficiently it learns them (\cite{dubey_activation_2022}).
+An overview of all those activation functions can be found below in Figure~\ref{fig:activation-functions}.
 
 % \begin{figure}[h]\centering\begin{tikzpicture}[scale=0.9]  \draw[->] (-3,0) -- (3,0) node[right] {$x$};  \draw[->] (0,-0.5) -- (0,3) node[above] {$\mathrm{ReLU}(x)$};  \draw[thick] (-3,0) -- (0,0);  \draw[thick] (0,0) -- (3,3);\end{tikzpicture}\caption{Schematic plot of the Rectified Linear Unit (ReLU) activation function.}\label{fig:relu-plot}\end{figure}
 
@@ -233,14 +268,14 @@ This allows the network to learn faster. A simple ANN trained on the CIFAR-10 da
 \label{fig:activation-functions}
 \end{figure}
 
-Artificial neural networks typically only use one activation function across every node (\cite{dubey_activation_2022}). 
-Biological neurons, in contrast, vary in their response properties even within a single cell type, and this diversity allows a population of neurons to encode roughly 
-twice as much information as an equivalent homogeneous population (\cite{padmanabhan_intrinsic_2010}).
+Artificial neural networks typically only use one activation function across every node (\cite{dubey_activation_2022}).
+Biological neurons, in contrast, vary in their response properties even within a single cell type, and this diversity allows a population of neurons to encode roughly twice as much information as an equivalent homogeneous population (\cite{padmanabhan_intrinsic_2010}).
 
-However, training a neural network with multiple activation functions (heterogeneous network) has shown to improve the performance of ANNs in different scenarious. 
-A comprehensive survey provided evidence that a mix of activation functions performs better than standard ReLu or sigmoid networks (\cite{dubey_activation_2022}). 
-Furthermore, a self developing method called Self-Activating Neural Networks (SANN) that uses gradient descend to evole a unique AF for every Neuron shows that networks can theoretically represent functions that would otherwise require deeper architectures with fixed activation functions (\cite{tutuncuoglu_neuronlevel_2025}). 
-So what if the ANN is able to select from a set of activation functions during its training.
+However, training a neural network with multiple activation functions (a heterogeneous network) has been shown to improve the performance of ANNs in different scenarios.
+A comprehensive survey provided evidence that a mix of activation functions performs better than standard ReLU or sigmoid networks (\cite{dubey_activation_2022}).
+Furthermore, a self-developing method called Self-Activating Neural Networks (SANN), which uses gradient descent to evolve a unique activation function for every neuron, shows that networks can represent functions that would otherwise require deeper architectures with fixed activation functions (\cite{tutuncuoglu_neuronlevel_2025}).
+Standard NEAT, however, holds a single activation function fixed across every node, so the diversity that these results exploit is unavailable to it.
+Making the activation function itself an evolvable, per-neuron trait is the extension that HA-NEAT introduces.
 
 
 % Different problems need different mathematical transformations. 
@@ -251,6 +286,7 @@ So what if the ANN is able to select from a set of activation functions during i
 % 1.4
 % ---------------------------------------------------------------------
 \subsection{Heterogeneous Neuroevolution (HA-NEAT)}
+\label{subsec:haneat}
 % PURPOSE: present HA-NEAT, its parsimony result, and its limitation.
 % COVER:
 %   - genome extension: per-neuron activation gene + mutation operator,
@@ -266,11 +302,21 @@ So what if the ANN is able to select from a set of activation functions during i
 
 % >>> write 1.4 here
 
-The Heterogeneous Activation NEAT algorithm (HA-NEAT) (\cite{hagg_evolving_2017}) advances the standard NEAT algorithm. It proves empirically that heterogeneous ANNs are structuraly more efficient than bigger ones. The integration of diverse activation functions enables more efficient neural networks. A smaller neural network (less nodes and weights) produces similar or even better accuracy than bigger neural networks with homogenous activation functions. In their experiments, hetergoenous networks were often 50\% - 70\% smaller (in terms of topological size) compared to homogenous baselines. To accomplish this, HA-NEAT adds to the traditional NEAT genome by encoding the activation function of each neuron as a specific gene. This allowing the evolutionary process to select from a library of functions (e.g., Sine, Gaussian, ReLU) alongside topology and weights. This approach introduces a new mutation operator that alters a node's activation function, utilizing NEAT's existing speciation mechanism to protect these potentially disruptive but innovative mathematical changes until they optimize.
+The Heterogeneous Activation NEAT algorithm (HA-NEAT) (\cite{hagg_evolving_2017}) advances the standard NEAT algorithm.
+It demonstrates empirically that heterogeneous networks achieve comparable or better accuracy than homogeneous ones while using fewer nodes and connections.
+In their experiments, heterogeneous networks were often 50\%--70\% smaller in topological size than homogeneous baselines at matched accuracy.
+To accomplish this, HA-NEAT adds to the traditional NEAT genome by encoding the activation function of each neuron as a specific gene.
+This allowing the evolutionary process to select from a library of functions (e.g., Sine, Gaussian, ReLU) alongside topology and weights.
+This approach introduces a new mutation operator that alters a node's activation function, utilizing NEAT's existing speciation mechanism to protect these potentially disruptive but innovative mathematical changes until they optimize.
 
-In addition to structural parsimony (a preference for smaller networks with fewer nodes and connections), the choice of activation function is a critical aspect that significantly changes the inductive bias of a network. \cite{papavasileiou_importance_2017} showed that the choice of functional form directly affects the discriminative ability of an algorithm. The use of Gaussian output units in Feature Selective NEAT (FS-NEAT) and FD-NEAT enabled more accurate feature selection and the evolution of smaller topologies than Sigmoid or ReLU units. This implies that the advantage of heterogeneity is not merely a consequence of size reduction but also a means of optimizing input processing.
+In addition to structural parsimony (a preference for smaller networks with fewer nodes and connections), the choice of activation function is a critical aspect that significantly changes the inductive bias of a network.
+\cite{papavasileiou_importance_2017} showed that the choice of functional form directly affects the discriminative ability of an algorithm.
+The use of Gaussian output units in Feature Selective NEAT (FS-NEAT) and FD-NEAT enabled more accurate feature selection and the evolution of smaller topologies than Sigmoid or ReLU units.
+This implies that the advantage of heterogeneity is not merely a consequence of size reduction but also a means of optimizing input processing.
 
-In line with this, \cite{papavasileiou_optimizing_2022} proposed HA-FD-NEAT, which evolves the heterogeneity, topology, and input selection of a neural network. The results of their study show that the synchronization of a neuron's properties with its connectivity enables the evolution of a particular task's inductive bias. The identification of optimal architectures is seemingly dependent on this combination, in which functional diversity is a means of both topological compression and accurate feature relevance.
+In line with this, \cite{papavasileiou_optimizing_2022} proposed HA-FD-NEAT, which evolves the heterogeneity, topology, and input selection of a neural network.
+The results of their study show that the synchronization of a neuron's properties with its connectivity enables the evolution of a particular task's inductive bias.
+The identification of optimal architectures is seemingly dependent on this combination, in which functional diversity is a means of both topological compression and accurate feature relevance.
 
 
 % ---------------------------------------------------------------------
@@ -292,35 +338,24 @@ In line with this, \cite{papavasileiou_optimizing_2022} proposed HA-FD-NEAT, whi
 
 % >>> write 1.5 here
 
-Neuroevolution methods differ in how a genome maps to a network. NEAT uses a
-direct encoding, in which every node, connection, and (in HA-NEAT) activation
-function appears explicitly in the genome, so that genotype and phenotype grow
-together. Direct encoding gives three properties this work depends on: parsimony
-is measurable and under selective control, each neuron's activation can be set
-individually, and the evolved network remains interpretable. Indirect encodings
-break this correspondence. 
+Neuroevolution methods differ in how a genome maps to a network.
+NEAT uses a direct encoding, in which every node, connection, and (in HA-NEAT) activation function appears explicitly in the genome, so that genotype and phenotype grow together.
+Direct encoding gives three properties this work depends on: parsimony is measurable and under selective control, each neuron's activation can be set individually, and the evolved network remains interpretable.
+Indirect encodings break this correspondence.
 
-HyperNEAT \cite{stanley_hypercubebased_2009} evolves
-a Compositional Pattern-Producing Network (CPPN) \cite{stanley_compositional_2007}
-that computes each connection weight from the geometric coordinates of its
-endpoints, so a small genome can describe substrates with millions of
-connections. The abstraction has costs in this setting. The substrate's neurons
-no longer carry individually specified activation functions. Phenotype size is
-also decoupled from the genome, so parsimony can no longer be measured directly
-from what evolves. The encoding's benefit further rests on geometric regularity,
-the spatial structure that a visual field provides but that the low-dimensional
-proprioceptive state of Hopper and Walker2D does not. Its scaling advantage is in
-any case irrelevant at this size, since locomotion controllers need far fewer
-connections than the regime in which direct encodings become impractical
-\cite{stanley_hypercubebased_2009}. Because this work requires per-neuron
-activation control and parsimony as a directly measured quantity, and because its
-environments offer little geometry for an indirect encoding to exploit, it stays
-with direct encoding.
+HyperNEAT \cite{stanley_hypercubebased_2009} evolves a Compositional Pattern-Producing Network (CPPN) \cite{stanley_compositional_2007} that computes each connection weight from the geometric coordinates of its endpoints, so a small genome can describe substrates with millions of connections.
+The abstraction has costs in this setting.
+The substrate's neurons no longer carry individually specified activation functions.
+Phenotype size is also decoupled from the genome, so parsimony can no longer be measured directly from what evolves.
+The encoding's benefit further rests on geometric regularity, the spatial structure that a visual field provides but that the low-dimensional proprioceptive state of Hopper and Walker2D does not.
+Its scaling advantage is in any case irrelevant at this size, since locomotion controllers need far fewer connections than the regime in which direct encodings become impractical \cite{stanley_hypercubebased_2009}.
+Because this work requires per-neuron activation control and parsimony as a directly measured quantity, and because its environments offer little geometry for an indirect encoding to exploit, it stays with direct encoding.
 
 % ---------------------------------------------------------------------
 % 1.6
 % ---------------------------------------------------------------------
 \subsection{Continuous-Control Benchmarks}
+\label{subsec:control-benchmarks}
 % PURPOSE: introduce the domain and why it is harder than where
 %          (HA-)NEAT was validated.
 % COVER:
@@ -342,12 +377,29 @@ with direct encoding.
 
 % >>> write 1.6 here
 
-% \cite{freeman}
-% \cite{todoruv}
-% \cite{brockman}
+Continuous-control locomotion benchmarks evaluate a policy that outputs real-valued torques for a simulated articulated body.
+The standard suite originates in the MuJoCo physics engine (\cite{todorov_mujoco_2012}), whose fast and accurate contact dynamics made physically grounded locomotion tasks tractable for reinforcement-learning research.
+Two of its canonical tasks anchor this thesis.
+Hopper is a one-legged body that must hop forward without falling; its state is an $11$-dimensional vector of joint positions and velocities, and its action is a $3$-dimensional torque vector, one per actuated joint.
+Walker2D is a planar biped that must walk forward while balancing on two legs; it exposes a $17$-dimensional observation and a $6$-dimensional action.
+The two bodies share a kinematic lineage: Walker2D is essentially Hopper's leg mirrored into a pair, so one of its legs reproduces the same thigh--leg--foot chain that constitutes the whole of Hopper.
+This overlap is what makes a single shared controller a plausible target for the two tasks.
 
+These tasks are qualitatively harder than the static classification, regression, and low-dimensional toy control settings in which HA-NEAT has historically been validated \cite{hagg_evolving_2017}.
+Three properties account for the difficulty.
+The action space is high-dimensional and continuous, so the controller outputs real-valued torques instead of a discrete label.
+Reward arrives only after a sequence of actions, so credit must be assigned across time.
+And the distribution of states the policy encounters is itself a function of the policy, which makes the learning target non-stationary and unlabelled.
+A controller that performs well must therefore encode temporally coherent behaviour over an episode.
 
+Population-based neuroevolution is expensive in this domain because every genome must be rolled out over full episodes to estimate its fitness.
+Brax (\cite{freeman_brax_2021}) reduces this cost by reimplementing MuJoCo-style locomotion in JAX, so that thousands of environment instances run in parallel on a single accelerator and evaluation compiles onto the same device as the search.
+This shift made population-based evaluation on locomotion tractable at scales that were previously impractical.
+The search algorithm must match that scale.
+Classical CPU-bound NEAT libraries do not reach the population sizes and generation counts this study requires.
+GPU-native implementations such as TensorNEAT (\cite{wang_tensorized_2024}) close the gap by tensorising the evolutionary operators onto the same accelerator that runs the simulation.
 
+Despite the maturity of these benchmarks, heterogeneous-activation neuroevolution has never been tested in this domain: its parsimony and inductive-bias advantages remain established only on static data.
 
 
 % ---------------------------------------------------------------------
@@ -380,16 +432,16 @@ with direct encoding.
 
 % >>> write 1.7 here
 
-Multi-Taks learning is a paradigm where one single model is trained on multiple related tasks simultaneously. By sharing representations and learning processes, the knowledge gained from one task can help improve the performance and generalization of the others (\cite{zhang_survey_2021}). Recent empirical analysis of Large Language Models (LLMs) reveal that powerful generalist models naturally develop ”task-specific neurons”
-that specialize in distinct functional roles (\cite{leng_understanding_2025}).
-This thesis hypothesizes that by providing a set of activation functions, evolution
-can explicitly assign these specialized mathematical ”personalities” to specific neurons,
-thereby organically modularizing the control policy.
+Multi-task learning is a paradigm where a single model is trained on multiple related tasks simultaneously.
+By sharing representations and learning processes, the knowledge gained from one task can help improve the performance and generalization of the others (\cite{zhang_survey_2021}).
+Recent empirical analysis of Large Language Models (LLMs) reveals that powerful generalist models naturally develop ``task-specific neurons'' that specialize in distinct functional roles (\cite{leng_understanding_2025}).
+This thesis hypothesizes that by providing a set of activation functions, evolution can explicitly assign these specialized mathematical ``personalities'' to specific neurons, thereby organically modularizing the control policy.
 
-To evaluate the efficacy of heterogeneous activation functions in high-dimensional continuous control, this research uses two Brax locomotion environments (\cite{freeman_brax_2021}): Hopper and Walker2D. 
-A single evolved network must control both bodies at once using one shared set of weights. 
-The two tasks require diverse motor skills, from single-leg hopping to bipedal balance and forward propulsion. 
-This setting is suited for this study because the two environments differ in observation dimensionality and body dynamics, challenging a single genome to generalize across both. While approaches such as Mixture-of-World (MoW) models address this heterogeneity by explicitly engineering diverse expert modules (\cite{zhang_mixtureofworld_2026}), this thesis posits that a heterogeneous neural network based on the NEAT algorithm can emergently discover similar functional modularity by evolving a diverse population of neurons tailored to the two locomotion tasks.
+To evaluate the efficacy of heterogeneous activation functions in high-dimensional continuous control, this research uses two Brax locomotion environments (\cite{freeman_brax_2021}): Hopper and Walker2D.
+A single evolved network must control both bodies at once using one shared set of weights.
+The two tasks require diverse motor skills, from single-leg hopping to bipedal balance and forward propulsion.
+This setting is suited for this study because the two environments differ in observation dimensionality and body dynamics, challenging a single genome to generalize across both.
+While approaches such as Mixture-of-World (MoW) models address this heterogeneity by explicitly engineering diverse expert modules (\cite{zhang_mixtureofworld_2026}), this thesis posits that a heterogeneous neural network based on the NEAT algorithm can emergently discover similar functional modularity by evolving a diverse population of neurons tailored to the two locomotion tasks.
 
 % ---------------------------------------------------------------------
 % 1.8
@@ -409,6 +461,22 @@ This setting is suited for this study because the two environments differ in obs
 % ENDS:    "...which sets up the methodology that follows."
 
 % >>> write 1.8 here
+
+Two lines of work meet in this thesis.
+Heterogeneous-activation neuroevolution (Section~\ref{subsec:haneat}) shows that letting evolution choose a per-neuron activation function yields smaller networks and a task-adapted inductive bias.
+Every such result, however, has been established on static, single-task classification data.
+Continuous-control locomotion (Section~\ref{subsec:control-benchmarks}) is a mature benchmark domain for neuroevolution, yet it has only ever been approached with a homogeneous activation function fixed across all nodes.
+Whether activation heterogeneity confers an advantage in a temporally extended control setting remains an open question.
+The same holds for \emph{emergent modularity}: the spontaneous specialisation of neurons within a single shared network that must solve more than one task at once.
+That intersection is the gap this thesis addresses.
+
+% TODO(intro): when the Introduction is written, move this contribution paragraph
+% there and reduce this subsection to the gap statement above (retitle to "Research Gap").
+The contribution is a single shared network whose per-neuron activations are heterogeneous and evolved.
+One such network controls Hopper and Walker2D at once, over the union of both tasks' observation and action spaces: the smaller observation is zero-padded and the unused actions are sliced away.
+A GPU-native evolutionary pipeline makes population-based evaluation feasible at this scale.
+We hypothesise that a library of activation functions lets evolution assign distinct mathematical ``personalities'' to individual neurons, and that this specialisation modularises the control policy across the two tasks without engineered expert modules.
+The following chapter specifies the shared-network encoding, the activation library, and the evolutionary protocol used to test this hypothesis.
 
 
 % =====================================================================
@@ -433,7 +501,7 @@ This setting is suited for this study because the two environments differ in obs
 
 % %Creating neural networks with a diverse set of activation functions has shown to  Using a set of AF (relu, sigmoid, swish, tanh) instead of only one activation function can improve efficiency and decrease the size of the neural network. (add some examples here)
 
-% \subsection{Neuroevolution of augmenting topologies}
+% \subsection{Neuroevolution of augmenting topoflogies}
 
 % Typical ANNs stick to the initialized topology and then adjust their weights throughout the training process. Thus, we are stuck optimizing weights for a pre-determined structure. In contrast to this static approach, the Neuroevolution of Augmenting Topologies algorithm (NEAT) introduces a dynamic evolutionary based framework that optimizes both synaptic weights and network topology simultaneously (\cite{stanley_evolving_2002}). The NEAT algorithm is based on evolutionary learning theory. It allows for the organic emergence of topological structures and starts out with a population of uniform ANNs with zero hidden nodes. New structures (nodes and connections) are introduced with mutation throughout the learning process. This approach ensures that the algorithm starts searching for solutions in low dimensions first
 
@@ -550,37 +618,60 @@ This setting is suited for this study because the two environments differ in obs
 
 \subsection{Problem Formulation}
 
-This work addresses the multi-task learning problem of evolving a single neuroevolutionary network capable of controlling two continuous-locomotion agents simultaneously: Hopper and Walker2D from the Brax physics suite. Rather than training separate controllers for each task, the objective is to produce one shared neural network that receives observations from either environment, generates appropriate joint-torque actions, and accumulates reward across both tasks. A genome's fitness is therefore defined by its combined performance on both environments, evaluated every generation.
+This work addresses the multi-task learning problem of evolving a single neuroevolutionary network capable of controlling two continuous-locomotion agents simultaneously: Hopper and Walker2D from the Brax physics suite.
+The objective is a single shared neural network that receives observations from either environment, generates the appropriate joint-torque actions, and accumulates reward across both tasks, in place of two separately trained controllers.
+A genome's fitness is therefore defined by its combined performance on both environments, evaluated every generation.
 
-Hopper is a single-legged robot that moves in a two-dimensional plane characterised by an 11-dimensional observation space (encoding torso height, joint angles, and velocities) and a 3-dimensional continuous action space governing thigh, leg, and foot torques. Walker2D is a two-legged robot in a two-dimensional space with a 17-dimensional observation space and a 6-dimensional action space. Although the two agents differ in morphology, they share fundamental locomotion sub-problems: balance control, forward propulsion, and energy-efficient gait generation.
+The two agents were introduced in Section~\ref{subsec:control-benchmarks}; the dimensions that drive the shared-network design are what matter here.
+Hopper exposes an 11-dimensional observation and a 3-dimensional action, while Walker2D exposes a 17-dimensional observation and a 6-dimensional action.
+The mismatch in these dimensions is the reason a single fixed-topology network cannot ingest both environments directly, and it motivates the padding scheme described below.
+The two bodies also share kinematics: Walker2D's right leg reproduces Hopper's thigh--leg--foot chain.
+This overlap gives evolution a reason to discover shared locomotion primitives, so a single network is a principled design choice for these two tasks.
 
-Walker2D can be conceptualised as two coordinated instances of the single-leg locomotion problem that Hopper solves. The right-leg observation channels of Walker2D overlap structurally with Hopper's full observation space. This correspondence provides principled motivation for why a single evolved network might discover transferable locomotion primitives rather than purely task-specific policies.
-
-The central hypothesis is twofold. First, it is hypothesised that a multi-task evaluation regime enables implicit transfer between tasks: representations acquired on Hopper's simpler locomotion problem can bootstrap performance on Walker2D, and vice versa. Second, it is hypothesised that heterogeneous activation functions within the network enable richer internal representations than homogeneous networks, improving the capacity for cross-task generalisation. Both claims are tested through a controlled comparison of standard NEAT against HA-NEAT (Heterogeneous Activation NEAT) in the multi-task setting.
+The central hypothesis is twofold.
+First, it is hypothesised that a multi-task evaluation regime enables implicit transfer between tasks: representations acquired on Hopper's simpler locomotion problem can bootstrap performance on Walker2D, and vice versa.
+Second, it is hypothesised that heterogeneous activation functions within the network enable richer internal representations than homogeneous networks, improving the capacity for cross-task generalisation.
+Both claims are tested through a controlled comparison of standard NEAT against HA-NEAT (Heterogeneous Activation NEAT) in the multi-task setting.
 
 \subsection{Algorithm Design: HA-NEAT}
 
 \subsubsection{Conceptual Motivation}
 
-Before presenting the formal algorithmic details, it is useful to consider the intuition behind heterogeneous activations. A locomotion controller must simultaneously encode qualitatively different computations: periodic oscillations for gait timing, saturating thresholds for balance, and proportional responses for joint control. In a standard NEAT network, every hidden node applies the same activation function, typically $\tanh$, and the network must approximate all of these behaviours through compositions of a single nonlinearity, potentially requiring more nodes and connections than a heterogeneous network. HA-NEAT addresses this by allowing each hidden node to carry its own activation function drawn from a diverse palette. However, per-node activation changes can be disruptive, and a newly mutated genome risks elimination before its weights co-adapt. HA-NEAT therefore pairs activation diversity with a speciation-based protection mechanism, described below.
+Before presenting the formal algorithmic details, it is useful to consider the intuition behind heterogeneous activations.
+A locomotion controller must simultaneously encode qualitatively different computations: periodic oscillations for gait timing, saturating thresholds for balance, and proportional responses for joint control.
+In a standard NEAT network, every hidden node applies the same activation function, typically $\tanh$, and the network must approximate all of these behaviours through compositions of a single nonlinearity, potentially requiring more nodes and connections than a heterogeneous network.
+HA-NEAT addresses this by allowing each hidden node to carry its own activation function drawn from a diverse palette.
+However, per-node activation changes can be disruptive, and a newly mutated genome risks elimination before its weights co-adapt.
+HA-NEAT therefore pairs activation diversity with a speciation-based protection mechanism, described below.
 
 \subsubsection{NEAT Foundation}
 
-NEAT (NeuroEvolution of Augmenting Topologies) evolves both the topology and the weights of neural networks through three core mechanisms: historical marking of genes for alignment during crossover, speciation to protect structural innovation, and complexification from minimal initial topologies. The algorithm is well established in the literature and is summarised here only to the extent necessary to contextualise the HA-NEAT extensions.
+NEAT (NeuroEvolution of Augmenting Topologies) evolves both the topology and the weights of neural networks through three core mechanisms: historical marking of genes for alignment during crossover, speciation to protect structural innovation, and complexification from minimal initial topologies.
+The algorithm is well established in the literature and is summarised here only to the extent necessary to contextualise the HA-NEAT extensions.
 
-Each genome encodes a variable-topology neural network as two gene lists: node genes and connection genes. A node gene stores a unique index, a bias value, an aggregation function, and an activation function. A connection gene stores source and destination node indices, a historical marker, and a weight value. In the TensorNEAT implementation used in this work, active genes occupy the first rows of fixed-size arrays; inactive positions are filled with NaN. This padding convention enables batched operations across a population of genomes with different topologies under JAX's static-shape compilation model.
+Each genome encodes a variable-topology neural network as two gene lists: node genes and connection genes.
+A node gene stores a unique index, a bias value, an aggregation function, and an activation function.
+A connection gene stores source and destination node indices, a historical marker, and a weight value.
+In the TensorNEAT implementation used in this work, active genes occupy the first rows of fixed-size arrays; inactive positions are filled with NaN.
+This padding convention enables batched operations across a population of genomes with different topologies under JAX's static-shape compilation model.
 
-The population is partitioned into species based on genetic distance. For each pair of genomes, the distance function aligns connection genes by historical marker, counts non-homologous (disjoint and excess) genes, and computes attribute differences on homologous genes. Formally, the distance between two genomes is defined as:
+The population is partitioned into species based on genetic distance.
+For each pair of genomes, the distance function aligns connection genes by historical marker, counts non-homologous (disjoint and excess) genes, and computes attribute differences on homologous genes.
+Formally, the distance between two genomes is defined as:
 
 $$d = \frac{D \cdot c_d + \sum_{i \in H} \delta_i \cdot c_w}{\max(n_1, n_2)}$$
 
-where $D$ denotes the count of non-homologous genes, $H$ denotes the set of homologous gene pairs, $\delta_i$ is the attribute distance for pair $i$, $c_d = 1.0$ and $c_w = 0.4$ are coefficients weighting disjoint and weight differences respectively, and $n_1$, $n_2$ are the gene counts of each genome. Genomes whose distance falls below the compatibility threshold $\theta = 1.0$ are assigned to the same species.
+where $D$ denotes the count of non-homologous genes, $H$ denotes the set of homologous gene pairs, $\delta_i$ is the attribute distance for pair $i$, $c_d = 1.0$ and $c_w = 0.4$ are coefficients weighting disjoint and weight differences respectively, and $n_1$, $n_2$ are the gene counts of each genome.
+Genomes whose distance falls below the compatibility threshold $\theta = 1.0$ are assigned to the same species.
 
-Within each species, the top fraction of genomes, determined by the survival threshold, produces offspring through crossover and mutation. During crossover, the fitter parent contributes the structural backbone; homologous genes are inherited randomly from either parent, while all non-homologous genes (disjoint and excess) are inherited from the fitter parent.
+Within each species, the top fraction of genomes, determined by the survival threshold, produces offspring through crossover and mutation.
+During crossover, the fitter parent contributes the structural backbone; homologous genes are inherited randomly from either parent, while all non-homologous genes (disjoint and excess) are inherited from the fitter parent.
 
 \subsubsection{HA-NEAT Extensions}
 
-HA-NEAT extends the standard NEAT algorithm with three modifications, all encapsulated within the mutation operator. The speciation-driven evolutionary loop, crossover, and distance computation remain unchanged. Each modification is described in turn.
+HA-NEAT extends the standard NEAT algorithm with three modifications, all encapsulated within the mutation operator.
+The speciation-driven evolutionary loop, crossover, and distance computation remain unchanged.
+Each modification is described in turn.
 
 \begin{enumerate}
     \item \textbf{Random activation assignment upon node creation.} In standard NEAT, a newly added node receives an identity activation function, making the structural mutation initially neutral. HA-NEAT instead assigns a random activation function drawn uniformly from $\mathcal{A} = \{\tanh, \sigma, \text{ReLU}, \sin, \text{identity}\}$ at node creation. This introduces immediate functional diversity: the new node contributes a non-trivial transformation from its first generation, avoiding the evolutionary delay of waiting for a separate activation mutation.
@@ -595,14 +686,18 @@ HA-NEAT extends the standard NEAT algorithm with three modifications, all encaps
 
 \subsubsection{Genome Representation and the Padding Scheme}
 
-Because Hopper and Walker2D differ in observation and action dimensionality, a mechanism is required to present both environments to a single fixed-topology network. The approach adopted in this work is a union padding scheme: the network is constructed with 17 input nodes and 6 output nodes, corresponding to the maximum observation and action dimensions across both tasks. This design was chosen over modular sub-networks to keep the transfer learning argument clean: any shared structure discovered by evolution arises from optimisation pressure alone, not from architectural induction bias.
+Because Hopper and Walker2D differ in observation and action dimensionality, a mechanism is required to present both environments to a single fixed-topology network.
+The approach adopted in this work is a union padding scheme: the network is constructed with 17 input nodes and 6 output nodes, corresponding to the maximum observation and action dimensions across both tasks.
+This design was chosen over modular sub-networks to keep the transfer learning argument clean: any shared structure discovered by evolution arises from optimisation pressure alone, not from architectural induction bias.
 
 Formally, given a network $f: \mathbb{R}^{17} \rightarrow \mathbb{R}^{6}$, the task-specific action functions are defined as:
 
 $$a_{\text{Hopper}} = f([\mathbf{o}_{\text{Hopper}}; \mathbf{0}_{6}])_{1:3}$$
 $$a_{\text{Walker}} = f(\mathbf{o}_{\text{Walker}})_{1:6}$$
 
-where $[\cdot; \cdot]$ denotes concatenation and the subscript denotes output slicing. For Hopper, the 11-dimensional observation vector is zero-padded to 17 dimensions before being presented to the network, and only the first 3 of the 6 output dimensions are used as actions. For Walker2D, all inputs and outputs are used directly without modification.
+where $[\cdot; \cdot]$ denotes concatenation and the subscript denotes output slicing.
+For Hopper, the 11-dimensional observation vector is zero-padded to 17 dimensions before being presented to the network, and only the first 3 of the 6 output dimensions are used as actions.
+For Walker2D, all inputs and outputs are used directly without modification.
 
 \begin{figure}[h]
     \centering
@@ -611,13 +706,20 @@ where $[\cdot; \cdot]$ denotes concatenation and the subscript denotes output sl
     \label{fig:network-architecture}
 \end{figure}
 
-The zero-padded input positions carry no reward signal from Hopper, leaving the network free to use or ignore them. The network may learn to route Hopper-relevant computation through the first 11 input nodes while reserving the remaining 6 for Walker2D-specific processing, or it may discover shared representations spanning both input regions. The interpretability of the padded dimensions remains an open question warranting examination in the analysis. A rough representation of the network can be seen in Figure~\ref{fig:network-architecture}.
+The zero-padded input positions carry no reward signal from Hopper, leaving the network free to use or ignore them.
+The network may learn to route Hopper-relevant computation through the first 11 input nodes while reserving the remaining 6 for Walker2D-specific processing, or it may discover shared representations spanning both input regions.
+The interpretability of the padded dimensions remains an open question warranting examination in the analysis.
+A rough representation of the network can be seen in Figure~\ref{fig:network-architecture}.
 
-At the implementation level, nodes are stored as a $[N_{\max} \times 4]$ array encoding index, bias, aggregation function, and activation function per node. Connections are stored as a $[C_{\max} \times 4]$ array encoding source index, destination index, historical marker, and weight per connection. Inactive positions use NaN in the first column; the mask $\neg\text{isnan}(\mathbf{x}_{:,0})$ distinguishes active from inactive genes.
+At the implementation level, nodes are stored as a $[N_{\max} \times 4]$ array encoding index, bias, aggregation function, and activation function per node.
+Connections are stored as a $[C_{\max} \times 4]$ array encoding source index, destination index, historical marker, and weight per connection.
+Inactive positions use NaN in the first column; the mask $\neg\text{isnan}(\mathbf{x}_{:,0})$ distinguishes active from inactive genes.
 
 \subsection{Fitness Evaluation}
 
-A critical design decision in multi-task neuroevolution is how to aggregate performance across tasks into a selection signal. Each generation, every genome in the population is to be evaluated on both Hopper and Walker2D. The planned evaluation pipeline proceeds in four stages:
+A critical design decision in multi-task neuroevolution is how to aggregate performance across tasks into a selection signal.
+Each generation, every genome in the population is to be evaluated on both Hopper and Walker2D.
+The planned evaluation pipeline proceeds in four stages:
 
 \begin{enumerate}
     \item \textbf{Decode.} The genome's node and connection arrays are transformed into an executable network representation via topological sort and adjacency matrix construction.
@@ -626,17 +728,26 @@ A critical design decision in multi-task neuroevolution is how to aggregate perf
     \item \textbf{Aggregate via multi-objective selection.} The normalised per-task fitnesses form a two-dimensional objective vector. Rather than collapsing these objectives into a scalar, selection is to be performed using NSGA-II (Non-dominated Sorting Genetic Algorithm II), which ranks genomes by Pareto dominance and crowding distance. This preserves the full trade-off surface between Hopper and Walker2D performance, avoiding premature convergence toward one task at the expense of the other.
 \end{enumerate}
 
-The choice of NSGA-II over scalar aggregation methods is motivated by the reward scale asymmetry between tasks. Walker2D's reward scale substantially exceeds Hopper's, and a naive weighted sum would bias evolution toward whichever task yields larger raw returns. Multi-objective selection sidesteps this by treating each task as an independent objective, allowing evolution to maintain a population spanning the Pareto front.
+The choice of NSGA-II over scalar aggregation methods is motivated by the reward scale asymmetry between tasks.
+Walker2D's reward scale substantially exceeds Hopper's, and a naive weighted sum would bias evolution toward whichever task yields larger raw returns.
+Multi-objective selection sidesteps this by treating each task as an independent objective, allowing evolution to maintain a population spanning the Pareto front.
 
-It should be noted that the NSGA-II integration is planned but not yet implemented at the time of writing. The current prototype uses a sum of raw fitness values as an interim aggregation method. The transition to multi-objective selection is a priority for the final experimental pipeline.
+It should be noted that the NSGA-II integration is planned but not yet implemented at the time of writing.
+The current prototype uses a sum of raw fitness values as an interim aggregation method.
+The transition to multi-objective selection is a priority for the final experimental pipeline.
 
 \subsection{Network Architecture}
 
-All networks are initialised with a minimal topology: 17 input nodes connected directly to 6 output nodes, with no hidden nodes. This follows the NEAT principle of complexification: structural complexity emerges through mutation and selection pressure rather than through designer assumptions about required network depth or width.
+All networks are initialised with a minimal topology: 17 input nodes connected directly to 6 output nodes, with no hidden nodes.
+This follows the NEAT principle of complexification: structural complexity emerges through mutation and selection pressure rather than through designer assumptions about required network depth or width.
 
-Output nodes apply a $\tanh$ activation to bound their values within $[-1, 1]$. This constraint is necessary because Brax environments interpret actions as normalised joint torques: each action dimension specifies the magnitude and direction of force applied to a joint actuator, bounded to the unit interval.
+Output nodes apply a $\tanh$ activation to bound their values within $[-1, 1]$.
+This constraint is necessary because Brax environments interpret actions as normalised joint torques: each action dimension specifies the magnitude and direction of force applied to a joint actuator, bounded to the unit interval.
 
-Hidden nodes use per-node activation functions. In the standard NEAT condition, all hidden nodes use $\tanh$. In the HA-NEAT condition, the activation palette $\mathcal{A} = \{\tanh, \sigma, \text{ReLU}, \sin, \text{identity}\}$ enables heterogeneous internal representations. The individual activation functions were selected for their complementary computational properties:
+Hidden nodes use per-node activation functions.
+In the standard NEAT condition, all hidden nodes use $\tanh$.
+In the HA-NEAT condition, the activation palette $\mathcal{A} = \{\tanh, \sigma, \text{ReLU}, \sin, \text{identity}\}$ enables heterogeneous internal representations.
+The individual activation functions were selected for their complementary computational properties:
 
 \begin{itemize}
     \item \textbf{$\tanh$) and sigmoid ($\sigma$)}: Bounded and smooth, these functions are suitable for gating behaviour and saturation dynamics, where network outputs must be constrained within a fixed range.
@@ -647,7 +758,9 @@ Hidden nodes use per-node activation functions. In the standard NEAT condition, 
 
 The hypothesis underlying the heterogeneous palette is that a network benefits from composing these nonlinearities (periodic functions for gait timing, saturating functions for balance, and linear functions for proportional control), whereas a homogeneous $\tanh$ network must approximate all such behaviours through a single nonlinearity, potentially requiring greater structural complexity.
 
-All hidden nodes employ sum aggregation. That is, the pre-activation value of a node is computed as the sum of incoming weighted signals plus a bias term. Formally, for node $j$ with incoming connections from the set of source nodes $\mathcal{I}_j$:
+All hidden nodes employ sum aggregation.
+That is, the pre-activation value of a node is computed as the sum of incoming weighted signals plus a bias term.
+Formally, for node $j$ with incoming connections from the set of source nodes $\mathcal{I}_j$:
 
 $$z_j = \phi_j\left(b_j + \sum_{i \in \mathcal{I}_j} w_{ij} \cdot v_i\right)$$
 
@@ -655,11 +768,19 @@ where $\phi_j \in \mathcal{A}$ denotes the node's activation function, $b_j$ is 
 
 \subsection{Implementation Stack}
 
-The experiments are built upon TensorNEAT, a GPU-accelerated NEAT implementation constructed on JAX. TensorNEAT encodes the entire evolutionary pipeline (population initialisation, mutation, crossover, speciation, fitness evaluation, and selection) as JAX-transformable functions, compiling to a single XLA computation graph via \texttt{jax.jit} executed entirely on the GPU without CPU-GPU data transfers during the evolutionary loop. Population-level operations are vectorised using \texttt{jax.vmap}, eliminating Python-level loops over the population. This end-to-end GPU execution was the primary motivation for selecting TensorNEAT over classical CPU-based NEAT implementations such as neat-python.
+The experiments are built upon TensorNEAT (\cite{wang_tensorized_2024}), a GPU-accelerated NEAT implementation constructed on JAX.
+TensorNEAT encodes the entire evolutionary pipeline (population initialisation, mutation, crossover, speciation, fitness evaluation, and selection) as JAX-transformable functions, compiling to a single XLA computation graph via \texttt{jax.jit} executed entirely on the GPU without CPU-GPU data transfers during the evolutionary loop.
+Population-level operations are vectorised using \texttt{jax.vmap}, eliminating Python-level loops over the population.
+This end-to-end GPU execution was the primary motivation for selecting TensorNEAT over classical CPU-based NEAT implementations such as NEAT-Python.
 
-Brax serves as the physics backend, implementing rigid-body simulation as differentiable JAX functions that integrate directly with TensorNEAT's JIT-compiled evaluation loop. The \texttt{generalized} pipeline backend is used explicitly to ensure comparability with standard MuJoCo benchmark results reported in the reinforcement learning literature. The combination of JAX-native evolution and JAX-native simulation eliminates the host-device transfer bottleneck that limits frameworks in which the evolutionary algorithm runs on the CPU while fitness evaluation runs on the GPU.
+Brax (\cite{freeman_brax_2021}) serves as the physics backend, implementing rigid-body simulation as differentiable JAX functions that integrate directly with TensorNEAT's JIT-compiled evaluation loop.
+Brax exposes several dynamics pipelines; this work uses the \texttt{generalized} backend to keep the contact dynamics close to standard MuJoCo benchmark results reported in the reinforcement learning literature.
+The combination of JAX-native evolution and JAX-native simulation eliminates the host-device transfer bottleneck that limits frameworks in which the evolutionary algorithm runs on the CPU while fitness evaluation runs on the GPU.
 
-Experiment tracking is implemented using MLflow. Each run logs per-generation metrics including maximum, mean, minimum, and standard deviation of fitness across the population, alongside valid genome count, generation wall-clock time, species count, stagnation counter, and the node and connection counts of the best genome. Per-task fitness scores for the best genome are tracked separately for Hopper and Walker2D, enabling post-hoc analysis of task-specific performance trajectories and the degree to which the shared network specialises toward one environment over the other. Fitness aggregation currently uses a raw sum of per-task rewards; a methodologically rigorous replacement using either reward normalisation or a multi-objective approach (NSGA-II) is planned for subsequent experiments.
+Experiment tracking is implemented using MLflow.
+Each run logs per-generation metrics including maximum, mean, minimum, and standard deviation of fitness across the population, alongside valid genome count, generation wall-clock time, species count, stagnation counter, and the node and connection counts of the best genome.
+Per-task fitness scores for the best genome are tracked separately for Hopper and Walker2D, enabling post-hoc analysis of task-specific performance trajectories and the degree to which the shared network specialises toward one environment over the other.
+Fitness aggregation currently uses a raw sum of per-task rewards; a methodologically rigorous replacement using either reward normalisation or a multi-objective approach (NSGA-II) is planned for subsequent experiments.
 
 \begin{table}[h]
 \centering
@@ -717,11 +838,15 @@ Simulator & Brax v0.14.1 (\texttt{generalized}) & Brax v0.14.1 (\texttt{generali
 \end{tabular}
 \end{table}
 
-Both environments reward forward locomotion while penalising energy expenditure and falls. Hopper terminates an episode early if the torso height falls below a threshold or the torso tilts beyond a critical angle; Walker2D applies analogous termination conditions for its bipedal stance. Importantly, the reward structures differ in scale: Walker2D typically yields higher cumulative rewards than Hopper for equivalent locomotion quality. This scale asymmetry is a primary motivation for the normalisation and multi-objective selection approach described in the Fitness Evaluation section.
+Both environments reward forward locomotion while penalising energy expenditure and falls.
+Hopper terminates an episode early if the torso height falls below a threshold or the torso tilts beyond a critical angle; Walker2D applies analogous termination conditions for its bipedal stance.
+Importantly, the reward structures differ in scale: Walker2D typically yields higher cumulative rewards than Hopper for equivalent locomotion quality.
+This scale asymmetry is a primary motivation for the normalisation and multi-objective selection approach described in the Fitness Evaluation section.
 
 \subsection{Hyperparameters}
 
-Table 2 lists the evolutionary hyperparameters used across both experimental conditions. Values marked with [*] are placeholders pending determination through preliminary calibration runs.
+Table 2 lists the evolutionary hyperparameters used across both experimental conditions.
+Values marked with [*] are placeholders pending determination through preliminary calibration runs.
 
 \begin{table}[h]
 \centering
@@ -785,7 +910,8 @@ Historical marker reassignment & Enabled (via OriginConn) \\
 \end{tabular}
 \end{table}
 
-The compatibility threshold $\theta = 1.0$ and survival threshold of 0.1 follow standard NEAT practice as established in the original NEAT literature. The survival threshold dictates that only the top 10\% of each species produces offspring, creating strong within-species selection pressure while speciation protects structural diversity across the population as a whole.
+The compatibility threshold $\theta = 1.0$ and survival threshold of 0.1 follow standard NEAT practice as established in the original NEAT literature.
+The survival threshold dictates that only the top 10\% of each species produces offspring, creating strong within-species selection pressure while speciation protects structural diversity across the population as a whole.
 
 \subsection{Experimental Conditions}
 
@@ -797,7 +923,9 @@ The experiment compares two conditions, both operating within the multi-task Hop
     \item \textbf{Multi-Task HA-NEAT (treatment).} HA-NEAT with heterogeneous activations drawn from the palette $\mathcal{A}$. This condition uses \texttt{OriginConn} with historical markers. Activation mutation occurs at most once per genome per generation, with speciation protection via marker reassignment as described in Section \textit{HA-NEAT Extensions}.
 \end{enumerate}
 
-Both conditions use identical population sizes, generation limits, structural mutation rates, and evaluation procedures. The independent variable is the activation function regime: homogeneous activations versus heterogeneous activations with speciation protection. The dependent variables are:
+Both conditions use identical population sizes, generation limits, structural mutation rates, and evaluation procedures.
+The independent variable is the activation function regime: homogeneous activations versus heterogeneous activations with speciation protection.
+The dependent variables are:
 
 \begin{itemize}
     \item \textbf{Per-task fitness}: Best and mean fitness on Hopper and Walker2D individually, measured per generation.
@@ -808,7 +936,8 @@ Both conditions use identical population sizes, generation limits, structural mu
 
 \subsection{Evaluation Protocol}
 
-Each experimental condition is to be repeated across a minimum of 10 independent runs with different random seeds. This sample size is chosen to provide sufficient statistical power for detecting medium-to-large effect sizes with non-parametric tests, while remaining computationally tractable given the cost of large-population neuroevolution on GPU hardware.
+Each experimental condition is to be repeated across a minimum of 10 independent runs with different random seeds.
+This sample size is chosen to provide sufficient statistical power for detecting medium-to-large effect sizes with non-parametric tests, while remaining computationally tractable given the cost of large-population neuroevolution on GPU hardware.
 
 Performance is measured at three levels:
 
@@ -818,7 +947,8 @@ Performance is measured at three levels:
     \item \textbf{Learning dynamics.} Fitness-over-generation curves, averaged across runs with 95\% confidence bands, to characterise convergence speed and stability.
 \end{enumerate}
 
-Statistical comparison between the NEAT baseline and HA-NEAT treatment uses the Mann-Whitney U test (two-sided, $\alpha = 0.05$) applied to the distribution of best fitnesses across runs. This non-parametric test is appropriate because evolutionary run outcomes are not guaranteed to follow a normal distribution, and the moderate sample size does not reliably support parametric assumptions.
+Statistical comparison between the NEAT baseline and HA-NEAT treatment uses the Mann-Whitney U test (two-sided, $\alpha = 0.05$) applied to the distribution of best fitnesses across runs.
+This non-parametric test is appropriate because evolutionary run outcomes are not guaranteed to follow a normal distribution, and the moderate sample size does not reliably support parametric assumptions.
 
 \subsection{Compute Resources}
 
@@ -844,7 +974,9 @@ Software & JAX [*version TBD*], Brax 0.14.1, Python 3.10+ \\
 \end{tabular}
 \end{table}
 
-Each evolutionary run utilises a single GPU. The dual-GPU configuration enables two independent runs to execute in parallel, halving the wall-clock time required for the full experimental campaign. JIT compilation of the evolutionary step occurs once at the start of each run; subsequent generations execute the compiled XLA graph without recompilation overhead, with the exception of topology-triggered recompilation events that occur when the population's maximum genome size changes.
+Each evolutionary run utilises a single GPU.
+The dual-GPU configuration enables two independent runs to execute in parallel, halving the wall-clock time required for the full experimental campaign.
+JIT compilation of the evolutionary step occurs once at the start of each run; subsequent generations execute the compiled XLA graph without recompilation overhead, with the exception of topology-triggered recompilation events that occur when the population's maximum genome size changes.
 
 %\section{Background}
 
@@ -966,21 +1098,43 @@ Each evolutionary run utilises a single GPU. The dual-GPU configuration enables 
 \section{Results and Discussion}
 
 \subsection{Experimental overview}
-We trained NEAT and HA-NEAT on the same multi-task problem: a single evolved network must control both Hopper (11 observations, 3 actions) and Walker2D (17 observations, 6 actions). The network is sized to the larger task. Hopper observations are zero-padded to 17 dimensions, and the 6-dimensional output is sliced to 3 for Hopper's actuators. Fitness is the normalized minimum across both tasks, ethat is, the worse of the two normalized per-task rewards. A network that learns Hopper well but neglects Walker2D scores poorly. That matters: a genome that gets good at Hopper while ignoring Walker2D will score on Walker2D, the task it neglected. The aggregation selection study (Methodology, Section 3) landed on this after normalized-sum and normalized-product both let genomes specialize their way to a decent aggregate score.
+We trained NEAT and HA-NEAT on the same multi-task problem: a single evolved network must control both Hopper (11 observations, 3 actions) and Walker2D (17 observations, 6 actions).
+The network is sized to the larger task.
+Hopper observations are zero-padded to 17 dimensions, and the 6-dimensional output is sliced to 3 for Hopper's actuators.
+Fitness is the normalized minimum across both tasks, ethat is, the worse of the two normalized per-task rewards.
+A network that learns Hopper well but neglects Walker2D scores poorly.
+That matters: a genome that gets good at Hopper while ignoring Walker2D will score on Walker2D, the task it neglected.
+The aggregation selection study (Methodology, Section 3) landed on this after normalized-sum and normalized-product both let genomes specialize their way to a decent aggregate score.
 \\comm
 
-We trained NEAT and HA-NEAT on the same multi-task problem: a single evolved network must control both Hopper (11 observations, 3 actions) and Walker2D (17 observations, 6 actions). using the same weights. The network is sized to Walker2D; Hopper observations are zero-padded to 17 dimensions, and the 6-dimensional output is sliced down to 3 for Hopper's actuators. Fitness is the normalized minimum of the two per-task scores. That matters: a genome that gets good at Hopper while ignoring Walker2D will score on Walker2D, the task it neglected. The aggregation selection study \todo{Link to methodology section here}(Methodology, Section 3) landed on this after normalized-sum and normalized-product both let genomes specialize their way to a decent aggregate score. 
+We trained NEAT and HA-NEAT on the same multi-task problem: a single evolved network must control both Hopper (11 observations, 3 actions) and Walker2D (17 observations, 6 actions). using the same weights.
+The network is sized to Walker2D; Hopper observations are zero-padded to 17 dimensions, and the 6-dimensional output is sliced down to 3 for Hopper's actuators.
+Fitness is the normalized minimum of the two per-task scores.
+That matters: a genome that gets good at Hopper while ignoring Walker2D will score on Walker2D, the task it neglected.
+The aggregation selection study \todo{Link to methodology section here}(Methodology, Section 3) landed on this after normalized-sum and normalized-product both let genomes specialize their way to a decent aggregate score.
 
 The chapter works through the results in layers of the primary experiment head-to-head, per-task breakdowns, a re-evaluation of whether training-time fitness holds up across multiple episodes, species and complexity dynamics, and the ablation study on activation diversity.
 
-Three experiments make up the comparison. First, the main head-to-head: NEAT vs.\ HA-NEAT across population sizes, generation counts, and random seeds. Second, a multi-episode re-evaluation of saved genomes, because training fitness comes from a single episode and may not reflect actual policy quality. Third, an ablation that runs HA-NEAT's full machinery with a single activation function, testing whether any advantage comes from activation diversity or from the structural changes around it. Section 5.2 reports aggregate performance, Section 5.3 breaks it down per task, Section 5.4 compares training estimates to re-evaluation, Section 5.5 covers species dynamics and genome complexity, and Section 5.6 presents the ablation.
+Three experiments make up the comparison.
+First, the main head-to-head: NEAT vs.\ HA-NEAT across population sizes, generation counts, and random seeds.
+Second, a multi-episode re-evaluation of saved genomes, because training fitness comes from a single episode and may not reflect actual policy quality.
+Third, an ablation that runs HA-NEAT's full machinery with a single activation function, testing whether any advantage comes from activation diversity or from the structural changes around it.
+Section 5.2 reports aggregate performance, Section 5.3 breaks it down per task, Section 5.4 compares training estimates to re-evaluation, Section 5.5 covers species dynamics and genome complexity, and Section 5.6 presents the ablation.
 
-All runs used the MJX (MuJoCo on GPU) physics backend, population sizes of 1024--4096, and between 500 and 2000 generations. [PLACEHOLDER: final hardware details, GPU type, JIT compile time, wall-clock per generation]. Random seeds were drawn from $\{42, 123, 75, 7, 21\}$; preliminary results use subsets of 2--3 seeds, and the final experiment uses all 5.
+All runs used the MJX (MuJoCo on GPU) physics backend, population sizes of 1024--4096, and between 500 and 2000 generations. [PLACEHOLDER: final hardware details, GPU type, JIT compile time, wall-clock per generation].
+Random seeds were drawn from $\{42, 123, 75, 7, 21\}$; preliminary results use subsets of 2--3 seeds, and the final experiment uses all 5.
 
 \subsection{Ablation: activation diversity vs.\ HA-NEAT machinery}
-HA-NEAT changes two things relative to standard NEAT. First, it draws per-node activations from a set of five functions (tanh, sigmoid, relu, sin, identity) instead of a single fixed one. Second, it uses OriginConn, a connection gene that tracks historical innovation markers. When a node's activation is mutated, all connections touching that node receive new markers, which increases the genetic distance between the mutant and its parent. This pushes the mutant into a separate species, shielding it from crossover with genomes that still use the old activation.
+HA-NEAT changes two things relative to standard NEAT.
+First, it draws per-node activations from a set of five functions (tanh, sigmoid, relu, sin, identity) instead of a single fixed one.
+Second, it uses OriginConn, a connection gene that tracks historical innovation markers.
+When a node's activation is mutated, all connections touching that node receive new markers, which increases the genetic distance between the mutant and its parent.
+This pushes the mutant into a separate species, shielding it from crossover with genomes that still use the old activation.
 
-The performance difference in Section 5.2 could come from either change, or from their interaction. To isolate the two, we ran an ablation that keeps the full HA-NEAT machinery (OriginConn, HANEATMutation, marker reassignment) but restricts it to a single activation function (tanh). The activation mutation still fires, but since there is only one option, nothing actually changes. This gives us HA-NEAT's structural changes without the diversity.
+The performance difference in Section 5.2 could come from either change, or from their interaction.
+To isolate the two, we ran an ablation that keeps the full HA-NEAT machinery (OriginConn, HANEATMutation, marker reassignment) but restricts it to a single activation function (tanh).
+The activation mutation still fires, but since there is only one option, nothing actually changes.
+This gives us HA-NEAT's structural changes without the diversity.
 
 \subsubsection{Training performance}
 
@@ -1023,11 +1177,16 @@ HA-NEAT ablation (tanh only) & 0.352 & 0.342 & 0.398 & 0.364 \\
 \end{figure}
 
 
-The ablation averaged 0.364 across three seeds, slightly below NEAT's 0.379. Figures~\ref{fig:ablation-training-envs} and~\ref{fig:ablation-training-agg} are more informative than the endpoint. On Hopper, both methods converge to similar levels with NEAT around 0.39 and HA-NEAT 0.34. Walker2D is where they diverge: NEAT pulls ahead after around generation 150 and ends at 0.40 compared to the ablation's $\approx 0.33$. The aggregated fitness reflects that Walker2D gap, with NEAT at $\approx 0.36$ and the ablation at $\approx 0.31$ by generation 500.
+The ablation averaged 0.364 across three seeds, slightly below NEAT's 0.379.
+Figures~\ref{fig:ablation-training-envs} and~\ref{fig:ablation-training-agg} are more informative than the endpoint.
+On Hopper, both methods converge to similar levels with NEAT around 0.39 and HA-NEAT 0.34.
+Walker2D is where they diverge: NEAT pulls ahead after around generation 150 and ends at 0.40 compared to the ablation's $\approx 0.33$.
+The aggregated fitness reflects that Walker2D gap, with NEAT at $\approx 0.36$ and the ablation at $\approx 0.31$ by generation 500.
 
 \subsubsection{Re-evaluation}
 
-Training fitness comes from a single episode per genome, so we re-evaluated each of the six saved genomes over 30 episodes with different random seeds. Table~\ref{tab:ablation-reeval-results} reports the results.
+Training fitness comes from a single episode per genome, so we re-evaluated each of the six saved genomes over 30 episodes with different random seeds.
+Table~\ref{tab:ablation-reeval-results} reports the results.
 
 \begin{table}[h]
 \centering
@@ -1053,12 +1212,17 @@ HA-NEAT ablation & $1083 \pm 76$ & $0.361 \pm 0.025$ & $1449 \pm 533$ & $0.290 \
 \end{figure}
 
 % On re-evaluation the training-time gap narrows. The ablation actually scores slightly higher than NEAT on both tasks, though the seed-level variance is large, particularly on Walker2D where individual seed means range from 706 to 1966 for NEAT and from 932 to 1996 for the ablation. Table~\ref{tab:ablation-reeval-results} shows that Hopper is nearly id, while Walker2D exhibits substantial spread and no meaningful separation.
-In Figure \ref{fig:ablation-evaluation} shows that the performance of both set of networks are nearly identcial, while Walker2D shows some spread. On re-evaluation the training-time gap narrows. The HA-NEAT ablation scores slightly higher than NEAT on both individual tasks, and the aggregate normalized minimum tells the same story. But the seed-level variance is large, particularly on Walker2D where individual seed means range from 706 to 1966 for NEAT and from 932 to 1996 for the ablation. A difference of 0.046 against a shared standard deviation of 0.101 is not meaningful.  
+In Figure \ref{fig:ablation-evaluation} shows that the performance of both set of networks are nearly identcial, while Walker2D shows some spread.
+On re-evaluation the training-time gap narrows.
+The HA-NEAT ablation scores slightly higher than NEAT on both individual tasks, and the aggregate normalized minimum tells the same story.
+But the seed-level variance is large, particularly on Walker2D where individual seed means range from 706 to 1966 for NEAT and from 932 to 1996 for the ablation.
+A difference of 0.046 against a shared standard deviation of 0.101 is not meaningful.
 
 
 \subsubsection{Statistical comparison}
 
-With only three seeds per method, statistical power is limited. Table~\ref{tab:ablation-statistics} reports two non-parametric tests on seed-level means, plus effect sizes.
+With only three seeds per method, statistical power is limited.
+Table~\ref{tab:ablation-statistics} reports two non-parametric tests on seed-level means, plus effect sizes.
 
 \begin{table}[h]
 \centering
@@ -1074,15 +1238,28 @@ Walker2D & 0.70 & 0.70 & -0.28 (small) & No significant difference \\
 \end{tabular}
 \end{table}
 
-Neither task shows a significant difference (permutation $p = 0.70$ for both, Mann--Whitney $p = 0.70$--1.00). Effect sizes are small: Cohen's $d$ of $-0.36$ on Hopper and $-0.28$ on Walker2D. One might be tempted to pool all 90 episodes per method and run a $t$-test, which does produce a lower $p$-value on Walker2D (Welch's $t$, $p = 0.08$). But episodes from the same seed share the same genome, so they are not independent observations. The proper unit of analysis is the seed-level mean, and at $n = 3$ the tests simply lack power to detect anything short of a very large effect.
+Neither task shows a significant difference (permutation $p = 0.70$ for both, Mann--Whitney $p = 0.70$--1.00).
+Effect sizes are small: Cohen's $d$ of $-0.36$ on Hopper and $-0.28$ on Walker2D.
+One might be tempted to pool all 90 episodes per method and run a $t$-test, which does produce a lower $p$-value on Walker2D (Welch's $t$, $p = 0.08$).
+But episodes from the same seed share the same genome, so they are not independent observations.
+The proper unit of analysis is the seed-level mean, and at $n = 3$ the tests simply lack power to detect anything short of a very large effect.
 
-Three seeds is a real limitation. Each ablation run takes [PLACEHOLDER: wall-clock time] on a single GPU, and scaling to 20--30 seeds was not feasible within our compute budget. Rather than relying on $p$-values that were never going to be informative at this sample size, we draw on three pieces of evidence together. The training curves show overlapping trajectories across 500 generations, not just similar endpoints. The re-evaluation effect sizes are small. And the direction of the non-significant difference actually favors the ablation slightly over NEAT, the opposite of what we would expect if HA-NEAT's machinery provided any advantage on its own.
+Three seeds is a real limitation.
+Each ablation run takes [PLACEHOLDER: wall-clock time] on a single GPU, and scaling to 20--30 seeds was not feasible within our compute budget.
+Rather than relying on $p$-values that were never going to be informative at this sample size, we draw on three pieces of evidence together.
+The training curves show overlapping trajectories across 500 generations, not just similar endpoints.
+The re-evaluation effect sizes are small.
+And the direction of the non-significant difference actually favors the ablation slightly over NEAT, the opposite of what we would expect if HA-NEAT's machinery provided any advantage on its own.
 
-Taken together, OriginConn and marker reassignment without activation diversity do not improve performance. The ablation slightly underperforms NEAT during training and performs comparably on re-evaluation. At this small sample size ($n=3$) this pointed toward activation diversity rather than the surrounding infrastructure; the larger pop200 study (Section~\ref{sec:pop200}, $n=30$ per condition) revises that reading, finding no fitness difference between the three conditions yet attributing a structural fingerprint to the HA-NEAT machinery itself, as the pop200 subsections that follow develop. [PLACEHOLDER: include full HA-NEAT bar from final experiment data for direct three-way comparison. Note the population size mismatch (ablation: pop 1024, main experiment: pop 4096) when interpreting magnitudes.]
+Taken together, OriginConn and marker reassignment without activation diversity do not improve performance.
+The ablation slightly underperforms NEAT during training and performs comparably on re-evaluation.
+At this small sample size ($n=3$) this pointed toward activation diversity rather than the surrounding infrastructure; the larger pop200 study (Section~\ref{sec:pop200}, $n=30$ per condition) revises that reading, finding no fitness difference between the three conditions yet attributing a structural fingerprint to the HA-NEAT machinery itself, as the pop200 subsections that follow develop. [PLACEHOLDER: include full HA-NEAT bar from final experiment data for direct three-way comparison.
+Note the population size mismatch (ablation: pop 1024, main experiment: pop 4096) when interpreting magnitudes.]
 
 \subsection{Multi-task performance comparison}
 
-We compared the best-found normalized-minimum fitness per run across both methods and several configurations. Table~\ref{tab:aggregate-fitness-versions} collects results across experiment versions.
+We compared the best-found normalized-minimum fitness per run across both methods and several configurations.
+Table~\ref{tab:aggregate-fitness-versions} collects results across experiment versions.
 
 \begin{table}[h]
 \centering
@@ -1106,55 +1283,43 @@ final & HA-NEAT & 4096 & 2000 & 42, 123, 75, 7, 21 & [PLACEHOLDER] & [PLACEHOLDE
 
 
 
-In the preliminary v3 runs, HA-NEAT averaged 0.413 across two seeds, compared to 0.349 for NEAT, a gap of 0.064 normalized units. Most of that gap came from one strong HA-NEAT run (seed 123: 0.484). In the v4 configuration (pop=4096, 1000 generations), the single completed NEAT run reached 0.399, while the two HA-NEAT runs averaged 0.465. The final experiment, with 5 seeds per method, will show whether this advantage holds with a larger sample. [PLACEHOLDER: final experiment mean +/- std for NEAT and HA-NEAT. Update this paragraph once complete.]
-Across both experiment versions, HA-NEAT tended toward higher aggregate fitness, though with high cross-seed variance in both methods. The aggregate number alone does not tell us whether both tasks improved or whether one task carried the other.
+In the preliminary v3 runs, HA-NEAT averaged 0.413 across two seeds, compared to 0.349 for NEAT, a gap of 0.064 normalized units.
+Most of that gap came from one strong HA-NEAT run (seed 123: 0.484).
+In the v4 configuration (pop=4096, 1000 generations), the single completed NEAT run reached 0.399, while the two HA-NEAT runs averaged 0.465.
+The final experiment, with 5 seeds per method, will show whether this advantage holds with a larger sample. [PLACEHOLDER: final experiment mean +/- std for NEAT and HA-NEAT.
+Update this paragraph once complete.] Across both experiment versions, HA-NEAT tended toward higher aggregate fitness, though with high cross-seed variance in both methods.
+The aggregate number alone does not tell us whether both tasks improved or whether one task carried the other.
 
 \subsection{The pop200 study}
 \label{sec:pop200}
-The experiments in Sections~\ref{sec:pop200} onward use a fixed, larger-sample design:
-population 200, 750 generations, and 30 independent random seeds per condition. Three conditions
-were compared: standard NEAT (tanh only), HA-NEAT (activation set tanh, sigmoid, relu, sin,
-identity), and an ablation that runs HA-NEAT's full machinery restricted to tanh. All runs share
-the multi-task Hopper$+$Walker2D problem and the normalized-minimum objective
-$\mathrm{fit} = \min(r_{\text{hopper}}/3000,\, r_{\text{walker2d}}/5000)$.
+The experiments in Sections~\ref{sec:pop200} onward use a fixed, larger-sample design: population 200, 750 generations, and 30 independent random seeds per condition.
+Three conditions were compared: standard NEAT (tanh only), HA-NEAT (activation set tanh, sigmoid, relu, sin, identity), and an ablation that runs HA-NEAT's full machinery restricted to tanh.
+All runs share the multi-task Hopper$+$Walker2D problem and the normalized-minimum objective $\mathrm{fit} = \min(r_{\text{hopper}}/3000,\, r_{\text{walker2d}}/5000)$.
 
-Across the three conditions, the best-found normalized-minimum fitness showed no significant
-difference (Kruskal--Wallis $H = 1.48$, $p = 0.476$). We ran the analyses that follow
-\emph{after} this null result. They ask a second question: whether conditions that reach equal
-fitness do so with equivalent internal structure and task balance. These are exploratory, post-hoc
-analyses, and we frame them as such throughout.
+Across the three conditions, the best-found normalized-minimum fitness showed no significant difference (Kruskal--Wallis $H = 1.48$, $p = 0.476$).
+We ran the analyses that follow \emph{after} this null result.
+They ask a second question: whether conditions that reach equal fitness do so with equivalent internal structure and task balance.
+These are exploratory, post-hoc analyses, and we frame them as such throughout.
 \label{res:pop200-fitness}
 
 \subsection{Genome complexity and generational dynamics}
 \label{sec:pop200-complexity}
 
-Because the three conditions reached statistically indistinguishable fitness
-(Section~\ref{res:pop200-fitness}), we examined whether they arrived there with equivalent genome
-structure. This tests one reading of the null: that activation diversity substitutes for
-topological complexity. For each of the 90 champion genomes (30 per condition) we counted hidden
-nodes and active connections from the raw genome arrays. The 17 input and 6 output nodes are fixed
-by the task and excluded from the hidden-node count.
+Because the three conditions reached statistically indistinguishable fitness (Section~\ref{res:pop200-fitness}), we examined whether they arrived there with equivalent genome structure.
+This tests one reading of the null: that activation diversity substitutes for topological complexity.
+For each of the 90 champion genomes (30 per condition) we counted hidden nodes and active connections from the raw genome arrays.
+The 17 input and 6 output nodes are fixed by the task and excluded from the hidden-node count.
 
-The number of hidden nodes in the final champions differed across conditions
-(Figure~\ref{fig:pop200-hidden}). NEAT champions carried a median of 2.0 hidden nodes
-(IQR $[1.0, 3.0]$), HA-NEAT 1.0 ($[0.0, 2.0]$), and the ablation 0.0 ($[0.0, 2.0]$); a
-Kruskal--Wallis test rejected equality of the three distributions ($H = 7.45$, $p = 0.024$,
-$\varepsilon^2 = 0.063$). Holm-corrected pairwise Mann--Whitney tests localized the effect to a
-single contrast: NEAT versus the ablation ($p = 0.030$, Cliff's $\delta = 0.38$, medium),
-while NEAT versus HA-NEAT ($p = 0.10$) and HA-NEAT versus the ablation ($p = 0.52$) were not
-significant. Connection counts did not differ across conditions (medians 48.5 / 51.5 / 47.0;
-$H = 2.82$, $p = 0.244$; Figure~\ref{fig:pop200-conns}).
+The number of hidden nodes in the final champions differed across conditions (Figure~\ref{fig:pop200-hidden}).
+NEAT champions carried a median of 2.0 hidden nodes (IQR $[1.0, 3.0]$), HA-NEAT 1.0 ($[0.0, 2.0]$), and the ablation 0.0 ($[0.0, 2.0]$); a Kruskal--Wallis test rejected equality of the three distributions ($H = 7.45$, $p = 0.024$, $\varepsilon^2 = 0.063$).
+Holm-corrected pairwise Mann--Whitney tests localized the effect to a single contrast: NEAT versus the ablation ($p = 0.030$, Cliff's $\delta = 0.38$, medium), while NEAT versus HA-NEAT ($p = 0.10$) and HA-NEAT versus the ablation ($p = 0.52$) were not significant.
+Connection counts did not differ across conditions (medians 48.5 / 51.5 / 47.0; $H = 2.82$, $p = 0.244$; Figure~\ref{fig:pop200-conns}).
 
-The per-generation trajectories from the training logs locate when this gap opens
-(Figure~\ref{fig:pop200-complexity-gens}). Best-genome node counts overlapped across all three
-conditions until roughly generation 300, after which NEAT rose above both HA-NEAT variants,
-reaching a final-window mean of 26.6 total nodes (including the 23 fixed input/output nodes)
-against 24.7 (HA-NEAT) and 24.0 (ablation). Connection counts pruned in lockstep across all three
-conditions, falling from roughly 100 to 40--44 by the final window. Species counts saturated near
-the same ceiling in every condition (final-window means 9.97 / 9.97 / 9.97; Kruskal--Wallis
-$H = 0.11$, $p = 0.945$; Figure~\ref{fig:pop200-species}), consistent with the configured target of
-$\approx 10$ species. The conditions therefore converged to equal fitness while ending at different
-topologies: the ablation and HA-NEAT settled on more compact networks than NEAT.
+The per-generation trajectories from the training logs locate when this gap opens (Figure~\ref{fig:pop200-complexity-gens}).
+Best-genome node counts overlapped across all three conditions until roughly generation 300, after which NEAT rose above both HA-NEAT variants, reaching a final-window mean of 26.6 total nodes (including the 23 fixed input/output nodes) against 24.7 (HA-NEAT) and 24.0 (ablation).
+Connection counts pruned in lockstep across all three conditions, falling from roughly 100 to 40--44 by the final window.
+Species counts saturated near the same ceiling in every condition (final-window means 9.97 / 9.97 / 9.97; Kruskal--Wallis $H = 0.11$, $p = 0.945$; Figure~\ref{fig:pop200-species}), consistent with the configured target of $\approx 10$ species.
+The conditions therefore converged to equal fitness while ending at different topologies: the ablation and HA-NEAT settled on more compact networks than NEAT.
 
 \begin{figure}[h]
 \centering
@@ -1199,21 +1364,14 @@ conditions.}
 \subsection{Per-task trade-off and multi-task pressure}
 \label{sec:pop200-tradeoff}
 
-The aggregate fitness leaves open whether both tasks improved together or one task set the score
-throughout; to resolve this we plotted each champion's normalized Hopper score against its
-normalized Walker2D score and compared the per-task balance across conditions. Per-task scores are
-the normalized 20-episode returns from re-evaluation; $\min$ of the two is the training objective.
+The aggregate fitness leaves open whether both tasks improved together or one task set the score throughout; to resolve this we plotted each champion's normalized Hopper score against its normalized Walker2D score and compared the per-task balance across conditions.
+Per-task scores are the normalized 20-episode returns from re-evaluation; $\min$ of the two is the training objective.
 
-Champions in all three conditions clustered in a narrow vertical band at normalized Hopper
-$\approx 0.33$--$0.35$, while Walker2D spread across a wider range and set the minimum for the
-large majority of genomes (Figure~\ref{fig:pop200-tradeoff}). Walker2D was the binding task for
-97\% of NEAT champions, 83\% of HA-NEAT, and 90\% of the ablation. The per-genome imbalance
-$|r_{\text{hopper}} - r_{\text{walker2d}}|$ did not differ across conditions (medians 0.159 /
-0.117 / 0.142; Kruskal--Wallis $H = 3.39$, $p = 0.184$). The Hopper band sits at
-$0.34 \times 3000 \approx 1000$ raw reward, which for this environment corresponds to roughly
-1000 timesteps of the per-step healthy/alive bonus \cite{freeman_brax_2021}. Across every
-condition, then, champions solved the multi-task problem with the same lopsided profile: a
-saturated Hopper score and a Walker2D score that carried the aggregate.
+Champions in all three conditions clustered in a narrow vertical band at normalized Hopper $\approx 0.33$--$0.35$, while Walker2D spread across a wider range and set the minimum for the large majority of genomes (Figure~\ref{fig:pop200-tradeoff}).
+Walker2D was the binding task for 97\% of NEAT champions, 83\% of HA-NEAT, and 90\% of the ablation.
+The per-genome imbalance $|r_{\text{hopper}} - r_{\text{walker2d}}|$ did not differ across conditions (medians 0.159 / 0.117 / 0.142; Kruskal--Wallis $H = 3.39$, $p = 0.184$).
+The Hopper band sits at $0.34 \times 3000 \approx 1000$ raw reward, which for this environment corresponds to roughly 1000 timesteps of the per-step healthy/alive bonus \cite{freeman_brax_2021}.
+Across every condition, then, champions solved the multi-task problem with the same lopsided profile: a saturated Hopper score and a Walker2D score that carried the aggregate.
 
 \begin{figure}[h]
 \centering
@@ -1230,20 +1388,14 @@ for 83--97\% of champions. Per-genome imbalance does not differ across condition
 \subsection{Activation-function usage within HA-NEAT}
 \label{sec:pop200-activation}
 
-If activation diversity is the ingredient that HA-NEAT contributes, its champions should both use
-the non-tanh activations and be rewarded for doing so; we examined the activation composition of
-HA-NEAT's hidden nodes and its relationship to fitness. Of the 30 HA-NEAT champions, 17 evolved at
-least one hidden node; the remaining 13 had none, leaving 55 hidden nodes across the informative
-seeds.
+If activation diversity is the ingredient that HA-NEAT contributes, its champions should both use the non-tanh activations and be rewarded for doing so; we examined the activation composition of HA-NEAT's hidden nodes and its relationship to fitness.
+Of the 30 HA-NEAT champions, 17 evolved at least one hidden node; the remaining 13 had none, leaving 55 hidden nodes across the informative seeds.
 
-The evolved activations were diverse and rarely defaulted to tanh
-(Figure~\ref{fig:pop200-activation-dist}). Among the 55 hidden nodes, relu accounted for 27\%,
-sigmoid 24\%, identity 22\%, sin 16\%, and tanh 11\%. Neither summary of diversity predicted
-fitness across the 17 informative champions (Figure~\ref{fig:pop200-activation-fit}): activation
-entropy showed no monotonic relationship with fitness (Spearman $\rho = -0.05$, $p = 0.84$), nor
-did the fraction of non-tanh hidden nodes ($\rho = 0.27$, $p = 0.30$). With only 17 informative
-genomes these correlation tests are underpowered. We therefore read the flat correlations as an
-absence of evidence, not as evidence that diversity is irrelevant.
+The evolved activations were diverse and rarely defaulted to tanh (Figure~\ref{fig:pop200-activation-dist}).
+Among the 55 hidden nodes, relu accounted for 27\%, sigmoid 24\%, identity 22\%, sin 16\%, and tanh 11\%.
+Neither summary of diversity predicted fitness across the 17 informative champions (Figure~\ref{fig:pop200-activation-fit}): activation entropy showed no monotonic relationship with fitness (Spearman $\rho = -0.05$, $p = 0.84$), nor did the fraction of non-tanh hidden nodes ($\rho = 0.27$, $p = 0.30$).
+With only 17 informative genomes these correlation tests are underpowered.
+We therefore read the flat correlations as an absence of evidence, not as evidence that diversity is irrelevant.
 
 \begin{figure}[h]
 \centering
@@ -1268,65 +1420,47 @@ fraction predicts fitness across the 17 champions with hidden nodes.}
 \subsection{Discussion of the pop200 analyses}
 \label{sec:pop200-discussion}
 
-Activation diversity did not raise multi-task fitness. The HA-NEAT machinery still left a
-structural signal that the fitness comparison alone would have missed. The three analyses in this
-section were exploratory, run only after the pre-registered fitness comparison returned a null
-result, and we read them as hypothesis-generating.
+Activation diversity did not raise multi-task fitness.
+The HA-NEAT machinery still left a structural signal that the fitness comparison alone would have missed.
+The three analyses in this section were exploratory, run only after the pre-registered fitness comparison returned a null result, and we read them as hypothesis-generating.
 
-The clearest structural signal is that NEAT champions carried more hidden nodes than the
-ablation's, even though the two reached the same fitness. A naive ``NEAT with one activation''
-expectation predicts the opposite, which suggests the ablation does not behave like standard NEAT.
-The ablation runs the HA-NEAT mutation operator. Even with a tanh-only activation set, the
-activation-mutation event still fires and still reassigns the historical markers on every
-connection of the chosen hidden node. The activation change is a functional no-op (tanh to tanh),
-yet the marker side effect persists: reassigned markers register as disjoint genes in the
-compatibility distance and degrade crossover alignment for any genome carrying hidden nodes. We
-hypothesize that this suppresses the spread of hidden-node structures. That account would explain
-why the ablation tracks HA-NEAT, and not NEAT, in the node counts, and it would locate the
-compactness effect in the HA-NEAT machinery instead of in activation diversity. We stress that this
-mechanism is a hypothesis. It is consistent with the code path and with the observed ordering, but
-we did not test it directly, and the effect is small and rests on a single significant pairwise
-contrast.
+The clearest structural signal is that NEAT champions carried more hidden nodes than the ablation's, even though the two reached the same fitness.
+A naive ``NEAT with one activation'' expectation predicts the opposite, which suggests the ablation does not behave like standard NEAT.
+The ablation runs the HA-NEAT mutation operator.
+Even with a tanh-only activation set, the activation-mutation event still fires and still reassigns the historical markers on every connection of the chosen hidden node.
+The activation change is a functional no-op (tanh to tanh), yet the marker side effect persists: reassigned markers register as disjoint genes in the compatibility distance and degrade crossover alignment for any genome carrying hidden nodes.
+We hypothesize that this suppresses the spread of hidden-node structures.
+That account would explain why the ablation tracks HA-NEAT, and not NEAT, in the node counts, and it would locate the compactness effect in the HA-NEAT machinery instead of in activation diversity.
+We stress that this mechanism is a hypothesis.
+It is consistent with the code path and with the observed ordering, but we did not test it directly, and the effect is small and rests on a single significant pairwise contrast.
 
-Within HA-NEAT, the evolved networks used the full activation set and did not collapse back to
-tanh, so the diversity mechanism is genuinely exercised. Even so, we detected no relationship
-between activation diversity and fitness, which is consistent with the headline null: on this task
-the lever HA-NEAT provides is pulled, and pulling it does not move fitness. The per-task analysis
-suggests why the task may be insensitive to that lever. In every condition the champions saturated
-Hopper at a low plateau and were bottlenecked by Walker2D. Once Hopper already exceeds Walker2D,
-the normalized-minimum objective makes further Hopper gains selectively invisible. We therefore
-read the effective optimization problem as degenerating toward ``improve Walker2D subject to keeping
-Hopper alive.'' That regime exerts far less genuine multi-task pressure than the two-task framing
-implies, and it leaves little room for any mechanism to distinguish itself.
+Within HA-NEAT, the evolved networks used the full activation set and did not collapse back to tanh, so the diversity mechanism is genuinely exercised.
+Even so, we detected no relationship between activation diversity and fitness, which is consistent with the headline null: on this task the lever HA-NEAT provides is pulled, and pulling it does not move fitness.
+The per-task analysis suggests why the task may be insensitive to that lever.
+In every condition the champions saturated Hopper at a low plateau and were bottlenecked by Walker2D.
+Once Hopper already exceeds Walker2D, the normalized-minimum objective makes further Hopper gains selectively invisible.
+We therefore read the effective optimization problem as degenerating toward ``improve Walker2D subject to keeping Hopper alive.''
+That regime exerts far less genuine multi-task pressure than the two-task framing implies, and it leaves little room for any mechanism to distinguish itself.
 
-These analyses have clear limitations. First, the hidden-node comparison rests on very small,
-heavily tied counts (medians of 0--2 hidden nodes), which weakens the rank test and inflates the
-influence of a few large genomes; the significant NEAT-versus-ablation contrast should be read as
-suggestive. Second, the species-count comparison is uninformative because all conditions saturate
-the configured species ceiling, so this design cannot test whether HA-NEAT's speciation protection
-sustains more diversity. Third, the Hopper plateau confounds the multi-task claim: because Walker2D
-is almost always the binding task, the study measures single-task Walker2D optimization more than
-true multi-task pressure. Fourth, the activation-fitness correlations rest on only 17 informative
-genomes and are underpowered. Fifth, all of these results come from a single population size (200),
-so the structural effects may not persist at other scales.
+These analyses have clear limitations.
+First, the hidden-node comparison rests on very small, heavily tied counts (medians of 0--2 hidden nodes), which weakens the rank test and inflates the influence of a few large genomes; the significant NEAT-versus-ablation contrast should be read as suggestive.
+Second, the species-count comparison is uninformative because all conditions saturate the configured species ceiling, so this design cannot test whether HA-NEAT's speciation protection sustains more diversity.
+Third, the Hopper plateau confounds the multi-task claim: because Walker2D is almost always the binding task, the study measures single-task Walker2D optimization more than true multi-task pressure.
+Fourth, the activation-fitness correlations rest on only 17 informative genomes and are underpowered.
+Fifth, all of these results come from a single population size (200), so the structural effects may not persist at other scales.
 
-Three concrete follow-ups would address these limitations directly. The marker-reassignment
-hypothesis is testable with a targeted ablation that sets the activation-mutation rate to zero
-while keeping the rest of the HA-NEAT machinery: if the compactness effect is caused by marker
-reassignment, it should disappear. Restoring genuine multi-task pressure calls for either a harder
-first task or a different aggregation that does not clip improvements on the leading task, such as
-the normalized product, so that both tasks remain under selection throughout. Finally, repeating
-the complexity and activation analyses at larger population sizes would test whether the structural
-differences observed here are scale-dependent. None of these fit the remaining compute budget and
-are left to future work.
+Three concrete follow-ups would address these limitations directly.
+The marker-reassignment hypothesis is testable with a targeted ablation that sets the activation-mutation rate to zero while keeping the rest of the HA-NEAT machinery: if the compactness effect is caused by marker reassignment, it should disappear.
+Restoring genuine multi-task pressure calls for either a harder first task or a different aggregation that does not clip improvements on the leading task, such as the normalized product, so that both tasks remain under selection throughout.
+Finally, repeating the complexity and activation analyses at larger population sizes would test whether the structural differences observed here are scale-dependent.
+None of these fit the remaining compute budget and are left to future work.
 
 
 
 
 \section{Conclusion and Future Work}
-We have 
+We have
 
-\clearpage
-\printbibliography
+\clearpage \printbibliography
 
 \end{document} 

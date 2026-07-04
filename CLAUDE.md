@@ -74,10 +74,15 @@ Since the local `mlflow.db` and `results/*.npz` already cover everything needed 
 PDFs can be added to the user's Zotero library via `tools/add_to_zotero.py` (Web API, pyzotero via PEP 723 inline deps — no project dependency):
 
 ```bash
-uv run tools/add_to_zotero.py paper.pdf --doi 10.48550/arXiv.2106.13281 --collection "Thesis"
+uv run tools/add_to_zotero.py paper.pdf --doi 10.48550/arXiv.2106.13281 --collection "Master Thesis"
 uv run tools/add_to_zotero.py paper.pdf --title "Some Paper" --item-type preprint
 ```
 
+- **Never hand-edit `master_thesis.bib`.** It is auto-exported from Zotero by Better BibTeX. To add a reference, add the item to Zotero (via the tool above), then let Better BibTeX regenerate the `.bib` on sync/auto-export. Manually adding a bib entry will be overwritten and drifts from the library.
+- **Verify metadata before adding.** Confirm the DOI resolves on CrossRef (`curl https://api.crossref.org/works/<doi>`) rather than trusting a remembered DOI; a 404 means the DOI is wrong.
+- **Check for duplicates first.** Query the library (`items?q=<title>&itemType=-attachment`) before uploading — many papers are already present. If a duplicate is created, delete the new item by key via the Web API (`DELETE items/<key>` with `If-Unmodified-Since-Version`).
+- **Collections** (exact names, case-sensitive): default to `Master Thesis` for thesis references. Others: `NEAT Paper`, `LitReview_Priority`, `ActivationFunctions`, `Neuroplasicity`, `Interpretability`, `One Pager`. The `--collection` value must match one of these or the tool aborts before writing.
+- After adding an item, get its Better BibTeX citekey via the JSON-RPC `item.search` on port 23119 and use that exact key in `\cite{}`.
 - Credentials live in `~/.config/zotero/credentials.json` (`user_id` + `api_key`, key needs personal-library write access). Never print or commit the key.
 - Items go to the cloud library and appear in the desktop app on next sync.
 - The local Zotero HTTP API (port 23119) is read-only — useless for adding items. Better BibTeX is installed (JSON-RPC on the same port) for citekey lookups.
