@@ -161,3 +161,11 @@ config_haneat_reduced_seed871.yaml
 mlflow.db
 mlflow.db-shm
 mlflow.db-wal
+
+
+
+# other stuff
+thesis_review_todo.md
+title_candidates.md
+master_thesis.bib
+additional_pap.bib
