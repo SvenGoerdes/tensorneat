@@ -56,6 +56,8 @@ See `REFERENCE.md` for internals (HA-NEAT mechanism, pipeline details, aggregati
 - NEAT: 10 seeds (5 × compat0.3 + 5 × compat0.5), all FINISHED
 - HA-NEAT: 14 seeds total across both experiments (dedup needed for compat0.3 duplicates)
 
+**Naming convention (thesis prose):** The pop200 experiment (pop 200, 750 gen, 30 seeds × 3 conditions: NEAT / HA-NEAT / tanh-only ablation) is the thesis's primary experiment. In `thesis/main.tex` it is called **"the main study"** — the term established in Methodology/Experimental Settings (§ Preliminary Calibration Experiments). Use "main study" in thesis text, never "pop200" (that name is only for internal file paths like `analysis/outputs/pop200/`).
+
 ## Server access (no longer available)
 
 Training previously ran on a Nova GPU server (`ssh 20240503@10.10.80.3`). **That access has been permanently lost — the SSH command no longer works and there is no way to reach the server.** All experiment work now must run locally; do not suggest SSH, rsync from the server, or `git pull`-to-sync-from-server as a next step.
