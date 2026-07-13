@@ -170,6 +170,30 @@ Per principle F2, run a final pass for `not .* but`, `not only`, and `rather tha
 
 ---
 
+#### L3b. Transformation-cliché ("from X to Y", "stops being X and becomes Y")
+A close relative of negation-contrast: the sentence dramatizes a change of state by naming a before-label and an after-label and swinging between them. It reads as manufactured tension rather than as a claim, and the two labels are often loosely opposed rather than genuinely contrastive.
+
+**Watch:**
+1. **"turns/goes from X into Y"**, **"transforms X into Y"**, **"shifts from X to Y"**
+2. **"stops being X and becomes Y"**, **"is no longer X; it is now Y"**
+3. **"what was once X is now Y"**, **"X gives way to Y"**
+
+These pass a `not .* but` grep (L3/F2) untouched, so they need their own check. Not every "from A to B" is a tell — a literal range or an actual state transition with named endpoints is fine ("the reward rises from 1{,}000 to 4{,}000"). Flag only the *rhetorical* swing, where X and Y are abstractions chosen for contrast.
+
+**Rule:** State the after-condition directly, or state what makes it true, and drop the before-label. Keep the endpoints only when they carry real information.
+
+**Before:**
+> Once a single shared genome has to control both, the assumption that one nonlinearity covers every useful function shape stops being a convenience and becomes an empirical claim.
+
+**After:**
+> Once a single shared genome has to control both, the assumption that one nonlinearity covers every useful function shape no longer holds for free; it becomes an empirical claim.
+
+or, dropping the pivot entirely:
+
+> With a single shared genome controlling both, whether one nonlinearity covers every useful function shape is an empirical question this thesis tests.
+
+---
+
 #### L4. Rule of three
 Genuine three-part taxonomies are legitimate in academic writing when each item is a distinct concept the paper actually uses. Flag only decorative triples where the third item adds no new information.
 
@@ -298,7 +322,7 @@ Do not blanket-remove hedging from academic text. Per principle B6:
 At first mention in each section, every named model, benchmark, dataset, algorithm, or proper-noun method needs a citation. Scan for capitalized proper nouns (`NEAT`, `Brax`, `Meta-World`, `ReLU`, `Transformer`, `Hopper`, `Walker2D`, etc.) and verify a citation appears at or near first use. Mark missing ones with `[CITE: <description>]` rather than inventing.
 
 #### A-Acro. Undefined acronyms
-Every acronym must be defined on first use per chapter (`Multi-Task Reinforcement Learning (MTRL)`), and used consistently afterwards.
+Every acronym must be defined on first use per chapter (`Artificial Neural Networks (ANNs)`), and used consistently afterwards.
 
 #### A-Promise. Section promises kept (principle A1)
 If a section intro says "we discuss X, Y, and Z", the subsections must cover exactly X, Y, Z, in that order. Flag mismatches.
@@ -348,7 +372,7 @@ Watch for unqualified superlatives without a benchmark to back them: *best, firs
 ## Process
 
 1. **Read** the input text, the principles file, and (if available) adjacent sections for voice calibration.
-2. **First-pass scan** — identify, in order: chatbot artifacts (S6), em dashes / curly quotes / emoji (style), AI vocabulary (L1), copula avoidance (L2), superficial -ing tails (S3), negation-contrast (L3, principle F2), false ranges (L6), inflation (S1), vague attributions (S2), citation gaps (A-Cite), hedge miscalibration (F2), overclaiming (A-Overclaim), section-promise mismatches (A-Promise), paragraph-closer issues (A-Close), tense drift (A-Tense), sentence-length monotony (L8), nominalized register (L9), and formulaic transitions (A-TransDensity).
+2. **First-pass scan** — identify, in order: chatbot artifacts (S6), em dashes / curly quotes / emoji (style), AI vocabulary (L1), copula avoidance (L2), superficial -ing tails (S3), negation-contrast (L3, principle F2), transformation-clichés (L3b), false ranges (L6), inflation (S1), vague attributions (S2), citation gaps (A-Cite), hedge miscalibration (F2), overclaiming (A-Overclaim), section-promise mismatches (A-Promise), paragraph-closer issues (A-Close), tense drift (A-Tense), sentence-length monotony (L8), nominalized register (L9), and formulaic transitions (A-TransDensity).
 3. **Draft rewrite** — apply fixes. Keep technical content unchanged. Mark unverifiable citations `[CITE: …]`. Match the surrounding voice.
 4. **Academic self-audit.** Ask: *"What in the draft below would a reviewer flag as AI-generated, overclaimed, or under-cited?"* Answer briefly with remaining tells. Categorize each finding as: AI-tell / overclaim / hedge-miscalibration / citation-gap / structure-issue.
 5. **Final rewrite** — revise based on the audit.
@@ -413,6 +437,7 @@ Before declaring a rewrite final, verify:
 - [ ] No em dashes used purely for emphasis (commas/periods/parentheses instead).
 - [ ] No curly quotes, no emoji, no boldface mid-paragraph.
 - [ ] No `not X, but Y` patterns survive (per principle F2 — grep `not .* but`).
+- [ ] No transformation-clichés survive (L3b — check `from .* to`, `stops being .* and becomes`, `no longer .* it is now`; keep only literal ranges/state transitions).
 - [ ] No AI vocabulary survivors from L1.
 - [ ] No `serves as / stands as / represents` where `is` works (L2).
 - [ ] No subjectless passive fragments (L7).
